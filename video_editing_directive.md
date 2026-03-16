@@ -198,6 +198,25 @@ python3 execution/jump_cut_vad_parallel.py input.mp4 output.mp4
 python3 execution/jump_cut_vad_parallel.py input.mp4 output.mp4 \
     --enhance-audio --apply-lut .tmp/cinematic.cube
 ```
+### Hybrid Jump Cut Editor - `execution/jump_cut_editor.py`
+FFmpeg silence detection + optional Whisper word-boundary snapping. Use when you want faster processing than VAD but more precise cuts than plain FFmpeg.
+```bash
+# Basic (FFmpeg only, fast)
+python3 execution/jump_cut_editor.py input.mp4 output.mp4 --no-whisper
+# With Whisper alignment (more precise cuts)
+python3 execution/jump_cut_editor.py input.mp4 output.mp4 --whisper-model base
+# Custom thresholds
+python3 execution/jump_cut_editor.py input.mp4 output.mp4 \
+    --silence-thresh -35 --min-silence 0.4 --padding 100
+```
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--silence-thresh` | -30dB | Silence detection threshold |
+| `--min-silence` | 0.5s | Minimum silence duration to cut |
+| `--padding` | 100ms | Padding around speech segments |
+| `--no-whisper` | false | Skip Whisper alignment (faster) |
+| `--whisper-model` | base | Whisper model: tiny/base/small/medium/large |
+| `--min-segment` | 1.0s | Merge segments shorter than this |
 ### 3D Pan Transition - `execution/pan_3d_transition.py`
 Create fast-forward "preview" transitions with 3D rotation effects. See `directives/pan_3d_transition.md`.
 ```bash
