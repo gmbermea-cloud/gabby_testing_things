@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef } from 'react'
 import { swipeCards } from '../data/careers.js'
 
 const SWIPE_THRESHOLD = 80   // px to trigger swipe
@@ -35,7 +35,7 @@ function SwipeCard({ card, onSwipe, isTop }) {
     setTransform({ x: dx, y: dy, rotate })
   }, [isTop])
 
-  const onPointerUp = useCallback(() => {
+  const onPointerUp = () => {
     if (!startPos.current) return
     const { x, y } = currentPos.current
     startPos.current = null
@@ -50,7 +50,7 @@ function SwipeCard({ card, onSwipe, isTop }) {
       // Snap back
       setTransform({ x: 0, y: 0, rotate: 0 })
     }
-  }, [])
+  }
 
   const triggerExit = (direction, action) => {
     setExiting(direction)
