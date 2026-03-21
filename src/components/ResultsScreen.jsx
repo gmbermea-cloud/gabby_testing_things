@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { dimensionLabels } from '../utils/scoring.js'
 
 function MatchBar({ percent }) {
   return (
@@ -16,7 +17,7 @@ function MatchBar({ percent }) {
 
 function CareerCard({ match, rank, isExpanded, onToggle }) {
   const { career, matchPercent } = match
-  const rankLabels = ['Top Match', 'Strong Match', 'Great Fit']
+  const rankLabels = ['Top Match', 'Strong Match', 'Great Fit', 'Worth Exploring', 'Also Consider']
 
   return (
     <div
@@ -133,11 +134,11 @@ export default function ResultsScreen({ results, onShare, onRestart }) {
               .sort(([, a], [, b]) => b - a)
               .map(([dim, score]) => {
                 const pct = Math.round(((score + 1) / 2) * 100)
-                const label = dim.charAt(0).toUpperCase() + dim.slice(1)
+                const label = dimensionLabels[dim] ?? (dim.charAt(0).toUpperCase() + dim.slice(1))
                 return (
                   <div key={dim} className="flex flex-col gap-1">
                     <div className="flex justify-between text-xs">
-                      <span className="text-white/50">{label}</span>
+                      <span className="text-white/50">{dimensionLabels[dim] ?? label}</span>
                       <span className={score > 0.3 ? 'text-[#C9A84C]' : 'text-white/30'}>{score > 0 ? '+' : ''}{score.toFixed(2)}</span>
                     </div>
                     <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">

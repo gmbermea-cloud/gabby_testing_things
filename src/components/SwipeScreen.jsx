@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef } from 'react'
 import { swipeCards } from '../data/careers.js'
 
 const SWIPE_THRESHOLD = 80   // px to trigger swipe
@@ -35,7 +35,7 @@ function SwipeCard({ card, onSwipe, isTop }) {
     setTransform({ x: dx, y: dy, rotate })
   }, [isTop])
 
-  const onPointerUp = useCallback(() => {
+  const onPointerUp = () => {
     if (!startPos.current) return
     const { x, y } = currentPos.current
     startPos.current = null
@@ -50,7 +50,7 @@ function SwipeCard({ card, onSwipe, isTop }) {
       // Snap back
       setTransform({ x: 0, y: 0, rotate: 0 })
     }
-  }, [])
+  }
 
   const triggerExit = (direction, action) => {
     setExiting(direction)
@@ -125,13 +125,6 @@ function SwipeCard({ card, onSwipe, isTop }) {
           <div className="flex-1 flex flex-col justify-center gap-3">
             <p className="text-white text-2xl font-bold leading-snug">{card.prompt}</p>
             <p className="text-white/50 text-sm">{card.subtext}</p>
-          </div>
-          <div className="flex gap-2 flex-wrap">
-            {Object.keys(card.dimensions).map(dim => (
-              <span key={dim} className="text-xs text-[#C9A84C]/60 bg-[#C9A84C]/10 px-3 py-1 rounded-full border border-[#C9A84C]/20">
-                {dim}
-              </span>
-            ))}
           </div>
         </div>
       </div>

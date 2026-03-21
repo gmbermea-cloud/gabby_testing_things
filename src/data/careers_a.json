@@ -1,0 +1,281 @@
+[
+  {
+    "id": "emerging_professional",
+    "title": "Emerging Professional",
+    "category": "A — Traditional Practice",
+    "description": "You're in the foundation-building phase — learning how buildings actually get made, not just drawn.",
+    "skills": ["Design development", "Construction documents", "Software proficiency"],
+    "personalNote": "Don't optimize for title yet. Optimize for mentors and project types.",
+    "affinities": { "creative": 0.5, "people": 0.5, "field": 0.5, "independent": 0.4, "technical": 0.5, "risk": 0.3, "mission": 0.5, "teaching": 0.2, "client": 0.4, "scale": 0.4 }
+  },
+  {
+    "id": "intern_architect",
+    "title": "Intern Architect / Architectural Staff",
+    "category": "A — Traditional Practice",
+    "description": "You're deep in the production of real buildings — coordinating, detailing, and translating design intent into something contractors can build.",
+    "skills": ["Technical drawing", "Coordination", "Revit/BIM", "Construction documentation"],
+    "personalNote": "The best PAs I know spent years being the most dependable person in the room.",
+    "affinities": { "creative": 0.5, "people": 0.5, "field": 0.4, "independent": 0.4, "technical": 0.6, "risk": 0.3, "mission": 0.5, "teaching": 0.2, "client": 0.4, "scale": 0.4 }
+  },
+  {
+    "id": "project_designer",
+    "title": "Project Designer (Unlicensed)",
+    "category": "A — Traditional Practice",
+    "description": "You're the design brain on a project — pushing the concept and making key visual decisions without necessarily holding the license.",
+    "skills": ["Concept development", "Design communication", "3D visualization", "Client presentations"],
+    "personalNote": "This is where most people discover whether they want to stay design-focused or move toward management.",
+    "affinities": { "creative": 0.8, "people": 0.4, "field": 0.3, "independent": 0.5, "technical": 0.5, "risk": 0.4, "mission": 0.4, "teaching": 0.2, "client": 0.5, "scale": 0.4 }
+  },
+  {
+    "id": "design_architect",
+    "title": "Design Architect",
+    "category": "A — Traditional Practice",
+    "description": "You're the design voice for significant projects — responsible for concept, form, and the ideas that give a building its identity.",
+    "skills": ["Concept generation", "Design leadership", "Client storytelling", "Team mentorship"],
+    "personalNote": "The best design architects treat every project as an argument worth making.",
+    "affinities": { "creative": 0.9, "people": 0.5, "field": 0.4, "independent": 0.6, "technical": 0.5, "risk": 0.5, "mission": 0.5, "teaching": 0.3, "client": 0.7, "scale": 0.5 }
+  },
+  {
+    "id": "senior_design_architect",
+    "title": "Senior Design Architect",
+    "category": "A — Traditional Practice",
+    "description": "You're shaping the creative culture of a firm, mentoring designers, and setting the standards for what great work looks like.",
+    "skills": ["Design leadership", "Mentorship", "Firm culture", "Strategic design thinking"],
+    "personalNote": "At this level, your job isn't to have the best ideas — it's to build an environment where they can happen.",
+    "affinities": { "creative": 0.9, "people": 0.6, "field": 0.4, "independent": 0.7, "technical": 0.5, "risk": 0.5, "mission": 0.6, "teaching": 0.5, "client": 0.7, "scale": 0.5 }
+  },
+  {
+    "id": "project_architect",
+    "title": "Project Architect",
+    "category": "A — Traditional Practice",
+    "description": "You're the technical and coordination backbone of a project — making sure the design is buildable, documents are accurate, and the team is moving together.",
+    "skills": ["Technical coordination", "Documentation", "Code compliance", "Consultant management"],
+    "personalNote": "PAs are the people who make everything actually happen.",
+    "affinities": { "creative": 0.5, "people": 0.6, "field": 0.6, "independent": 0.5, "technical": 0.8, "risk": 0.3, "mission": 0.5, "teaching": 0.4, "client": 0.6, "scale": 0.4 }
+  },
+  {
+    "id": "senior_project_architect",
+    "title": "Senior Project Architect",
+    "category": "A — Traditional Practice",
+    "description": "You're leading technical direction on complex projects — mentoring junior staff and being the person who's seen this problem before.",
+    "skills": ["Technical leadership", "Code mastery", "Complex coordination", "Team development"],
+    "personalNote": "This is where deep technical knowledge starts becoming organizational power.",
+    "affinities": { "creative": 0.5, "people": 0.7, "field": 0.6, "independent": 0.5, "technical": 0.9, "risk": 0.3, "mission": 0.5, "teaching": 0.6, "client": 0.6, "scale": 0.4 }
+  },
+  {
+    "id": "construction_administrator",
+    "title": "Construction Administrator",
+    "category": "A — Traditional Practice",
+    "description": "You're the architect's presence on the build — reviewing submittals, visiting the site, and making sure what gets built matches what was designed.",
+    "skills": ["Site observation", "Submittal review", "RFI management", "Contract interpretation"],
+    "personalNote": "If you feel most awake on a job site, this is the role that keeps you there.",
+    "affinities": { "creative": 0.3, "people": 0.6, "field": 0.9, "independent": 0.5, "technical": 0.8, "risk": 0.3, "mission": 0.4, "teaching": 0.3, "client": 0.6, "scale": 0.3 }
+  },
+  {
+    "id": "spec_writer",
+    "title": "Spec Writer / Architectural Administrator",
+    "category": "A — Traditional Practice",
+    "description": "You translate design decisions into precise, enforceable language — the technical specifications that govern what contractors can and cannot do.",
+    "skills": ["Technical writing", "Materials knowledge", "Code fluency", "Quality control"],
+    "personalNote": "Spec writers are the least famous and most quietly indispensable people in practice.",
+    "affinities": { "creative": 0.3, "people": 0.3, "field": 0.2, "independent": 0.7, "technical": 0.9, "risk": 0.2, "mission": 0.4, "teaching": 0.3, "client": 0.3, "scale": 0.4 }
+  },
+  {
+    "id": "project_manager_firm",
+    "title": "Project Manager (Architecture Firm)",
+    "category": "A — Traditional Practice",
+    "description": "You're the operational core of a project — managing budget, schedule, scope, and client relationships while keeping the design and technical teams aligned.",
+    "skills": ["Budget management", "Schedule tracking", "Client communication", "Scope management"],
+    "personalNote": "If you naturally track all the moving pieces even when it's not your job, this role is already who you are.",
+    "affinities": { "creative": 0.4, "people": 0.7, "field": 0.5, "independent": 0.4, "technical": 0.6, "risk": 0.4, "mission": 0.5, "teaching": 0.4, "client": 0.7, "scale": 0.5 }
+  },
+  {
+    "id": "senior_project_manager",
+    "title": "Senior Project Manager",
+    "category": "A — Traditional Practice",
+    "description": "You run the most complex projects in the office — large budgets, multiple stakeholders, long timelines — while developing the next generation of PMs.",
+    "skills": ["Large-scale project management", "Senior client management", "Team leadership", "Financial oversight"],
+    "personalNote": "Senior PMs are often the backbone of a firm's financial health.",
+    "affinities": { "creative": 0.4, "people": 0.8, "field": 0.5, "independent": 0.4, "technical": 0.6, "risk": 0.4, "mission": 0.5, "teaching": 0.6, "client": 0.7, "scale": 0.6 }
+  },
+  {
+    "id": "associate_principal",
+    "title": "Associate / Principal (Titled Roles)",
+    "category": "A — Traditional Practice",
+    "description": "You've reached firm leadership — responsible for business development, firm culture, staff growth, and shaping the direction of the practice.",
+    "skills": ["Business development", "Firm leadership", "Strategic planning", "Ownership transition"],
+    "personalNote": "Principal-track roles are about building the firm, not just doing the work.",
+    "affinities": { "creative": 0.6, "people": 0.8, "field": 0.5, "independent": 0.6, "technical": 0.6, "risk": 0.6, "mission": 0.6, "teaching": 0.6, "client": 0.8, "scale": 0.6 }
+  },
+  {
+    "id": "bd_director",
+    "title": "Director of Business Development",
+    "category": "A — Traditional Practice",
+    "description": "You build the firm's pipeline — identifying opportunities, cultivating relationships, and leading the proposal and interview process.",
+    "skills": ["Relationship building", "Proposal writing", "Market strategy", "Presenting and pitching"],
+    "personalNote": "BD directors are often former PMs who discovered they're better at winning work than doing it.",
+    "affinities": { "creative": 0.5, "people": 0.9, "field": 0.4, "independent": 0.5, "technical": 0.3, "risk": 0.6, "mission": 0.4, "teaching": 0.3, "client": 1.0, "scale": 0.5 }
+  },
+  {
+    "id": "exhibit_designer",
+    "title": "Exhibit Designer",
+    "category": "B — Design-Adjacent",
+    "description": "You design experiences people walk through — museum galleries, branded environments, trade show installations where space, story, and sequence are your tools.",
+    "skills": ["Spatial narrative", "3D design", "Material specification", "Brand collaboration"],
+    "personalNote": "If architecture felt too slow and too permanent, exhibit design gives you the spatial thinking at a faster pace.",
+    "affinities": { "creative": 0.9, "people": 0.5, "field": 0.5, "independent": 0.6, "technical": 0.5, "risk": 0.5, "mission": 0.6, "teaching": 0.3, "client": 0.6, "scale": 0.5 }
+  },
+  {
+    "id": "interior_designer",
+    "title": "Interior Designer (Commercial)",
+    "category": "B — Design-Adjacent",
+    "description": "You shape the interior environment of commercial spaces — offices, hospitality, healthcare, retail — balancing aesthetics, function, and client needs.",
+    "skills": ["Interior space planning", "FF&E selection", "Client collaboration", "Code compliance"],
+    "personalNote": "The skill overlap with architecture is huge — this is a direct lateral move that often offers faster client exposure.",
+    "affinities": { "creative": 0.8, "people": 0.6, "field": 0.4, "independent": 0.5, "technical": 0.6, "risk": 0.4, "mission": 0.4, "teaching": 0.3, "client": 0.8, "scale": 0.4 }
+  },
+  {
+    "id": "ux_designer",
+    "title": "UX / Product Designer",
+    "category": "B — Design-Adjacent",
+    "description": "You design how people interact with digital products — mapping user flows, creating interfaces, and solving complex problems through visual systems.",
+    "skills": ["User research", "Wireframing", "Prototyping", "Systems thinking"],
+    "personalNote": "Architects who transition here say spatial thinking and systems analysis transfer directly — the medium is different, the mindset is not.",
+    "affinities": { "creative": 0.8, "people": 0.5, "field": 0.1, "independent": 0.6, "technical": 0.6, "risk": 0.5, "mission": 0.6, "teaching": 0.3, "client": 0.6, "scale": 0.6 }
+  },
+  {
+    "id": "set_designer",
+    "title": "Set / Production Designer",
+    "category": "B — Design-Adjacent",
+    "description": "You create physical environments for film, television, and theater — designing spaces that communicate character, era, and mood.",
+    "skills": ["Set design", "Art direction", "Drafting for production", "Budget management"],
+    "personalNote": "This is architecture's most theatrical cousin — if storytelling through space drew you to the field, this is a real home for that instinct.",
+    "affinities": { "creative": 0.9, "people": 0.5, "field": 0.6, "independent": 0.6, "technical": 0.5, "risk": 0.5, "mission": 0.4, "teaching": 0.2, "client": 0.5, "scale": 0.3 }
+  },
+  {
+    "id": "graphic_designer",
+    "title": "Graphic / Visual Designer",
+    "category": "B — Design-Adjacent",
+    "description": "You communicate ideas visually — branding, publication design, wayfinding, digital assets — where typography, color, and layout are your medium.",
+    "skills": ["Graphic design", "Brand identity", "Typography", "Adobe Creative Suite"],
+    "personalNote": "Architecture graduates with strong visual sensibility often underestimate this path — your portfolio transfer is real.",
+    "affinities": { "creative": 0.9, "people": 0.3, "field": 0.1, "independent": 0.8, "technical": 0.4, "risk": 0.5, "mission": 0.4, "teaching": 0.2, "client": 0.5, "scale": 0.3 }
+  },
+  {
+    "id": "prop_stylist",
+    "title": "Prop Stylist / Art Director",
+    "category": "B — Design-Adjacent",
+    "description": "You source, arrange, and direct the visual elements in photo and video shoots — creating the environment that tells a brand's story in a single frame.",
+    "skills": ["Visual styling", "Set coordination", "Art direction", "Brand storytelling"],
+    "personalNote": "Your architectural eye is a genuine competitive advantage here — most stylists don't have it.",
+    "affinities": { "creative": 0.9, "people": 0.4, "field": 0.4, "independent": 0.6, "technical": 0.4, "risk": 0.5, "mission": 0.3, "teaching": 0.2, "client": 0.6, "scale": 0.3 }
+  },
+  {
+    "id": "code_consultant",
+    "title": "Building Code Consultant",
+    "category": "C — Technical & Code",
+    "description": "You navigate the regulatory landscape of building codes, accessibility requirements, and life safety systems — advising project teams on compliance from early design through permitting.",
+    "skills": ["IBC/ADA mastery", "Code research", "AHJ relationships", "Technical writing"],
+    "personalNote": "Code consultants are one of the most reliably in-demand and underrated roles in the profession.",
+    "affinities": { "creative": 0.2, "people": 0.4, "field": 0.4, "independent": 0.6, "technical": 0.9, "risk": 0.3, "mission": 0.5, "teaching": 0.3, "client": 0.6, "scale": 0.5 }
+  },
+  {
+    "id": "plans_examiner",
+    "title": "Plans Examiner",
+    "category": "C — Technical & Code",
+    "description": "You review permit applications for code compliance — analyzing drawings and ensuring buildings meet safety standards before a shovel hits the ground.",
+    "skills": ["Code review", "Permit processing", "Technical reading", "Regulatory interpretation"],
+    "personalNote": "Every building you approve (or flag) shapes the safety of the people who'll use it.",
+    "affinities": { "creative": 0.2, "people": 0.4, "field": 0.3, "independent": 0.5, "technical": 0.8, "risk": 0.2, "mission": 0.6, "teaching": 0.3, "client": 0.4, "scale": 0.6 }
+  },
+  {
+    "id": "bim_manager",
+    "title": "BIM Manager / VDC Coordinator",
+    "category": "C — Technical & Code",
+    "description": "You manage the digital building models that coordination teams and contractors rely on — setting standards, training staff, and solving the information problems that derail projects.",
+    "skills": ["Revit/BIM management", "Model coordination", "Standards development", "Staff training"],
+    "personalNote": "BIM management is one of the clearest bridges between technical architecture and technology roles.",
+    "affinities": { "creative": 0.4, "people": 0.5, "field": 0.5, "independent": 0.5, "technical": 0.9, "risk": 0.3, "mission": 0.4, "teaching": 0.4, "client": 0.4, "scale": 0.4 }
+  },
+  {
+    "id": "sustainability_analyst",
+    "title": "Energy / Sustainability Analyst",
+    "category": "C — Technical & Code",
+    "description": "You model and analyze building performance — energy use, carbon impact, daylighting — and translate that analysis into design decisions that actually get built.",
+    "skills": ["Energy modeling", "Climate analysis", "Sustainable design strategies", "Report writing"],
+    "personalNote": "If sustainability is a genuine conviction and not just a credential, this role puts you at the center of the profession's most important challenge.",
+    "affinities": { "creative": 0.3, "people": 0.4, "field": 0.5, "independent": 0.6, "technical": 0.8, "risk": 0.3, "mission": 0.8, "teaching": 0.3, "client": 0.5, "scale": 0.7 }
+  },
+  {
+    "id": "structural_firm",
+    "title": "Structural / MEP Firm Architect",
+    "category": "C — Technical & Code",
+    "description": "You work embedded in an engineering firm — bringing architectural coordination, spatial reasoning, and document production skills to structural or MEP teams.",
+    "skills": ["Multi-discipline coordination", "Technical drawing", "Engineering firm workflows", "Consultant communication"],
+    "personalNote": "Engineering firms often pay more and offer better stability — and your ability to read architectural drawings is the competitive advantage.",
+    "affinities": { "creative": 0.3, "people": 0.5, "field": 0.6, "independent": 0.5, "technical": 0.9, "risk": 0.3, "mission": 0.4, "teaching": 0.3, "client": 0.5, "scale": 0.4 }
+  },
+  {
+    "id": "construction_manager",
+    "title": "Construction Manager",
+    "category": "D — Management",
+    "description": "You manage the physical construction process — schedule, budget, subcontractors, safety, and quality — from groundbreaking through closeout.",
+    "skills": ["Project scheduling", "Subcontractor management", "Budget control", "Site safety"],
+    "personalNote": "Architects on the CM path often describe it as finally getting to make real decisions.",
+    "affinities": { "creative": 0.3, "people": 0.7, "field": 0.9, "independent": 0.5, "technical": 0.7, "risk": 0.4, "mission": 0.4, "teaching": 0.4, "client": 0.6, "scale": 0.4 }
+  },
+  {
+    "id": "owners_rep",
+    "title": "Owner's Representative",
+    "category": "D — Management",
+    "description": "You represent the building owner throughout the entire development process — managing architects, contractors, and consultants to protect the owner's interests from design through occupancy.",
+    "skills": ["Project oversight", "Vendor management", "Budget stewardship", "Owner communication"],
+    "personalNote": "Owner's reps sit at the top of the project food chain without having to run a firm.",
+    "affinities": { "creative": 0.4, "people": 0.8, "field": 0.7, "independent": 0.5, "technical": 0.6, "risk": 0.4, "mission": 0.5, "teaching": 0.4, "client": 0.9, "scale": 0.5 }
+  },
+  {
+    "id": "re_dev_coordinator",
+    "title": "Real Estate Development Coordinator",
+    "category": "D — Management",
+    "description": "You support the development process — site analysis, feasibility, permitting, and financing coordination for developers building new projects.",
+    "skills": ["Feasibility analysis", "Entitlement process", "Pro forma basics", "Consultant coordination"],
+    "personalNote": "Architects who understand how buildings get financed are rare and valuable.",
+    "affinities": { "creative": 0.4, "people": 0.6, "field": 0.4, "independent": 0.5, "technical": 0.5, "risk": 0.7, "mission": 0.4, "teaching": 0.2, "client": 0.6, "scale": 0.5 }
+  },
+  {
+    "id": "facilities_manager",
+    "title": "Facilities Manager",
+    "category": "D — Management",
+    "description": "You manage the ongoing operation, maintenance, and improvement of built environments — ensuring buildings work as intended for the organizations that inhabit them.",
+    "skills": ["Facility operations", "Maintenance planning", "Vendor management", "Space planning"],
+    "personalNote": "Facilities roles give architects a direct connection to how buildings actually perform over time — which most firms never see.",
+    "affinities": { "creative": 0.3, "people": 0.6, "field": 0.7, "independent": 0.4, "technical": 0.7, "risk": 0.2, "mission": 0.4, "teaching": 0.3, "client": 0.5, "scale": 0.4 }
+  },
+  {
+    "id": "capital_projects_manager",
+    "title": "Capital Projects Manager",
+    "category": "D — Management",
+    "description": "You manage the owner's portfolio of major capital investments — overseeing multiple concurrent projects, managing designers and contractors, and reporting to executive leadership.",
+    "skills": ["Portfolio management", "Stakeholder reporting", "Procurement", "Multi-project coordination"],
+    "personalNote": "Capital project managers inside large institutions often have more real authority than most firm principals.",
+    "affinities": { "creative": 0.3, "people": 0.7, "field": 0.6, "independent": 0.4, "technical": 0.6, "risk": 0.4, "mission": 0.5, "teaching": 0.4, "client": 0.7, "scale": 0.6 }
+  },
+  {
+    "id": "program_manager",
+    "title": "Program Manager (Large Owner)",
+    "category": "D — Management",
+    "description": "You manage a continuous program of construction for a large institutional or governmental owner — shaping standards and processes across a sustained portfolio of building projects.",
+    "skills": ["Program oversight", "Process design", "Reporting and analytics", "Stakeholder management"],
+    "personalNote": "This is a true leadership role for architects who want organizational scale without running a firm.",
+    "affinities": { "creative": 0.3, "people": 0.8, "field": 0.5, "independent": 0.4, "technical": 0.6, "risk": 0.4, "mission": 0.6, "teaching": 0.5, "client": 0.7, "scale": 0.7 }
+  },
+  {
+    "id": "re_developer",
+    "title": "Real Estate Developer (Small Scale)",
+    "category": "D — Management",
+    "description": "You identify, finance, design, build, and sell or lease real estate projects — taking on full risk and full reward as the person responsible for the whole idea.",
+    "skills": ["Site acquisition", "Deal structuring", "Contractor management", "Project finance"],
+    "personalNote": "Small-scale development is for architects who want to be on the owner's side of the table and are willing to take real financial risk for real financial upside.",
+    "affinities": { "creative": 0.6, "people": 0.6, "field": 0.6, "independent": 0.8, "technical": 0.5, "risk": 0.9, "mission": 0.4, "teaching": 0.2, "client": 0.7, "scale": 0.4 }
+  }
+]
