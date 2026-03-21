@@ -126,13 +126,6 @@ function SwipeCard({ card, onSwipe, isTop }) {
             <p className="text-white text-2xl font-bold leading-snug">{card.prompt}</p>
             <p className="text-white/50 text-sm">{card.subtext}</p>
           </div>
-          <div className="flex gap-2 flex-wrap">
-            {Object.keys(card.dimensions).map(dim => (
-              <span key={dim} className="text-xs text-[#C9A84C]/60 bg-[#C9A84C]/10 px-3 py-1 rounded-full border border-[#C9A84C]/20">
-                {dim}
-              </span>
-            ))}
-          </div>
         </div>
       </div>
     </div>

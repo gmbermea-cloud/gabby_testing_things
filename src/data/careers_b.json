@@ -1,0 +1,191 @@
+[
+  {
+    "id": "urban_planner",
+    "title": "Urban Planner / City Planner",
+    "category": "E — Policy & Civic",
+    "description": "You shape how cities grow — through zoning codes, comprehensive plans, development review, and community engagement — influencing the built environment at the scale of neighborhoods and regions.",
+    "skills": ["Land use planning", "Zoning analysis", "Community engagement", "GIS"],
+    "personalNote": "If a single building has always felt too small for what you want to do, planning is where architects find their ambition at the right scale.",
+    "affinities": { "creative": 0.5, "people": 0.7, "field": 0.5, "independent": 0.4, "technical": 0.5, "risk": 0.3, "mission": 0.9, "teaching": 0.4, "client": 0.6, "scale": 0.9 }
+  },
+  {
+    "id": "historic_preservation",
+    "title": "Historic Preservation Specialist",
+    "category": "E — Policy & Civic",
+    "description": "You protect and rehabilitate the built record of human history — evaluating historic significance, documenting existing conditions, and guiding the sensitive renovation of significant places.",
+    "skills": ["Historic research", "Secretary of the Interior Standards", "Tax credit applications", "Documentation"],
+    "personalNote": "Preservation draws people who believe the built past is worth fighting for.",
+    "affinities": { "creative": 0.6, "people": 0.5, "field": 0.5, "independent": 0.5, "technical": 0.7, "risk": 0.2, "mission": 0.9, "teaching": 0.4, "client": 0.5, "scale": 0.6 }
+  },
+  {
+    "id": "sustainability_consultant",
+    "title": "Sustainability Consultant",
+    "category": "E — Policy & Civic",
+    "description": "You help projects, organizations, and communities reduce their environmental impact — through certification pathways, policy frameworks, design strategy, and stakeholder engagement.",
+    "skills": ["LEED/WELL certification", "Carbon accounting", "Sustainability reporting", "Policy advocacy"],
+    "personalNote": "Sustainability consulting rewards people who can hold both the technical and the political.",
+    "affinities": { "creative": 0.4, "people": 0.6, "field": 0.5, "independent": 0.5, "technical": 0.7, "risk": 0.4, "mission": 0.9, "teaching": 0.4, "client": 0.7, "scale": 0.8 }
+  },
+  {
+    "id": "community_dev_director",
+    "title": "Community Development Director",
+    "category": "E — Policy & Civic",
+    "description": "You lead organizations focused on housing, economic opportunity, and neighborhood revitalization — managing programs, funding streams, and community relationships to create lasting change.",
+    "skills": ["Community organizing", "Affordable housing", "Grant management", "Partnership development"],
+    "personalNote": "This path is for architects who wanted their work to serve communities, not just clients.",
+    "affinities": { "creative": 0.5, "people": 0.9, "field": 0.6, "independent": 0.4, "technical": 0.4, "risk": 0.4, "mission": 0.9, "teaching": 0.6, "client": 0.7, "scale": 0.7 }
+  },
+  {
+    "id": "zoning_consultant",
+    "title": "Zoning / Land Use Consultant",
+    "category": "E — Policy & Civic",
+    "description": "You help property owners, developers, and municipalities navigate the complex regulatory landscape of zoning, land use approvals, variances, and entitlements.",
+    "skills": ["Zoning code interpretation", "Entitlement strategy", "Hearing representation", "Research and analysis"],
+    "personalNote": "If you ever found yourself more interested in the legal and regulatory landscape than the design, this path exists.",
+    "affinities": { "creative": 0.3, "people": 0.5, "field": 0.4, "independent": 0.5, "technical": 0.7, "risk": 0.4, "mission": 0.6, "teaching": 0.3, "client": 0.7, "scale": 0.8 }
+  },
+  {
+    "id": "leed_consultant",
+    "title": "LEED / WELL Consultant",
+    "category": "E — Policy & Civic",
+    "description": "You guide projects through green building certification processes — coordinating documentation, advising on strategy, and helping teams achieve sustainability targets.",
+    "skills": ["LEED/WELL documentation", "Credit strategy", "Consultant coordination", "Client education"],
+    "personalNote": "The best consultants use the certification framework to push projects toward genuine performance — not just paperwork.",
+    "affinities": { "creative": 0.3, "people": 0.5, "field": 0.4, "independent": 0.5, "technical": 0.8, "risk": 0.3, "mission": 0.8, "teaching": 0.4, "client": 0.7, "scale": 0.6 }
+  },
+  {
+    "id": "adjunct_faculty",
+    "title": "Architecture Adjunct Faculty",
+    "category": "F — Education",
+    "description": "You teach design studios, technical courses, or history and theory seminars — sharing your professional experience while engaging with the next generation of practitioners.",
+    "skills": ["Design instruction", "Critique facilitation", "Course development", "Student mentorship"],
+    "personalNote": "Adjunct teaching is how most practitioners stay connected to ideas — the intellectual energy it provides is genuinely irreplaceable.",
+    "affinities": { "creative": 0.7, "people": 0.7, "field": 0.3, "independent": 0.5, "technical": 0.5, "risk": 0.3, "mission": 0.8, "teaching": 0.9, "client": 0.5, "scale": 0.6 }
+  },
+  {
+    "id": "academic_coordinator",
+    "title": "Academic Program Coordinator",
+    "category": "F — Education",
+    "description": "You manage the operational and administrative dimensions of an architecture program — coordinating curriculum, supporting faculty, and ensuring the program runs well behind the scenes.",
+    "skills": ["Program administration", "Curriculum coordination", "Faculty support", "Student services"],
+    "personalNote": "Coordination roles offer stability in the academic environment — the influence is quieter but real.",
+    "affinities": { "creative": 0.4, "people": 0.7, "field": 0.2, "independent": 0.4, "technical": 0.5, "risk": 0.2, "mission": 0.7, "teaching": 0.8, "client": 0.4, "scale": 0.6 }
+  },
+  {
+    "id": "curriculum_developer",
+    "title": "Curriculum Developer (AEC Focus)",
+    "category": "F — Education",
+    "description": "You design educational programs, courses, and training materials for architecture schools, professional development organizations, or online learning platforms.",
+    "skills": ["Curriculum design", "Learning outcomes", "Content development", "Instructional systems"],
+    "personalNote": "If you've always thought 'this should be taught differently,' this is the role where you get to actually fix it.",
+    "affinities": { "creative": 0.5, "people": 0.5, "field": 0.2, "independent": 0.6, "technical": 0.6, "risk": 0.3, "mission": 0.7, "teaching": 0.9, "client": 0.4, "scale": 0.7 }
+  },
+  {
+    "id": "university_facilities",
+    "title": "University Facilities Architect",
+    "category": "F — Education",
+    "description": "You manage capital projects and design standards for a university campus — representing the institution's interests while maintaining the campus's architectural character.",
+    "skills": ["Institutional project management", "Design standards", "Campus planning", "Vendor management"],
+    "personalNote": "University facilities roles offer stability, meaningful scale, and the satisfaction of stewarding a coherent built environment.",
+    "affinities": { "creative": 0.4, "people": 0.6, "field": 0.6, "independent": 0.4, "technical": 0.7, "risk": 0.2, "mission": 0.6, "teaching": 0.3, "client": 0.6, "scale": 0.5 }
+  },
+  {
+    "id": "k12_designer",
+    "title": "K-12 Educational Design Specialist",
+    "category": "F — Education",
+    "description": "You design schools and learning environments — specialized buildings with complex programming, tight budgets, and direct impact on how children experience their education.",
+    "skills": ["Educational facility planning", "Community engagement", "Budget-conscious design", "User research"],
+    "personalNote": "Few building types have more direct human impact than schools.",
+    "affinities": { "creative": 0.6, "people": 0.7, "field": 0.4, "independent": 0.4, "technical": 0.5, "risk": 0.3, "mission": 0.8, "teaching": 0.6, "client": 0.7, "scale": 0.6 }
+  },
+  {
+    "id": "independent_consultant",
+    "title": "Independent Design Consultant",
+    "category": "G — Entrepreneurship",
+    "description": "You work on your own terms — advising clients on design decisions, managing small projects, or providing specialized expertise that firms need but don't want to hire full-time.",
+    "skills": ["Client management", "Proposal writing", "Self-promotion", "Business operations"],
+    "personalNote": "Independent practice rewards discipline and self-direction — the freedom is real, and so is the volatility.",
+    "affinities": { "creative": 0.8, "people": 0.5, "field": 0.4, "independent": 0.9, "technical": 0.6, "risk": 0.8, "mission": 0.5, "teaching": 0.3, "client": 0.7, "scale": 0.4 }
+  },
+  {
+    "id": "aec_coach",
+    "title": "AEC Career Coach",
+    "category": "G — Entrepreneurship",
+    "description": "You help architecture and AEC professionals navigate career transitions, licensing challenges, job searches, and professional development — combining industry expertise with coaching methodology.",
+    "skills": ["Coaching methodology", "Active listening", "Career strategy", "AEC industry knowledge"],
+    "personalNote": "People who've navigated the profession well — and can communicate what they've learned — are exactly who this field needs.",
+    "affinities": { "creative": 0.4, "people": 0.9, "field": 0.2, "independent": 0.7, "technical": 0.3, "risk": 0.7, "mission": 0.8, "teaching": 0.9, "client": 0.7, "scale": 0.5 }
+  },
+  {
+    "id": "firm_consultant",
+    "title": "Firm Culture / Succession Consultant",
+    "category": "G — Entrepreneurship",
+    "description": "You help architecture firms with the human side of business — succession planning, team culture, compensation design, leadership development, and organizational change.",
+    "skills": ["Organizational consulting", "Strategic facilitation", "Leadership coaching", "Succession planning"],
+    "personalNote": "This path is for people who've spent enough time inside the profession to understand what's actually broken — and want to help fix it.",
+    "affinities": { "creative": 0.4, "people": 0.8, "field": 0.2, "independent": 0.6, "technical": 0.4, "risk": 0.6, "mission": 0.7, "teaching": 0.7, "client": 0.7, "scale": 0.6 }
+  },
+  {
+    "id": "content_creator",
+    "title": "Architectural Content Creator",
+    "category": "G — Entrepreneurship",
+    "description": "You produce educational or inspirational content about architecture — videos, essays, courses, social content — building an audience around your expertise and perspective.",
+    "skills": ["Content production", "Writing and editing", "Video/social media", "Audience building"],
+    "personalNote": "The architects building the biggest content platforms aren't necessarily the most famous designers — they're the ones who decided their voice mattered and started publishing it.",
+    "affinities": { "creative": 0.8, "people": 0.6, "field": 0.3, "independent": 0.8, "technical": 0.4, "risk": 0.7, "mission": 0.7, "teaching": 0.7, "client": 0.7, "scale": 0.6 }
+  },
+  {
+    "id": "podcast_host",
+    "title": "Architecture Podcast / Newsletter Host",
+    "category": "G — Entrepreneurship",
+    "description": "You build a media platform in the AEC space — interviewing practitioners, publishing analysis, and creating the content that shapes how the profession thinks about itself.",
+    "skills": ["Interviewing", "Editing and production", "Community building", "Brand development"],
+    "personalNote": "The best AEC media is still being built — if you want to shape the conversation and you're willing to build an audience slowly, this is a viable path.",
+    "affinities": { "creative": 0.7, "people": 0.7, "field": 0.2, "independent": 0.8, "technical": 0.3, "risk": 0.6, "mission": 0.7, "teaching": 0.7, "client": 0.7, "scale": 0.7 }
+  },
+  {
+    "id": "arch_photographer",
+    "title": "Architectural Photographer",
+    "category": "G — Entrepreneurship",
+    "description": "You document and interpret built work through photography — creating the images that represent buildings to the public, clients, and the profession.",
+    "skills": ["Photography", "Lighting", "Post-processing", "Architectural literacy"],
+    "personalNote": "Architects who transition to photography bring something most photographers don't have — they understand the building from the inside out.",
+    "affinities": { "creative": 0.9, "people": 0.3, "field": 0.7, "independent": 0.9, "technical": 0.5, "risk": 0.6, "mission": 0.4, "teaching": 0.2, "client": 0.5, "scale": 0.3 }
+  },
+  {
+    "id": "manufacturers_rep",
+    "title": "Manufacturer's Rep / Product Specialist",
+    "category": "H — Adjacent Industries",
+    "description": "You represent building product manufacturers to the architecture and construction industry — educating specifiers, building relationships, and helping projects find the right materials and systems.",
+    "skills": ["Technical product knowledge", "Relationship management", "Specification support", "Lunch-and-learn presentations"],
+    "personalNote": "Manufacturer's reps often out-earn and out-travel architects, with less stress and more human interaction.",
+    "affinities": { "creative": 0.4, "people": 0.9, "field": 0.5, "independent": 0.5, "technical": 0.6, "risk": 0.5, "mission": 0.3, "teaching": 0.4, "client": 1.0, "scale": 0.3 }
+  },
+  {
+    "id": "construction_tech_sales",
+    "title": "Construction Technology Sales",
+    "category": "H — Adjacent Industries",
+    "description": "You sell software and technology tools to the construction and architecture industry — Revit, Procore, construction management platforms, and emerging tech.",
+    "skills": ["Technical sales", "Product demonstration", "CRM management", "AEC industry knowledge"],
+    "personalNote": "Tech sales rewards architects who understand the product deeply and can communicate its value to the people they used to work alongside.",
+    "affinities": { "creative": 0.3, "people": 0.8, "field": 0.4, "independent": 0.5, "technical": 0.6, "risk": 0.5, "mission": 0.3, "teaching": 0.4, "client": 0.9, "scale": 0.4 }
+  },
+  {
+    "id": "proptech",
+    "title": "PropTech / Real Estate Tech",
+    "category": "H — Adjacent Industries",
+    "description": "You work at the intersection of real estate, technology, and data — building platforms, tools, and services that change how buildings are transacted, managed, and experienced.",
+    "skills": ["Real estate fundamentals", "Product thinking", "Data analysis", "Technology fluency"],
+    "personalNote": "Architects who understand how buildings actually work are well-positioned for product, consulting, or business development roles in PropTech.",
+    "affinities": { "creative": 0.4, "people": 0.5, "field": 0.2, "independent": 0.5, "technical": 0.7, "risk": 0.7, "mission": 0.4, "teaching": 0.3, "client": 0.6, "scale": 0.6 }
+  },
+  {
+    "id": "healthcare_planner",
+    "title": "Healthcare Facility Planner",
+    "category": "H — Adjacent Industries",
+    "description": "You specialize in the planning and design of healthcare environments — hospitals, clinics, and care facilities — understanding the complex operational and clinical requirements that govern how these buildings must function.",
+    "skills": ["Healthcare facility planning", "FGI Guidelines", "Operational workflow", "Stakeholder engagement"],
+    "personalNote": "Healthcare design is where the gap between good and mediocre design has direct human consequence.",
+    "affinities": { "creative": 0.5, "people": 0.7, "field": 0.5, "independent": 0.4, "technical": 0.7, "risk": 0.3, "mission": 0.7, "teaching": 0.3, "client": 0.8, "scale": 0.5 }
+  }
+]

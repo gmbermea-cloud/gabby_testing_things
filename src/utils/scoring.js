@@ -7,7 +7,9 @@
  *   3. Top N career matches with match percentages
  */
 
-import { personalityTypes, careers, dimensionWeights } from '../data/careers.js'
+import { personalityTypes, careers, dimensionWeights, dimensionLabels } from '../data/careers.js'
+
+export { dimensionLabels }
 
 // Swipe action multipliers
 export const SWIPE_WEIGHTS = {
@@ -161,7 +163,7 @@ function cosineSimilarity(userVector, careerAffinities) {
  * @param {number} topN - how many careers to return (default 3)
  * @returns {Array} sorted career matches [{ career, matchPercent }]
  */
-export function getTopCareerMatches(scoreVector, topN = 3) {
+export function getTopCareerMatches(scoreVector, topN = 5) {
   const scored = careers.map(career => {
     const rawSimilarity = cosineSimilarity(scoreVector, career.affinities)
     // Rescale to a "feel good" range: similarity of 0.5 → ~65%, 1.0 → 98%
