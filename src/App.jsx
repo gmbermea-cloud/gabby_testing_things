@@ -1,27 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
 import LandingScreen  from './components/LandingScreen.jsx'
-import SwipeScreen    from './components/SwipeScreen.jsx'
-import TradeoffScreen from './components/TradeoffScreen.jsx'
-import EmailGateScreen from './components/EmailGateScreen.jsx'
+import QuestionScreen from './components/QuestionScreen.jsx'
 import ResultsScreen  from './components/ResultsScreen.jsx'
-import ShareScreen    from './components/ShareScreen.jsx'
-import { runFullScoring } from './utils/scoring.js'
-import { swipeCards, tradeoffPairs } from './data/careers.js'
-
-/**
- * Ground Up — App state machine
- *
- * Screens:
- *   landing → swipe → tradeoff → email (optional) → results → share
- */
+import { computeResults } from './utils/archpathScoring.js'
+import { questions } from './data/questions.js'
 
 const SCREENS = {
-  LANDING:  'landing',
-  SWIPE:    'swipe',
-  TRADEOFF: 'tradeoff',
-  EMAIL:    'email',
-  RESULTS:  'results',
-  SHARE:    'share',
+  LANDING:   'landing',
+  QUESTIONS: 'questions',
+  RESULTS:   'results',
 }
 
 function ScreenTransition({ screenKey, children }) {
@@ -31,7 +18,7 @@ function ScreenTransition({ screenKey, children }) {
   useEffect(() => {
     if (prevKey.current !== screenKey) {
       setVisible(false)
-      const t = setTimeout(() => setVisible(true), 30)
+      const t = setTimeout(() => setVisible(true), 40)
       prevKey.current = screenKey
       return () => clearTimeout(t)
     }
@@ -41,7 +28,8 @@ function ScreenTransition({ screenKey, children }) {
     <div
       style={{
         opacity: visible ? 1 : 0,
-        transition: 'opacity 0.45s ease',
+        transform: visible ? 'translateY(0)' : 'translateY(12px)',
+        transition: 'opacity 0.4s ease, transform 0.4s ease',
         minHeight: '100dvh',
         display: 'flex',
         flexDirection: 'column',
@@ -53,72 +41,41 @@ function ScreenTransition({ screenKey, children }) {
 }
 
 export default function App() {
-  const [screen, setScreen]                 = useState(SCREENS.LANDING)
-  const [swipeResponses, setSwipeResponses] = useState([])
-  const [tradeoffChoices, setTradeoffChoices] = useState([])
-  const [results, setResults]               = useState(null)
-  const [email, setEmail]                   = useState(null)
+  const [screen,  setScreen]  = useState(SCREENS.LANDING)
+  const [answers, setAnswers] = useState([])
+  const [results, setResults] = useState(null)
 
-  // ── Transitions ─────────────────────────────────────────────────────────────
+  const handleStart = () => setScreen(SCREENS.QUESTIONS)
 
-  const handleStart = () => setScreen(SCREENS.SWIPE)
-
-  const handleSwipeComplete = (responses) => {
-    setSwipeResponses(responses)
-    setScreen(SCREENS.TRADEOFF)
-  }
-
-  const handleTradeoffComplete = (choices) => {
-    setTradeoffChoices(choices)
-    setScreen(SCREENS.EMAIL)
-  }
-
-  const computeAndShowResults = (emailValue = null) => {
-    const scored = runFullScoring(swipeResponses, tradeoffChoices, swipeCards, tradeoffPairs)
+  const handleComplete = (allAnswers) => {
+    const scored = computeResults(allAnswers)
+    setAnswers(allAnswers)
     setResults(scored)
-    if (emailValue) setEmail(emailValue)
     setScreen(SCREENS.RESULTS)
   }
 
-  const handleEmailContinue = (emailValue) => computeAndShowResults(emailValue)
-  const handleEmailSkip     = ()           => computeAndShowResults(null)
-
-  const handleShare = () => setScreen(SCREENS.SHARE)
-  const handleBackToResults = () => setScreen(SCREENS.RESULTS)
-
   const handleRestart = () => {
-    setScreen(SCREENS.LANDING)
-    setSwipeResponses([])
-    setTradeoffChoices([])
+    setAnswers([])
     setResults(null)
-    setEmail(null)
+    setScreen(SCREENS.LANDING)
   }
 
-  // ── Render ──────────────────────────────────────────────────────────────────
-
   return (
-    <div className="max-w-md mx-auto bg-[#E8E3DB] relative" style={{ minHeight: '100dvh' }}>
+    <div className="max-w-lg mx-auto bg-[#FAF7F0] relative" style={{ minHeight: '100dvh' }}>
       <ScreenTransition screenKey={screen}>
-        {screen === SCREENS.LANDING  && <LandingScreen   onStart={handleStart} />}
-        {screen === SCREENS.SWIPE    && <SwipeScreen     onComplete={handleSwipeComplete} />}
-        {screen === SCREENS.TRADEOFF && <TradeoffScreen  onComplete={handleTradeoffComplete} />}
-        {screen === SCREENS.EMAIL    && (
-          <EmailGateScreen
-            onContinue={handleEmailContinue}
-            onSkip={handleEmailSkip}
+        {screen === SCREENS.LANDING && (
+          <LandingScreen onStart={handleStart} />
+        )}
+        {screen === SCREENS.QUESTIONS && (
+          <QuestionScreen
+            questions={questions}
+            onComplete={handleComplete}
           />
         )}
-        {screen === SCREENS.RESULTS  && results && (
+        {screen === SCREENS.RESULTS && results && (
           <ResultsScreen
             results={results}
-            onShare={handleShare}
             onRestart={handleRestart}
-          />
-        )}
-        {screen === SCREENS.SHARE    && results && (
-          <ShareScreen
-            results={results}
-            onBack={handleBackToResults}
           />
         )}
       </ScreenTransition>
