@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { swipeCards } from '../data/careers.js'
 
 const SWIPE_THRESHOLD = 80   // px to trigger swipe
