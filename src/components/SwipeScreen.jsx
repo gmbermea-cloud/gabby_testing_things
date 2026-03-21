@@ -1,15 +1,16 @@
 import { useState, useRef, useCallback } from 'react'
 import { swipeCards } from '../data/careers.js'
 
-const SWIPE_THRESHOLD = 80   // px to trigger swipe
-const LIFT_THRESHOLD  = -80  // negative Y to trigger "revise" (up swipe)
+const SWIPE_THRESHOLD = 80
+const LIFT_THRESHOLD  = -80
+const ED = { fontFamily: "'Playfair Display', Georgia, serif" }
 
 function SwipeCard({ card, onSwipe, isTop }) {
   const cardRef = useRef(null)
   const startPos = useRef(null)
   const currentPos = useRef({ x: 0, y: 0 })
   const [transform, setTransform] = useState({ x: 0, y: 0, rotate: 0 })
-  const [exiting, setExiting] = useState(null) // 'right' | 'left' | 'up'
+  const [exiting, setExiting] = useState(null)
 
   const getPointerPos = (e) => {
     if (e.touches) return { x: e.touches[0].clientX, y: e.touches[0].clientY }
@@ -30,26 +31,17 @@ function SwipeCard({ card, onSwipe, isTop }) {
     const dx = pos.x - startPos.current.x
     const dy = pos.y - startPos.current.y
     currentPos.current = { x: dx, y: dy }
-
-    const rotate = dx * 0.08
-    setTransform({ x: dx, y: dy, rotate })
+    setTransform({ x: dx, y: dy, rotate: dx * 0.08 })
   }, [isTop])
 
   const onPointerUp = () => {
     if (!startPos.current) return
     const { x, y } = currentPos.current
     startPos.current = null
-
-    if (x > SWIPE_THRESHOLD) {
-      triggerExit('right', 'approve')
-    } else if (x < -SWIPE_THRESHOLD) {
-      triggerExit('left', 'reject')
-    } else if (y < LIFT_THRESHOLD) {
-      triggerExit('up', 'revise')
-    } else {
-      // Snap back
-      setTransform({ x: 0, y: 0, rotate: 0 })
-    }
+    if (x > SWIPE_THRESHOLD)        triggerExit('right', 'approve')
+    else if (x < -SWIPE_THRESHOLD)  triggerExit('left', 'reject')
+    else if (y < LIFT_THRESHOLD)    triggerExit('up', 'revise')
+    else                            setTransform({ x: 0, y: 0, rotate: 0 })
   }
 
   const triggerExit = (direction, action) => {
@@ -57,12 +49,11 @@ function SwipeCard({ card, onSwipe, isTop }) {
     setTimeout(() => onSwipe(card.id, action), 320)
   }
 
-  // Determine hint overlay opacity
-  const hintOpacity = Math.min(1, Math.abs(transform.x) / SWIPE_THRESHOLD)
+  const hintOpacity   = Math.min(1, Math.abs(transform.x) / SWIPE_THRESHOLD)
   const upHintOpacity = Math.min(1, Math.abs(Math.min(0, transform.y)) / Math.abs(LIFT_THRESHOLD))
   const isRight = transform.x > 20
-  const isLeft = transform.x < -20
-  const isUp = transform.y < -20 && !isRight && !isLeft
+  const isLeft  = transform.x < -20
+  const isUp    = transform.y < -20 && !isRight && !isLeft
 
   const exitStyles = {
     right: 'translate-x-[130%] rotate-[20deg] opacity-0',
@@ -86,45 +77,97 @@ function SwipeCard({ card, onSwipe, isTop }) {
       onTouchMove={onPointerMove}
       onTouchEnd={onPointerUp}
     >
-      <div className="relative mx-4 rounded-3xl overflow-hidden border border-white/10 bg-[#111f54] shadow-2xl"
-           style={{ minHeight: '420px' }}>
-
-        {/* Approve hint overlay */}
+      <div
+        className="relative mx-4 overflow-hidden"
+        style={{
+          minHeight: 420,
+          borderRadius: 28,
+          background: '#F2EDE6',
+          border: '1px solid rgba(28,25,21,0.1)',
+          boxShadow: '0 8px 40px rgba(28,25,21,0.08)',
+        }}
+      >
+        {/* Approve hint */}
         {isRight && (
-          <div className="absolute inset-0 bg-emerald-500/20 z-10 flex items-start justify-start p-6 rounded-3xl"
-               style={{ opacity: hintOpacity }}>
-            <span className="border-2 border-emerald-400 text-emerald-400 font-black text-2xl px-4 py-1 rounded-xl rotate-[-12deg]">
-              YES
+          <div
+            className="absolute inset-0 z-10 flex items-start justify-start p-6"
+            style={{ opacity: hintOpacity, borderRadius: 28, background: 'rgba(100,120,60,0.08)' }}
+          >
+            <span style={{
+              border: '1.5px solid rgba(80,100,40,0.6)',
+              color: 'rgba(80,100,40,0.8)',
+              fontSize: 18,
+              fontWeight: 700,
+              padding: '4px 14px',
+              borderRadius: 8,
+              transform: 'rotate(-12deg)',
+              display: 'inline-block',
+              letterSpacing: '0.1em',
+              ...ED,
+              fontStyle: 'italic',
+            }}>
+              yes
             </span>
           </div>
         )}
 
-        {/* Reject hint overlay */}
+        {/* Reject hint */}
         {isLeft && (
-          <div className="absolute inset-0 bg-rose-500/20 z-10 flex items-start justify-end p-6 rounded-3xl"
-               style={{ opacity: hintOpacity }}>
-            <span className="border-2 border-rose-400 text-rose-400 font-black text-2xl px-4 py-1 rounded-xl rotate-[12deg]">
-              NOPE
+          <div
+            className="absolute inset-0 z-10 flex items-start justify-end p-6"
+            style={{ opacity: hintOpacity, borderRadius: 28, background: 'rgba(120,60,50,0.06)' }}
+          >
+            <span style={{
+              border: '1.5px solid rgba(120,60,50,0.5)',
+              color: 'rgba(120,60,50,0.7)',
+              fontSize: 18,
+              fontWeight: 700,
+              padding: '4px 14px',
+              borderRadius: 8,
+              transform: 'rotate(12deg)',
+              display: 'inline-block',
+              letterSpacing: '0.1em',
+              ...ED,
+              fontStyle: 'italic',
+            }}>
+              nope
             </span>
           </div>
         )}
 
-        {/* Revise hint overlay */}
+        {/* Maybe hint */}
         {isUp && (
-          <div className="absolute inset-0 bg-[#C9A84C]/20 z-10 flex items-start justify-center pt-6 rounded-3xl"
-               style={{ opacity: upHintOpacity }}>
-            <span className="border-2 border-[#C9A84C] text-[#C9A84C] font-black text-2xl px-4 py-1 rounded-xl">
-              MAYBE
+          <div
+            className="absolute inset-0 z-10 flex items-start justify-center pt-6"
+            style={{ opacity: upHintOpacity, borderRadius: 28, background: 'rgba(28,25,21,0.04)' }}
+          >
+            <span style={{
+              border: '1.5px solid rgba(28,25,21,0.4)',
+              color: 'rgba(28,25,21,0.6)',
+              fontSize: 18,
+              fontWeight: 700,
+              padding: '4px 14px',
+              borderRadius: 8,
+              display: 'inline-block',
+              letterSpacing: '0.1em',
+              ...ED,
+              fontStyle: 'italic',
+            }}>
+              maybe
             </span>
           </div>
         )}
 
         {/* Card content */}
-        <div className="flex flex-col h-full p-8 gap-6" style={{ minHeight: '420px' }}>
-          <div className="text-5xl">{card.emoji}</div>
+        <div className="flex flex-col h-full p-8 gap-6" style={{ minHeight: 420 }}>
+          <div style={{ fontSize: 44 }}>{card.emoji}</div>
           <div className="flex-1 flex flex-col justify-center gap-3">
-            <p className="text-white text-2xl font-bold leading-snug">{card.prompt}</p>
-            <p className="text-white/50 text-sm">{card.subtext}</p>
+            <p style={{ ...ED, fontSize: 26, fontWeight: 700, color: '#1C1915', lineHeight: 1.25 }}>
+              {card.prompt}
+            </p>
+            <p style={{ fontSize: 13, color: '#1C1915', opacity: 0.45, lineHeight: 1.5 }}>
+              {card.subtext}
+            </p>
           </div>
         </div>
       </div>
@@ -141,60 +184,68 @@ export default function SwipeScreen({ onComplete }) {
     const newResponses = [...responses, { cardId, action }]
     setResponses(newResponses)
     setLastAction(action)
-
     const nextIndex = currentIndex + 1
     setCurrentIndex(nextIndex)
-
     if (nextIndex >= swipeCards.length) {
       setTimeout(() => onComplete(newResponses), 300)
     }
   }
 
-  // Manual action buttons
   const handleButton = (action) => {
     if (currentIndex >= swipeCards.length) return
     const card = swipeCards[currentIndex]
     handleSwipe(card.id, action)
   }
 
-  const progress = currentIndex / swipeCards.length
+  const progress  = currentIndex / swipeCards.length
   const remaining = swipeCards.length - currentIndex
 
   if (currentIndex >= swipeCards.length) {
     return (
-      <div className="flex min-h-dvh items-center justify-center bg-[#0D1B4B]">
-        <div className="text-white text-xl font-bold">Analyzing…</div>
+      <div className="flex min-h-dvh items-center justify-center bg-[#E8E3DB]">
+        <div style={{ ...ED, fontStyle: 'italic', fontSize: 20, color: '#1C1915', opacity: 0.6 }}>
+          Analysing…
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="flex flex-col min-h-dvh bg-[#0D1B4B]">
+    <div className="flex flex-col min-h-dvh bg-[#E8E3DB] fade-up">
       {/* Header */}
       <div className="px-6 pt-10 pb-4 flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-white/40 text-xs uppercase tracking-widest">React honestly</p>
-            <h2 className="text-white font-bold text-lg">Does this sound like you?</h2>
+            <p style={{ fontSize: 10, color: '#1C1915', opacity: 0.35, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+              React honestly
+            </p>
+            <h2 style={{ ...ED, fontSize: 20, fontWeight: 700, color: '#1C1915', marginTop: 2 }}>
+              Does this sound like you?
+            </h2>
           </div>
           <div className="text-right">
-            <span className="text-[#C9A84C] font-black text-2xl">{remaining}</span>
-            <p className="text-white/30 text-xs">left</p>
+            <span style={{ ...ED, fontSize: 30, fontWeight: 900, color: '#1C1915' }}>{remaining}</span>
+            <p style={{ fontSize: 10, color: '#1C1915', opacity: 0.35 }}>left</p>
           </div>
         </div>
 
         {/* Progress bar */}
-        <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+        <div style={{ height: 1, background: 'rgba(28,25,21,0.12)', borderRadius: 2 }}>
           <div
-            className="h-full bg-[#C9A84C] rounded-full transition-all duration-500"
-            style={{ width: `${progress * 100}%` }}
+            style={{
+              height: '100%',
+              background: '#1C1915',
+              borderRadius: 2,
+              width: `${progress * 100}%`,
+              transition: 'width 0.5s ease',
+              opacity: 0.4,
+            }}
           />
         </div>
       </div>
 
       {/* Card stack */}
-      <div className="flex-1 relative card-stack" style={{ minHeight: '460px' }}>
-        {/* Render top 3 cards for stack effect */}
+      <div className="flex-1 relative card-stack" style={{ minHeight: 460 }}>
         {[2, 1, 0].map(offset => {
           const idx = currentIndex + offset
           if (idx >= swipeCards.length) return null
@@ -208,11 +259,7 @@ export default function SwipeScreen({ onComplete }) {
                 zIndex: 10 - offset,
               }}
             >
-              <SwipeCard
-                card={card}
-                isTop={offset === 0}
-                onSwipe={handleSwipe}
-              />
+              <SwipeCard card={card} isTop={offset === 0} onSwipe={handleSwipe} />
             </div>
           )
         })}
@@ -220,32 +267,41 @@ export default function SwipeScreen({ onComplete }) {
 
       {/* Action buttons */}
       <div className="px-6 pb-10 pt-4">
-        {/* Last action feedback */}
         {lastAction && (
-          <p className="text-center text-white/30 text-xs mb-3 transition-all">
-            {lastAction === 'approve' && '✓ Added full weight'}
-            {lastAction === 'revise' && '~ Added partial weight'}
-            {lastAction === 'reject' && '✗ Counted against'}
+          <p style={{ textAlign: 'center', fontSize: 11, color: '#1C1915', opacity: 0.35, marginBottom: 12, ...ED, fontStyle: 'italic' }}>
+            {lastAction === 'approve' && 'full weight added'}
+            {lastAction === 'revise'  && 'partial weight added'}
+            {lastAction === 'reject'  && 'counted against'}
           </p>
         )}
 
-        <div className="flex items-center justify-center gap-6">
+        <div className="flex items-center justify-center gap-5">
           {/* Reject */}
           <button
             onClick={() => handleButton('reject')}
-            className="w-16 h-16 rounded-2xl bg-rose-500/15 border border-rose-500/30 flex items-center justify-center
-                       active:scale-90 transition-transform text-2xl"
+            className="active:scale-90 transition-transform flex items-center justify-center"
+            style={{
+              width: 60, height: 60, borderRadius: 20,
+              border: '1.5px solid rgba(28,25,21,0.15)',
+              background: 'rgba(28,25,21,0.03)',
+              fontSize: 20, color: '#1C1915',
+            }}
             aria-label="Reject"
           >
             ✕
           </button>
 
-          {/* Revise (up) */}
+          {/* Maybe */}
           <button
             onClick={() => handleButton('revise')}
-            className="w-14 h-14 rounded-2xl bg-[#C9A84C]/15 border border-[#C9A84C]/30 flex items-center justify-center
-                       active:scale-90 transition-transform text-xl"
-            aria-label="Revise / Maybe"
+            className="active:scale-90 transition-transform flex items-center justify-center"
+            style={{
+              width: 52, height: 52, borderRadius: 18,
+              border: '1.5px solid rgba(28,25,21,0.12)',
+              background: 'rgba(28,25,21,0.03)',
+              fontSize: 18, color: '#1C1915',
+            }}
+            aria-label="Maybe"
           >
             ↑
           </button>
@@ -253,16 +309,20 @@ export default function SwipeScreen({ onComplete }) {
           {/* Approve */}
           <button
             onClick={() => handleButton('approve')}
-            className="w-16 h-16 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center
-                       active:scale-90 transition-transform text-2xl"
+            className="active:scale-90 transition-transform flex items-center justify-center"
+            style={{
+              width: 60, height: 60, borderRadius: 20,
+              border: '1.5px solid rgba(28,25,21,0.15)',
+              background: 'rgba(28,25,21,0.03)',
+              fontSize: 20, color: '#1C1915',
+            }}
             aria-label="Approve"
           >
             ✓
           </button>
         </div>
 
-        {/* Legend */}
-        <div className="flex justify-center gap-6 mt-4 text-xs text-white/30">
+        <div className="flex justify-center gap-6 mt-4" style={{ fontSize: 11, color: '#1C1915', opacity: 0.3 }}>
           <span>← Nope</span>
           <span>↑ Maybe</span>
           <span>Yes →</span>

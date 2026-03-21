@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import LandingScreen  from './components/LandingScreen.jsx'
 import SwipeScreen    from './components/SwipeScreen.jsx'
 import TradeoffScreen from './components/TradeoffScreen.jsx'
@@ -24,12 +24,40 @@ const SCREENS = {
   SHARE:    'share',
 }
 
+function ScreenTransition({ screenKey, children }) {
+  const [visible, setVisible] = useState(false)
+  const prevKey = useRef(null)
+
+  useEffect(() => {
+    if (prevKey.current !== screenKey) {
+      setVisible(false)
+      const t = setTimeout(() => setVisible(true), 30)
+      prevKey.current = screenKey
+      return () => clearTimeout(t)
+    }
+  }, [screenKey])
+
+  return (
+    <div
+      style={{
+        opacity: visible ? 1 : 0,
+        transition: 'opacity 0.45s ease',
+        minHeight: '100dvh',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
 export default function App() {
-  const [screen, setScreen]               = useState(SCREENS.LANDING)
+  const [screen, setScreen]                 = useState(SCREENS.LANDING)
   const [swipeResponses, setSwipeResponses] = useState([])
   const [tradeoffChoices, setTradeoffChoices] = useState([])
-  const [results, setResults]             = useState(null)
-  const [email, setEmail]                 = useState(null)
+  const [results, setResults]               = useState(null)
+  const [email, setEmail]                   = useState(null)
 
   // ── Transitions ─────────────────────────────────────────────────────────────
 
@@ -69,29 +97,31 @@ export default function App() {
   // ── Render ──────────────────────────────────────────────────────────────────
 
   return (
-    <div className="max-w-md mx-auto bg-[#0D1B4B] relative" style={{ minHeight: '100dvh' }}>
-      {screen === SCREENS.LANDING  && <LandingScreen   onStart={handleStart} />}
-      {screen === SCREENS.SWIPE    && <SwipeScreen     onComplete={handleSwipeComplete} />}
-      {screen === SCREENS.TRADEOFF && <TradeoffScreen  onComplete={handleTradeoffComplete} />}
-      {screen === SCREENS.EMAIL    && (
-        <EmailGateScreen
-          onContinue={handleEmailContinue}
-          onSkip={handleEmailSkip}
-        />
-      )}
-      {screen === SCREENS.RESULTS  && results && (
-        <ResultsScreen
-          results={results}
-          onShare={handleShare}
-          onRestart={handleRestart}
-        />
-      )}
-      {screen === SCREENS.SHARE    && results && (
-        <ShareScreen
-          results={results}
-          onBack={handleBackToResults}
-        />
-      )}
+    <div className="max-w-md mx-auto bg-[#E8E3DB] relative" style={{ minHeight: '100dvh' }}>
+      <ScreenTransition screenKey={screen}>
+        {screen === SCREENS.LANDING  && <LandingScreen   onStart={handleStart} />}
+        {screen === SCREENS.SWIPE    && <SwipeScreen     onComplete={handleSwipeComplete} />}
+        {screen === SCREENS.TRADEOFF && <TradeoffScreen  onComplete={handleTradeoffComplete} />}
+        {screen === SCREENS.EMAIL    && (
+          <EmailGateScreen
+            onContinue={handleEmailContinue}
+            onSkip={handleEmailSkip}
+          />
+        )}
+        {screen === SCREENS.RESULTS  && results && (
+          <ResultsScreen
+            results={results}
+            onShare={handleShare}
+            onRestart={handleRestart}
+          />
+        )}
+        {screen === SCREENS.SHARE    && results && (
+          <ShareScreen
+            results={results}
+            onBack={handleBackToResults}
+          />
+        )}
+      </ScreenTransition>
     </div>
   )
 }
