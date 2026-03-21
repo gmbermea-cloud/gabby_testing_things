@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+const ED = { fontFamily: "'Playfair Display', Georgia, serif" }
+
 export default function EmailGateScreen({ onContinue, onSkip }) {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
@@ -11,54 +13,63 @@ export default function EmailGateScreen({ onContinue, onSkip }) {
     if (!isValid) return
     setSubmitted(true)
     // TODO: wire up your email capture endpoint here
-    // fetch('/api/subscribe', { method: 'POST', body: JSON.stringify({ email }) })
     setTimeout(() => onContinue(email), 600)
   }
 
   return (
-    <div className="flex flex-col min-h-dvh bg-[#0D1B4B] px-6 items-center justify-center">
+    <div className="flex flex-col min-h-dvh bg-[#E8E3DB] px-6 items-center justify-center fade-up">
       <div className="w-full max-w-sm flex flex-col items-center gap-8 text-center">
 
-        {/* Icon */}
-        <div className="w-16 h-16 rounded-2xl bg-[#C9A84C]/15 border border-[#C9A84C]/30 flex items-center justify-center text-3xl">
-          📬
-        </div>
+        {/* Decorative thin circle */}
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <circle cx="28" cy="28" r="26" stroke="#1C1915" strokeWidth="1" strokeOpacity="0.2" />
+          <circle cx="28" cy="28" r="4" fill="#1C1915" fillOpacity="0.15" />
+        </svg>
 
         <div>
-          <h2 className="text-white text-3xl font-black leading-tight">
+          <h2 style={{ ...ED, fontSize: 32, fontWeight: 900, color: '#1C1915', lineHeight: 1.1 }}>
             Get your full report
           </h2>
-          <p className="text-white/50 text-base mt-3 leading-relaxed">
+          <p style={{ fontSize: 14, color: '#1C1915', opacity: 0.5, marginTop: 12, lineHeight: 1.65 }}>
             Enter your email and we'll send you a deeper breakdown of your career profile — including resources and next steps.
           </p>
         </div>
 
         {submitted ? (
           <div className="flex flex-col items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-2xl">
-              ✓
-            </div>
-            <p className="text-emerald-400 font-bold">Got it! Loading your results…</p>
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="22" stroke="#1C1915" strokeWidth="1.5" strokeOpacity="0.3" />
+              <path d="M15 24l7 7 11-13" stroke="#1C1915" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.6" />
+            </svg>
+            <p style={{ ...ED, fontStyle: 'italic', fontSize: 16, color: '#1C1915', opacity: 0.6 }}>
+              Got it. Loading your results…
+            </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="w-full flex flex-col gap-3">
-            <input
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              className="w-full bg-white/8 border border-white/15 rounded-2xl px-5 py-4 text-white placeholder-white/30
-                         focus:outline-none focus:border-[#C9A84C]/60 focus:bg-white/10 transition-all text-base"
-              autoComplete="email"
-              inputMode="email"
-            />
+          <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
+            <div style={{ borderBottom: '1.5px solid rgba(28,25,21,0.25)', paddingBottom: 10 }}>
+              <input
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                className="w-full bg-transparent focus:outline-none text-base"
+                style={{ color: '#1C1915', fontSize: 16 }}
+                autoComplete="email"
+                inputMode="email"
+              />
+            </div>
             <button
               type="submit"
               disabled={!isValid}
-              className={`w-full py-4 rounded-2xl font-black text-lg transition-all
-                ${isValid
-                  ? 'bg-[#C9A84C] text-[#0D1B4B] active:scale-95 shadow-lg shadow-[#C9A84C]/20'
-                  : 'bg-white/10 text-white/30 cursor-not-allowed'}`}
+              className="w-full py-4 rounded-full font-bold text-base tracking-wide active:scale-95 transition-all"
+              style={{
+                border: '2px solid #1C1915',
+                color: isValid ? '#E8E3DB' : '#1C1915',
+                background: isValid ? '#1C1915' : 'transparent',
+                opacity: isValid ? 1 : 0.3,
+                letterSpacing: '0.06em',
+              }}
             >
               Send My Results
             </button>
@@ -67,12 +78,12 @@ export default function EmailGateScreen({ onContinue, onSkip }) {
 
         <button
           onClick={() => onSkip()}
-          className="text-white/30 text-sm underline underline-offset-4 active:text-white/60 transition-colors"
+          style={{ fontSize: 12, color: '#1C1915', opacity: 0.35, textDecoration: 'underline', textUnderlineOffset: 4, ...ED, fontStyle: 'italic' }}
         >
           Skip and see results now →
         </button>
 
-        <p className="text-white/20 text-xs leading-relaxed">
+        <p style={{ fontSize: 11, color: '#1C1915', opacity: 0.25, lineHeight: 1.6 }}>
           No spam. Unsubscribe anytime. Your data is never sold.
         </p>
       </div>
