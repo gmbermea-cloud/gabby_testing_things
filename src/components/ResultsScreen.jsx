@@ -1,221 +1,319 @@
-import { useState } from 'react'
-import { dimensionLabels } from '../utils/scoring.js'
+import { useEffect, useState } from 'react'
 
-const ED = { fontFamily: "'Playfair Display', Georgia, serif" }
+export default function ResultsScreen({ results, onRestart }) {
+  const [visible, setVisible] = useState(false)
 
-function CareerCard({ match, rank, isExpanded, onToggle }) {
-  const { career, matchPercent } = match
-  const rankLabels = ['Top Match', 'Strong Match', 'Great Fit', 'Worth Exploring', 'Also Consider']
+  useEffect(() => {
+    const t = setTimeout(() => setVisible(true), 80)
+    return () => clearTimeout(t)
+  }, [])
+
+  const { ranked, topTrack } = results
 
   return (
     <div
-      className="transition-all duration-300 overflow-hidden"
-      style={{
-        borderRadius: 20,
-        border: isExpanded ? '1.5px solid rgba(28,25,21,0.3)' : '1px solid rgba(28,25,21,0.1)',
-        background: isExpanded ? '#F2EDE6' : 'rgba(28,25,21,0.02)',
-      }}
+      className="flex flex-col min-h-dvh px-6 pt-10 pb-12"
+      style={{ background: '#FAF7F0' }}
     >
-      <button onClick={onToggle} className="w-full text-left p-5 flex items-center gap-4">
+      {/* Header */}
+      <div
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'translateY(0)' : 'translateY(16px)',
+          transition: 'opacity 0.6s ease, transform 0.6s ease',
+          marginBottom: 32,
+        }}
+      >
         <div
           style={{
-            width: 36, height: 36, borderRadius: 12,
-            background: rank === 0 ? '#1C1915' : 'rgba(28,25,21,0.06)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            flexShrink: 0,
+            fontSize: 11,
+            fontWeight: 600,
+            textTransform: 'uppercase',
+            letterSpacing: '0.14em',
+            color: '#C85A3F',
+            opacity: 0.8,
+            marginBottom: 10,
           }}
         >
-          <span style={{ ...ED, fontSize: 12, fontWeight: 700, color: rank === 0 ? '#E8E3DB' : 'rgba(28,25,21,0.4)' }}>
-            #{rank + 1}
-          </span>
+          Your Results
         </div>
-        <div className="flex-1 min-w-0">
-          <span style={{ fontSize: 10, color: '#1C1915', opacity: rank === 0 ? 0.5 : 0.25, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-            {rankLabels[rank]}
-          </span>
-          <h3 style={{ ...ED, fontSize: 18, fontWeight: 700, color: '#1C1915', lineHeight: 1.2, marginTop: 1 }} className="truncate">
-            {career.title}
-          </h3>
-        </div>
-        <div className="flex flex-col items-end gap-1 flex-shrink-0">
-          <span style={{ ...ED, fontSize: 20, fontWeight: 900, color: '#1C1915' }}>{matchPercent}%</span>
-          <span style={{ fontSize: 10, color: '#1C1915', opacity: 0.3 }}>{isExpanded ? '▲' : '▼'}</span>
-        </div>
-      </button>
-
-      {/* Match bar */}
-      <div className="px-5 pb-3">
-        <div style={{ height: 1, background: 'rgba(28,25,21,0.1)', borderRadius: 1 }}>
-          <div style={{
-            height: '100%',
-            width: `${matchPercent}%`,
-            background: '#1C1915',
-            opacity: 0.35,
-            borderRadius: 1,
-            transition: 'width 1s ease',
-          }} />
-        </div>
-      </div>
-
-      {/* Expanded */}
-      {isExpanded && (
-        <div
-          className="px-5 pb-6 flex flex-col gap-5"
-          style={{ borderTop: '1px solid rgba(28,25,21,0.08)', paddingTop: 20, marginTop: 4 }}
+        <h1
+          className="serif"
+          style={{
+            fontSize: 'clamp(28px, 7.5vw, 38px)',
+            lineHeight: 1.2,
+            color: '#1A1A1A',
+            fontWeight: 400,
+            marginBottom: 10,
+          }}
         >
-          <p style={{ fontSize: 13, color: '#1C1915', opacity: 0.6, lineHeight: 1.65 }}>
-            {career.description}
-          </p>
-
-          <div>
-            <p style={{ fontSize: 10, color: '#1C1915', opacity: 0.3, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10 }}>
-              Key Skills
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {career.skills.map(skill => (
-                <span
-                  key={skill}
-                  style={{
-                    fontSize: 11,
-                    color: '#1C1915',
-                    opacity: 0.65,
-                    border: '1px solid rgba(28,25,21,0.15)',
-                    borderRadius: 100,
-                    padding: '4px 12px',
-                  }}
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div style={{ borderTop: '1px solid rgba(28,25,21,0.08)', paddingTop: 16 }}>
-            <p style={{ fontSize: 10, color: '#1C1915', opacity: 0.3, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8 }}>
-              A Note For You
-            </p>
-            <p style={{ ...ED, fontStyle: 'italic', fontSize: 13, color: '#1C1915', opacity: 0.65, lineHeight: 1.7 }}>
-              "{career.personalNote}"
-            </p>
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
-
-export default function ResultsScreen({ results, onShare, onRestart }) {
-  const { personalityType, topCareers } = results
-  const [expandedIdx, setExpandedIdx] = useState(0)
-
-  const toggleExpand = (idx) => {
-    setExpandedIdx(prev => prev === idx ? -1 : idx)
-  }
-
-  return (
-    <div className="flex flex-col min-h-dvh bg-[#E8E3DB] fade-up">
-      {/* Hero */}
-      <div className="px-6 pt-10 pb-8">
-        <p style={{ fontSize: 10, color: '#1C1915', opacity: 0.35, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 10 }}>
-          Your Career DNA
-        </p>
-        <h1 style={{ ...ED, fontSize: 48, fontWeight: 900, color: '#1C1915', lineHeight: 1.0, letterSpacing: '-1px' }}>
-          {personalityType.label}
+          You're a{' '}
+          <em style={{ color: topTrack.meta.color }}>
+            {topTrack.track} Architect.
+          </em>
         </h1>
-        <p style={{ fontSize: 14, color: '#1C1915', opacity: 0.5, lineHeight: 1.65, marginTop: 12 }}>
-          {personalityType.description}
-        </p>
-
-        {/* Type badge */}
-        <div
-          className="mt-5 inline-flex items-center gap-2"
+        <p
           style={{
-            border: '1px solid rgba(28,25,21,0.2)',
-            borderRadius: 100,
-            padding: '6px 16px',
+            fontSize: 15,
+            lineHeight: 1.6,
+            color: '#1A1A1A',
+            opacity: 0.55,
           }}
         >
-          <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#1C1915', opacity: 0.4 }} />
-          <span style={{ fontSize: 12, color: '#1C1915', opacity: 0.55, letterSpacing: '0.06em' }}>
-            {personalityType.label}
-          </span>
-        </div>
+          {topTrack.meta.tagline}
+        </p>
       </div>
 
-      {/* Career matches */}
-      <div className="px-6 pb-6 flex flex-col gap-3">
-        <p style={{ fontSize: 10, color: '#1C1915', opacity: 0.3, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 4 }}>
-          Top Career Matches
-        </p>
-        {topCareers.map((match, idx) => (
-          <CareerCard
-            key={match.career.id}
-            match={match}
-            rank={idx}
-            isExpanded={expandedIdx === idx}
-            onToggle={() => toggleExpand(idx)}
+      {/* Track cards */}
+      <div className="flex flex-col gap-4 flex-1">
+        {ranked.map((entry, i) => (
+          <TrackCard
+            key={entry.track}
+            entry={entry}
+            rank={i}
+            visible={visible}
+            delay={0.1 + i * 0.08}
           />
         ))}
       </div>
 
-      {/* Dimension breakdown */}
-      <div className="px-6 pb-6">
-        <div style={{ borderRadius: 20, border: '1px solid rgba(28,25,21,0.1)', padding: 20 }}>
-          <h3 style={{ fontSize: 10, color: '#1C1915', opacity: 0.3, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 16 }}>
-            Your Profile
-          </h3>
-          <div className="flex flex-col gap-4">
-            {Object.entries(results.scoreVector)
-              .sort(([, a], [, b]) => b - a)
-              .map(([dim, score]) => {
-                const pct   = Math.round(((score + 1) / 2) * 100)
-                const label = dimensionLabels[dim] ?? (dim.charAt(0).toUpperCase() + dim.slice(1))
-                return (
-                  <div key={dim} className="flex flex-col gap-1.5">
-                    <div className="flex justify-between" style={{ fontSize: 12 }}>
-                      <span style={{ color: '#1C1915', opacity: 0.5 }}>{label}</span>
-                      <span style={{ color: '#1C1915', opacity: score > 0.3 ? 0.7 : 0.25 }}>
-                        {score > 0 ? '+' : ''}{score.toFixed(2)}
-                      </span>
-                    </div>
-                    <div style={{ height: 1, background: 'rgba(28,25,21,0.08)', borderRadius: 1 }}>
-                      <div
-                        style={{
-                          height: '100%',
-                          borderRadius: 1,
-                          width: `${Math.abs(pct - 50) * 2}%`,
-                          marginLeft: score < 0 ? 'auto' : '0',
-                          background: '#1C1915',
-                          opacity: score > 0 ? 0.35 : 0.2,
-                        }}
-                      />
-                    </div>
-                  </div>
-                )
-              })}
-          </div>
-        </div>
-      </div>
-
-      {/* Actions */}
+      {/* Footer */}
       <div
-        className="px-6 pb-10 flex flex-col gap-3 sticky bottom-0 pt-6"
-        style={{ background: 'linear-gradient(to top, #E8E3DB 80%, transparent)' }}
+        style={{
+          marginTop: 32,
+          opacity: visible ? 1 : 0,
+          transition: `opacity 0.6s ease 0.6s`,
+        }}
       >
         <button
-          onClick={onShare}
-          className="w-full py-4 rounded-full font-bold text-base tracking-wide active:scale-95 transition-transform"
-          style={{ background: '#1C1915', color: '#E8E3DB', letterSpacing: '0.06em' }}
-        >
-          Share My Results →
-        </button>
-        <button
           onClick={onRestart}
-          className="w-full py-4 rounded-full font-bold text-base active:scale-95 transition-transform"
-          style={{ border: '1.5px solid rgba(28,25,21,0.15)', color: '#1C1915', opacity: 0.5 }}
+          className="w-full py-4 rounded-full font-semibold active:scale-95 transition-transform"
+          style={{
+            background: 'transparent',
+            border: '1.5px solid rgba(26,26,26,0.18)',
+            color: '#1A1A1A',
+            fontSize: 14,
+          }}
         >
-          Start Over
+          Retake the Discovery
         </button>
+        <p
+          style={{
+            textAlign: 'center',
+            fontSize: 11,
+            color: '#1A1A1A',
+            opacity: 0.3,
+            marginTop: 10,
+          }}
+        >
+          ArchPath by @gabbybermea
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function TrackCard({ entry, rank, visible, delay }) {
+  const { track, percentage, meta } = entry
+  const isTop = rank === 0
+
+  return (
+    <div
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(16px)',
+        transition: `opacity 0.55s ease ${delay}s, transform 0.55s ease ${delay}s`,
+      }}
+    >
+      <div
+        style={{
+          background: isTop ? meta.bg : '#FFFFFF',
+          border: isTop ? `1.5px solid ${meta.color}40` : '1.5px solid rgba(26,26,26,0.08)',
+          borderLeft: isTop ? `4px solid ${meta.color}` : '1.5px solid rgba(26,26,26,0.08)',
+          borderRadius: 20,
+          padding: isTop ? '20px 20px 20px 18px' : '16px 18px',
+          boxShadow: isTop ? `0 4px 20px ${meta.color}18` : '0 1px 6px rgba(0,0,0,0.04)',
+        }}
+      >
+        {/* Top Match badge */}
+        {isTop && (
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 5,
+              padding: '3px 10px',
+              borderRadius: 20,
+              background: meta.color,
+              color: '#FFFFFF',
+              fontSize: 10,
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              marginBottom: 12,
+            }}
+          >
+            ★ Top Match
+          </div>
+        )}
+
+        {/* Track header row */}
+        <div className="flex items-start justify-between gap-3 mb-2">
+          <div>
+            <div
+              className="serif"
+              style={{
+                fontSize: isTop ? 22 : 17,
+                color: '#1A1A1A',
+                lineHeight: 1.2,
+                fontWeight: 400,
+              }}
+            >
+              {track}
+            </div>
+            <div
+              style={{
+                fontSize: 12,
+                color: '#1A1A1A',
+                opacity: 0.5,
+                marginTop: 2,
+              }}
+            >
+              {meta.tagline}
+            </div>
+          </div>
+
+          {/* Percentage circle */}
+          <div
+            style={{
+              flexShrink: 0,
+              width: isTop ? 52 : 44,
+              height: isTop ? 52 : 44,
+              borderRadius: '50%',
+              background: isTop ? meta.color : 'rgba(26,26,26,0.06)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <span
+              style={{
+                fontSize: isTop ? 13 : 11,
+                fontWeight: 700,
+                color: isTop ? '#FFFFFF' : '#1A1A1A',
+              }}
+            >
+              {percentage}%
+            </span>
+          </div>
+        </div>
+
+        {/* Progress bar */}
+        <div
+          style={{
+            height: 3,
+            background: 'rgba(26,26,26,0.08)',
+            borderRadius: 2,
+            marginBottom: 14,
+            overflow: 'hidden',
+          }}
+        >
+          <div
+            style={{
+              height: '100%',
+              width: `${percentage}%`,
+              background: meta.color,
+              borderRadius: 2,
+              transition: 'width 1s ease 0.4s',
+            }}
+          />
+        </div>
+
+        {/* Description (top track only) */}
+        {isTop && (
+          <p
+            style={{
+              fontSize: 13,
+              lineHeight: 1.65,
+              color: '#1A1A1A',
+              opacity: 0.65,
+              marginBottom: 16,
+            }}
+          >
+            {meta.description}
+          </p>
+        )}
+
+        {/* Skills */}
+        <div className="flex flex-wrap gap-2">
+          {meta.skills.slice(0, isTop ? meta.skills.length : 3).map((skill) => (
+            <span
+              key={skill}
+              style={{
+                padding: '4px 10px',
+                borderRadius: 20,
+                fontSize: 11,
+                fontWeight: 500,
+                background: isTop ? `${meta.color}18` : 'rgba(26,26,26,0.05)',
+                color: isTop ? meta.color : '#1A1A1A',
+                opacity: isTop ? 1 : 0.6,
+                border: isTop ? `1px solid ${meta.color}30` : 'none',
+              }}
+            >
+              {skill}
+            </span>
+          ))}
+          {!isTop && meta.skills.length > 3 && (
+            <span
+              style={{
+                padding: '4px 10px',
+                borderRadius: 20,
+                fontSize: 11,
+                color: '#1A1A1A',
+                opacity: 0.35,
+              }}
+            >
+              +{meta.skills.length - 3} more
+            </span>
+          )}
+        </div>
+
+        {/* Typical roles (top track only) */}
+        {isTop && meta.roles && (
+          <div style={{ marginTop: 16 }}>
+            <div
+              style={{
+                fontSize: 10,
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                letterSpacing: '0.12em',
+                color: '#1A1A1A',
+                opacity: 0.35,
+                marginBottom: 8,
+              }}
+            >
+              Typical Roles
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {meta.roles.map((role) => (
+                <span
+                  key={role}
+                  style={{
+                    padding: '4px 12px',
+                    borderRadius: 20,
+                    fontSize: 12,
+                    fontWeight: 500,
+                    background: 'rgba(26,26,26,0.06)',
+                    color: '#1A1A1A',
+                    opacity: 0.7,
+                  }}
+                >
+                  {role}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
