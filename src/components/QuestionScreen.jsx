@@ -47,6 +47,9 @@ export default function QuestionScreen({ questions, onComplete }) {
   }
 
   const handleNext = () => {
+    // Guard: multiple choice must have a selection
+    if (current.type === 'multiple_choice' && !currentAnswer) return
+
     // Build answer record
     let answerValue
     if (current.type === 'multiple_choice') {
@@ -195,6 +198,7 @@ export default function QuestionScreen({ questions, onComplete }) {
           {/* Question input */}
           {current.type === 'multiple_choice' && (
             <MultipleChoice
+              key={current.id}
               question={current}
               selected={currentAnswer?.letter ?? null}
               onSelect={handleMultipleChoiceSelect}
@@ -203,6 +207,7 @@ export default function QuestionScreen({ questions, onComplete }) {
 
           {current.type === 'slider' && (
             <SliderQuestion
+              key={current.id}
               question={current}
               value={currentAnswer}
               onChange={handleSliderChange}
@@ -211,10 +216,9 @@ export default function QuestionScreen({ questions, onComplete }) {
 
           {current.type === 'ranking' && (
             <RankingQuestion
+              key={current.id}
               question={current}
-              value={currentAnswer ? currentAnswer.map(item =>
-                current.items.findIndex(i => i.text === item.text)
-              ) : null}
+              value={null}
               onChange={handleRankingChange}
             />
           )}
