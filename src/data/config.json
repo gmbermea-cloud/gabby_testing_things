@@ -1,0 +1,354 @@
+{
+  "dimensionWeights": {
+    "creative":     1.0,
+    "people":       1.0,
+    "field":        0.9,
+    "independent":  0.8,
+    "technical":    0.9,
+    "risk":         1.0,
+    "mission":      1.0,
+    "teaching":     0.8,
+    "client":       0.9,
+    "scale":        0.8
+  },
+
+  "dimensionLabels": {
+    "creative":    "Creative",
+    "people":      "People",
+    "field":       "Field",
+    "independent": "Independent",
+    "technical":   "Technical",
+    "risk":        "Risk",
+    "mission":     "Mission",
+    "teaching":    "Teaching",
+    "client":      "Client-Facing",
+    "scale":       "Scale"
+  },
+
+  "swipeCards": [
+    {
+      "id": "sc_01",
+      "prompt": "I feel most alive when I can see something I made become real in the physical world.",
+      "subtext": "The gap between drawing and building is where you want to live.",
+      "emoji": "🏗️",
+      "dimensions": { "field": 1.0, "creative": 0.5 }
+    },
+    {
+      "id": "sc_02",
+      "prompt": "When a project is going sideways, I'm the person everyone turns to for a plan.",
+      "subtext": "Pressure brings out something in you that calm doesn't.",
+      "emoji": "🧭",
+      "dimensions": { "people": 0.8, "independent": -0.6, "teaching": 0.4 }
+    },
+    {
+      "id": "sc_03",
+      "prompt": "I could spend hours getting one detail exactly right, even if no one else would notice.",
+      "subtext": "Precision is personal, not performative.",
+      "emoji": "🔬",
+      "dimensions": { "technical": 1.0, "scale": -0.5 }
+    },
+    {
+      "id": "sc_04",
+      "prompt": "I'm more energized after a client meeting than after a day of solo work.",
+      "subtext": "People fuel you — they don't drain you.",
+      "emoji": "🤝",
+      "dimensions": { "client": 1.0, "people": 0.8, "independent": -0.5 }
+    },
+    {
+      "id": "sc_05",
+      "prompt": "I find myself explaining architecture to people outside the profession constantly — and I enjoy it.",
+      "subtext": "Making it accessible is a creative act too.",
+      "emoji": "🗣️",
+      "dimensions": { "teaching": 1.0, "people": 0.5, "mission": 0.4 }
+    },
+    {
+      "id": "sc_06",
+      "prompt": "I get frustrated when I have to execute someone else's design vision instead of my own.",
+      "subtext": "Your ideas deserve to be the ones on the page.",
+      "emoji": "✏️",
+      "dimensions": { "creative": 1.0, "independent": 0.8, "risk": 0.4 }
+    },
+    {
+      "id": "sc_07",
+      "prompt": "I'm more comfortable with a spreadsheet than a sketchbook.",
+      "subtext": "Numbers and systems are your native language.",
+      "emoji": "📊",
+      "dimensions": { "creative": -1.0, "technical": 0.5 }
+    },
+    {
+      "id": "sc_08",
+      "prompt": "I want my work to directly impact how a community lives, not just how a building looks.",
+      "subtext": "Individual buildings feel too small for what you actually care about.",
+      "emoji": "🏘️",
+      "dimensions": { "mission": 1.0, "scale": 0.6 }
+    },
+    {
+      "id": "sc_09",
+      "prompt": "I would rather start something from scratch than improve something that already exists.",
+      "subtext": "The blank page is an invitation, not a threat.",
+      "emoji": "🚀",
+      "dimensions": { "risk": 1.0, "creative": 0.4, "independent": 0.5 }
+    },
+    {
+      "id": "sc_10",
+      "prompt": "The most satisfying part of a project is when all the moving pieces finally come together.",
+      "subtext": "Complexity resolving into order — that's the feeling you're after.",
+      "emoji": "⚙️",
+      "dimensions": { "people": -0.5, "independent": -0.7 }
+    },
+    {
+      "id": "sc_11",
+      "prompt": "I lose energy when I'm stuck at a desk all day with no human interaction.",
+      "subtext": "Your best days involve people and movement, not just pixels.",
+      "emoji": "🏃",
+      "dimensions": { "field": 0.6, "people": 0.8, "client": 0.5 }
+    },
+    {
+      "id": "sc_12",
+      "prompt": "I find government processes and regulatory systems genuinely interesting, not just frustrating.",
+      "subtext": "The rules aren't the obstacle — they're the medium.",
+      "emoji": "📜",
+      "dimensions": { "creative": -0.6, "scale": 0.8, "mission": 0.5 }
+    },
+    {
+      "id": "sc_13",
+      "prompt": "I'm the person in the room who notices what's aesthetically off — even in unrelated contexts.",
+      "subtext": "Your eye doesn't take days off.",
+      "emoji": "👁️",
+      "dimensions": { "creative": 1.0 }
+    },
+    {
+      "id": "sc_14",
+      "prompt": "I would be comfortable taking a financial risk if I genuinely believed in the opportunity.",
+      "subtext": "Uncertainty and upside feel linked, not opposed.",
+      "emoji": "🎲",
+      "dimensions": { "risk": 1.0, "independent": 0.4 }
+    },
+    {
+      "id": "sc_15",
+      "prompt": "I feel most productive when I have a clear set of deliverables and a hard deadline.",
+      "subtext": "Clarity and structure aren't constraints — they're fuel.",
+      "emoji": "🎯",
+      "dimensions": { "people": -0.5, "risk": -0.5 }
+    },
+    {
+      "id": "sc_16",
+      "prompt": "I've always been drawn to old buildings more than new ones.",
+      "subtext": "History isn't a limitation — it's the richest brief you could get.",
+      "emoji": "🏛️",
+      "dimensions": { "mission": 0.8, "technical": 0.4, "scale": -0.3 }
+    },
+    {
+      "id": "sc_17",
+      "prompt": "I'm genuinely excited by the business side of the profession — fees, margins, growth strategy.",
+      "subtext": "The economics of a practice are as interesting as the design.",
+      "emoji": "📈",
+      "dimensions": { "creative": -0.5, "risk": 0.6, "client": 0.4 }
+    },
+    {
+      "id": "sc_18",
+      "prompt": "I want to influence how the next generation of architects is trained.",
+      "subtext": "The profession's future matters to you, not just your own career.",
+      "emoji": "🎓",
+      "dimensions": { "teaching": 1.0, "mission": 0.7, "scale": 0.5 }
+    },
+    {
+      "id": "sc_19",
+      "prompt": "I do my best thinking when I'm physically on a job site, not in front of a screen.",
+      "subtext": "The field is where problems become real.",
+      "emoji": "🦺",
+      "dimensions": { "field": 1.0 }
+    },
+    {
+      "id": "sc_20",
+      "prompt": "I'm more interested in why a building doesn't perform well than in how it looks.",
+      "subtext": "Performance is more interesting to you than aesthetics.",
+      "emoji": "🔋",
+      "dimensions": { "creative": -0.8, "technical": 1.0 }
+    },
+    {
+      "id": "sc_21",
+      "prompt": "I've been told I have a gift for making complex things sound simple.",
+      "subtext": "Clarity is a skill — and you have it.",
+      "emoji": "💬",
+      "dimensions": { "teaching": 0.8, "people": 0.5, "client": 0.4 }
+    },
+    {
+      "id": "sc_22",
+      "prompt": "I want to build wealth, not just a career.",
+      "subtext": "Financial independence is part of the goal, not an afterthought.",
+      "emoji": "💰",
+      "dimensions": { "risk": 1.0, "independent": 0.5, "mission": -0.4 }
+    },
+    {
+      "id": "sc_23",
+      "prompt": "I'm more comfortable presenting to a room than sitting in one.",
+      "subtext": "An audience feels like an invitation, not a test.",
+      "emoji": "🎤",
+      "dimensions": { "client": 1.0, "people": 0.6, "independent": -0.3 }
+    },
+    {
+      "id": "sc_24",
+      "prompt": "I care deeply about sustainability but feel like the profession moves too slowly on it.",
+      "subtext": "Frustration with the status quo is its own kind of motivation.",
+      "emoji": "🌱",
+      "dimensions": { "mission": 1.0, "scale": 0.5, "risk": 0.3 }
+    },
+    {
+      "id": "sc_25",
+      "prompt": "I would rather have a clear title and defined role than build something uncertain from scratch.",
+      "subtext": "Knowing exactly what you're building matters as much as building it.",
+      "emoji": "📋",
+      "dimensions": { "risk": -1.0, "independent": -0.3 }
+    },
+    {
+      "id": "sc_26",
+      "prompt": "I feel most competent when I'm the most technically knowledgeable person in the room.",
+      "subtext": "Depth is your source of confidence.",
+      "emoji": "🛠️",
+      "dimensions": { "technical": 1.0, "independent": 0.5 }
+    },
+    {
+      "id": "sc_27",
+      "prompt": "I get more satisfaction from a project running smoothly than from the final design.",
+      "subtext": "Process mattering more than product — that's not a bug, it's who you are.",
+      "emoji": "🔄",
+      "dimensions": { "creative": -0.8, "people": -0.5 }
+    },
+    {
+      "id": "sc_28",
+      "prompt": "I'm interested in how buildings are financed, not just how they're designed.",
+      "subtext": "The deal structure behind a project is as interesting as the drawings.",
+      "emoji": "🏦",
+      "dimensions": { "creative": -0.6, "risk": 0.5, "mission": -0.3 }
+    },
+    {
+      "id": "sc_29",
+      "prompt": "I believe the profession has a responsibility to the communities it serves, not just the clients paying for it.",
+      "subtext": "Your ethics extend beyond the contract.",
+      "emoji": "⚖️",
+      "dimensions": { "mission": 1.0, "scale": 0.5, "people": 0.3 }
+    },
+    {
+      "id": "sc_30",
+      "prompt": "I've thought seriously about starting my own business or practice.",
+      "subtext": "The idea isn't a fantasy — it's a plan you keep coming back to.",
+      "emoji": "🌟",
+      "dimensions": { "risk": 1.0, "independent": 0.9 }
+    }
+  ],
+
+  "tradeoffPairs": [
+    {
+      "id": "tp_01",
+      "question": "Which role pulls you more?",
+      "optionA": { "label": "I design the thing", "emoji": "🎨", "dimensions": { "creative": 1.0, "field": -0.5 } },
+      "optionB": { "label": "I make sure the thing gets built", "emoji": "🏗️", "dimensions": { "field": 1.0, "creative": -0.5, "independent": -0.3 } }
+    },
+    {
+      "id": "tp_02",
+      "question": "Which client rhythm fits you better?",
+      "optionA": { "label": "One complex client for 2 years", "emoji": "🤝", "dimensions": { "technical": 0.7, "client": 0.5, "independent": 0.3 } },
+      "optionB": { "label": "Ten different clients in a year", "emoji": "🔄", "dimensions": { "technical": -0.5, "people": 0.5, "client": 0.8, "risk": 0.3 } }
+    },
+    {
+      "id": "tp_03",
+      "question": "What does success look like for you?",
+      "optionA": { "label": "My name is on the drawings", "emoji": "📐", "dimensions": { "technical": 0.6, "creative": 0.5 } },
+      "optionB": { "label": "My name is on the business", "emoji": "💼", "dimensions": { "risk": 1.0, "independent": 0.7 } }
+    },
+    {
+      "id": "tp_04",
+      "question": "How do you see yourself in a room?",
+      "optionA": { "label": "I'm the expert in the room", "emoji": "🎓", "dimensions": { "technical": 1.0, "independent": 0.4 } },
+      "optionB": { "label": "I'm the one who finds the right experts", "emoji": "🔍", "dimensions": { "technical": -0.6, "people": 0.8, "client": 0.4 } }
+    },
+    {
+      "id": "tp_05",
+      "question": "Which trade-off feels right for your life?",
+      "optionA": { "label": "Steady salary, clear expectations", "emoji": "🛡️", "dimensions": { "risk": -1.0 } },
+      "optionB": { "label": "Variable income, uncapped potential", "emoji": "📈", "dimensions": { "risk": 1.0, "independent": 0.5 } }
+    },
+    {
+      "id": "tp_06",
+      "question": "Where does your ambition actually live?",
+      "optionA": { "label": "Shaping one building in deep detail", "emoji": "🔍", "dimensions": { "scale": -1.0, "technical": 0.5 } },
+      "optionB": { "label": "Shaping policy that affects thousands of buildings", "emoji": "🌆", "dimensions": { "scale": 1.0, "mission": 0.7 } }
+    },
+    {
+      "id": "tp_07",
+      "question": "What kind of recognition matters more?",
+      "optionA": { "label": "Being known inside my firm", "emoji": "🏠", "dimensions": { "client": -0.4, "independent": -0.3 } },
+      "optionB": { "label": "Being known in my industry", "emoji": "🌐", "dimensions": { "client": 0.8, "risk": 0.3, "independent": 0.3 } }
+    },
+    {
+      "id": "tp_08",
+      "question": "Which timeline feels right?",
+      "optionA": { "label": "Something that will last 100 years", "emoji": "🏛️", "dimensions": { "mission": 0.5, "scale": -0.4, "technical": 0.4 } },
+      "optionB": { "label": "Something that ships in 6 months", "emoji": "⚡", "dimensions": { "risk": 0.5, "creative": 0.3, "mission": -0.4 } }
+    },
+    {
+      "id": "tp_09",
+      "question": "How do you want to multiply your impact?",
+      "optionA": { "label": "I mentor the next generation", "emoji": "👥", "dimensions": { "teaching": 1.0, "people": 0.7 } },
+      "optionB": { "label": "I build the thing that mentors thousands", "emoji": "📱", "dimensions": { "scale": 0.8, "risk": 0.5, "teaching": 0.3 } }
+    },
+    {
+      "id": "tp_10",
+      "question": "What is your work ultimately for?",
+      "optionA": { "label": "My work creates beauty", "emoji": "✨", "dimensions": { "creative": 1.0, "scale": -0.4 } },
+      "optionB": { "label": "My work creates change", "emoji": "⚡", "dimensions": { "mission": 1.0, "scale": 0.6 } }
+    }
+  ],
+
+  "personalityTypes": [
+    {
+      "id": "visionary",
+      "label": "The Visionary",
+      "description": "You see what doesn't exist yet — and you trust that vision enough to build toward it. Independent, creative, and willing to take real risk, you're not waiting for permission. The blank canvas isn't a problem to solve. It's where your best work begins.",
+      "primaryDimensions": ["creative", "risk", "independent"]
+    },
+    {
+      "id": "builder",
+      "label": "The Builder",
+      "description": "You make things real. Where others stop at the drawing, you keep going until there's something you can touch, walk into, and stand behind. Technical mastery plus physical presence — you're at your best when you're in the middle of the actual work.",
+      "primaryDimensions": ["field", "technical"]
+    },
+    {
+      "id": "strategist",
+      "label": "The Strategist",
+      "description": "You see the full picture before anyone else does. Clients trust you because you think five moves ahead and communicate it clearly. Analytical by nature, relationship-focused by choice — you frame the problem correctly before anyone else tries to solve it.",
+      "primaryDimensions": ["client", "people"]
+    },
+    {
+      "id": "advocate",
+      "label": "The Advocate",
+      "description": "You work at the level of systems, not buildings. The policies, codes, and frameworks that shape how cities grow — that's where you want to intervene. One policy change can do what a thousand individual buildings can't.",
+      "primaryDimensions": ["mission", "scale"]
+    },
+    {
+      "id": "educator",
+      "label": "The Educator",
+      "description": "You don't just want to do the work — you want to change how it's done. Sharing knowledge, building the next generation, and making ideas accessible are how you measure impact. Your best work is done through other people.",
+      "primaryDimensions": ["teaching", "mission"]
+    },
+    {
+      "id": "technologist",
+      "label": "The Technologist",
+      "description": "You go deep. Where others skim the surface, you want to understand exactly how things work — and then make them work better. Technical mastery is your north star, and you build it deliberately over years. Being the most knowledgeable person in the room is a goal, not a coincidence.",
+      "primaryDimensions": ["technical", "independent"]
+    },
+    {
+      "id": "creative",
+      "label": "The Creative",
+      "description": "Design is how you think, not just what you do. Aesthetics, composition, and spatial experience matter to you at a level most people can't access. You're most alive when you're making something that didn't exist before — for the clients who need you most.",
+      "primaryDimensions": ["creative", "client"]
+    },
+    {
+      "id": "connector",
+      "label": "The Connector",
+      "description": "Your network is your greatest asset — not because you work it, but because you genuinely invest in people. You bridge worlds, make introductions, and find alignment between groups that couldn't find it themselves. People call you because you make things happen through relationships.",
+      "primaryDimensions": ["people", "client"]
+    }
+  ]
+}
