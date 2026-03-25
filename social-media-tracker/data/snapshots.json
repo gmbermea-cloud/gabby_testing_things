@@ -1,0 +1,39 @@
+{
+  "platforms": [
+    { "id": "instagram", "name": "Instagram", "color": "#C4603A", "goal": 30000 },
+    { "id": "linkedin", "name": "LinkedIn", "color": "#D4A843", "goal": 10000 },
+    { "id": "facebook", "name": "Facebook", "color": "#E8C37A", "goal": 5000 },
+    { "id": "tiktok", "name": "TikTok", "color": "#A0785A", "goal": 5000 },
+    { "id": "newsletter", "name": "Rooted Reflections", "color": "#BFA080", "goal": 3000 },
+    { "id": "threads", "name": "Threads", "color": "#8C6E5A", "goal": 2000 },
+    { "id": "youtube", "name": "YouTube", "color": "#D46B3A", "goal": 1000 },
+    { "id": "archi", "name": "Archi Influencers", "color": "#C49A60", "goal": 1000 }
+  ],
+  "snapshots": [
+    {
+      "id": "snapshot_1",
+      "date": "2026-03-25",
+      "label": "Initial",
+      "followers": {
+        "instagram": 25369,
+        "linkedin": 6120,
+        "facebook": 3064,
+        "tiktok": 1768,
+        "newsletter": 1606,
+        "threads": 598,
+        "youtube": 45,
+        "archi": 414
+      },
+      "engagement": {
+        "instagram": null,
+        "linkedin": null,
+        "facebook": null,
+        "tiktok": null,
+        "newsletter": null,
+        "threads": null,
+        "youtube": null,
+        "archi": null
+      }
+    }
+  ]
+}
