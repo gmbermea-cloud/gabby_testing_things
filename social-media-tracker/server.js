@@ -24,7 +24,7 @@ app.get('/api/data', (req, res) => {
 
 // POST new snapshot
 app.post('/api/snapshots', (req, res) => {
-  const { date, label, followers, engagement } = req.body;
+  const { date, label, followers, engagement, likes, comments } = req.body;
 
   if (!date || !followers) {
     return res.status(400).json({ error: 'date and followers are required' });
@@ -38,7 +38,9 @@ app.post('/api/snapshots', (req, res) => {
     date,
     label: label || '',
     followers,
-    engagement: engagement || {}
+    engagement: engagement || {},
+    likes: likes || {},
+    comments: comments || {}
   };
 
   data.snapshots.push(snapshot);

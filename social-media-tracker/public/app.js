@@ -456,24 +456,59 @@ function openModal() {
       </label>
       <input type="number" class="form-input" id="f_${p.id}"
         value="${latest ? (latest.followers[p.id] || '') : ''}"
-        placeholder="0" min="0" />
+        placeholder="0" min="0"
+        oninput="calcEngagementPreview('${p.id}')" />
     </div>
   `).join('');
 
-  eGrid.innerHTML = appData.platforms.map(p => `
-    <div class="platform-input-group">
-      <label class="platform-input-label">
-        <span class="platform-dot" style="background:${p.color}"></span>
-        ${p.name.toUpperCase()} %
-      </label>
-      <input type="number" class="form-input" id="e_${p.id}"
-        value="${latest && latest.engagement?.[p.id] !== null && latest.engagement?.[p.id] !== undefined ? latest.engagement[p.id] : ''}"
-        placeholder="e.g. 3.2" step="0.1" min="0" max="100" />
+  eGrid.innerHTML = appData.platforms.map(p => {
+    const prevLikes    = latest?.likes?.[p.id]    ?? '';
+    const prevComments = latest?.comments?.[p.id] ?? '';
+    return `
+    <div class="platform-input-group engagement-input-group">
+      <div class="engagement-label-row">
+        <span class="platform-input-label">
+          <span class="platform-dot" style="background:${p.color}"></span>
+          ${p.name.toUpperCase()}
+        </span>
+        <span class="engagement-rate-preview" id="er_${p.id}"></span>
+      </div>
+      <div class="engagement-subfields">
+        <input type="number" class="form-input engagement-sub" id="likes_${p.id}"
+          value="${prevLikes}" placeholder="likes" min="0"
+          oninput="calcEngagementPreview('${p.id}')" />
+        <input type="number" class="form-input engagement-sub" id="comments_${p.id}"
+          value="${prevComments}" placeholder="comments" min="0"
+          oninput="calcEngagementPreview('${p.id}')" />
+      </div>
     </div>
-  `).join('');
+  `;}).join('');
+
+  // seed previews for pre-filled values
+  appData.platforms.forEach(p => calcEngagementPreview(p.id));
 
   setTodayDate();
   overlay.classList.add('open');
+}
+
+function calcEngagementPreview(platformId) {
+  const fEl = document.getElementById('f_' + platformId);
+  const lEl = document.getElementById('likes_' + platformId);
+  const cEl = document.getElementById('comments_' + platformId);
+  const preview = document.getElementById('er_' + platformId);
+  if (!preview) return;
+
+  const followers = fEl ? Number(fEl.value) : 0;
+  const likes     = lEl && lEl.value !== '' ? Number(lEl.value) : 0;
+  const comments  = cEl && cEl.value !== '' ? Number(cEl.value) : 0;
+
+  if (followers > 0 && (lEl?.value !== '' || cEl?.value !== '')) {
+    const rate = ((likes + comments) / followers) * 100;
+    preview.textContent = rate.toFixed(2) + '%';
+    preview.style.color = 'var(--gold)';
+  } else {
+    preview.textContent = '';
+  }
 }
 
 function closeModal() {
@@ -488,19 +523,35 @@ async function saveSnapshot() {
 
   const followers  = {};
   const engagement = {};
+  const likes      = {};
+  const comments   = {};
 
   appData.platforms.forEach(p => {
     const fVal = document.getElementById('f_' + p.id).value;
-    const eVal = document.getElementById('e_' + p.id).value;
-    followers[p.id]  = fVal !== '' ? Number(fVal) : null;
-    engagement[p.id] = eVal !== '' ? Number(eVal) : null;
+    const lVal = document.getElementById('likes_' + p.id).value;
+    const cVal = document.getElementById('comments_' + p.id).value;
+
+    const followerCount = fVal !== '' ? Number(fVal) : null;
+    const likeCount     = lVal !== '' ? Number(lVal) : null;
+    const commentCount  = cVal !== '' ? Number(cVal) : null;
+
+    followers[p.id] = followerCount;
+    likes[p.id]     = likeCount;
+    comments[p.id]  = commentCount;
+
+    if (followerCount && followerCount > 0 && (likeCount !== null || commentCount !== null)) {
+      const totalEngagements = (likeCount || 0) + (commentCount || 0);
+      engagement[p.id] = parseFloat(((totalEngagements / followerCount) * 100).toFixed(2));
+    } else {
+      engagement[p.id] = null;
+    }
   });
 
   try {
     const res = await fetch('/api/snapshots', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ date, label, followers, engagement })
+      body: JSON.stringify({ date, label, followers, engagement, likes, comments })
     });
 
     if (!res.ok) throw new Error('Save failed');

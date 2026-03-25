@@ -624,6 +624,39 @@ body {
   flex-shrink: 0;
 }
 
+.engagement-input-group {
+  background: var(--bg-input);
+  border: 1px solid var(--border-dim);
+  padding: 10px 12px 12px;
+}
+
+.engagement-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.engagement-rate-preview {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  min-width: 52px;
+  text-align: right;
+  transition: color 0.2s;
+}
+
+.engagement-subfields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.engagement-sub {
+  font-size: 12px;
+  padding: 7px 10px;
+}
+
 .goals-edit-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
