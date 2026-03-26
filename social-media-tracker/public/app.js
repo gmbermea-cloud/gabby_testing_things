@@ -7,18 +7,42 @@ let followerChart = null;
 let engagementChart = null;
 let activeFilter = 'all';
 
-// ─── INIT ────────────────────────────────────────────────────────────────────
+// ─── DATA LAYER (localStorage) ───────────────────────────────────────────────
 
-async function init() {
-  await loadData();
-  renderAll();
-  bindEvents();
-  setTodayDate();
+const STORAGE_KEY = 'smt_data';
+
+const DEFAULT_DATA = {
+  platforms: [
+    { id: 'instagram',  name: 'Instagram',         color: '#C4603A', goal: 30000 },
+    { id: 'linkedin',   name: 'LinkedIn',           color: '#D4A843', goal: 10000 },
+    { id: 'facebook',   name: 'Facebook',           color: '#E8C37A', goal: 5000  },
+    { id: 'tiktok',     name: 'TikTok',             color: '#A0785A', goal: 5000  },
+    { id: 'newsletter', name: 'Rooted Reflections', color: '#BFA080', goal: 3000  },
+    { id: 'threads',    name: 'Threads',            color: '#8C6E5A', goal: 2000  },
+    { id: 'youtube',    name: 'YouTube',            color: '#D46B3A', goal: 1000  },
+    { id: 'archi',      name: 'Archi Influencers',  color: '#C49A60', goal: 1000  }
+  ],
+  snapshots: [
+    {
+      id: 'snapshot_1',
+      date: '2026-03-25',
+      label: 'Initial',
+      followers:  { instagram: 25369, linkedin: 6120, facebook: 3064, tiktok: 1768, newsletter: 1606, threads: 598, youtube: 45, archi: 414 },
+      engagement: { instagram: null,  linkedin: null,  facebook: null,  tiktok: null,  newsletter: null,  threads: null,  youtube: null,  archi: null },
+      likes:    {},
+      comments: {}
+    }
+  ]
+};
+
+function loadData() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  appData = raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(DEFAULT_DATA));
+  if (!raw) localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
 }
 
-async function loadData() {
-  const res = await fetch('/api/data');
-  appData = await res.json();
+function persistData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
 }
 
 function renderAll() {
@@ -547,38 +571,23 @@ async function saveSnapshot() {
     }
   });
 
-  try {
-    const res = await fetch('/api/snapshots', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ date, label, followers, engagement, likes, comments })
-    });
-
-    if (!res.ok) throw new Error('Save failed');
-
-    closeModal();
-    await loadData();
-    renderAll();
-    showToast('Snapshot saved', 'success');
-  } catch (e) {
-    showToast('Error saving snapshot', 'error');
-  }
+  const id = `snapshot_${Date.now()}`;
+  appData.snapshots.push({ id, date, label, followers, engagement, likes, comments });
+  appData.snapshots.sort((a, b) => new Date(a.date) - new Date(b.date));
+  persistData();
+  closeModal();
+  renderAll();
+  showToast('Snapshot saved', 'success');
 }
 
 // ─── DELETE SNAPSHOT ─────────────────────────────────────────────────────────
 
-async function deleteSnapshot(id) {
+function deleteSnapshot(id) {
   if (!confirm('Delete this snapshot?')) return;
-
-  try {
-    const res = await fetch(`/api/snapshots/${id}`, { method: 'DELETE' });
-    if (!res.ok) throw new Error();
-    await loadData();
-    renderAll();
-    showToast('Snapshot deleted', 'success');
-  } catch {
-    showToast('Error deleting snapshot', 'error');
-  }
+  appData.snapshots = appData.snapshots.filter(s => s.id !== id);
+  persistData();
+  renderAll();
+  showToast('Snapshot deleted', 'success');
 }
 
 // ─── GOALS MODAL ─────────────────────────────────────────────────────────────
@@ -603,26 +612,46 @@ function closeGoalsModal() {
   document.getElementById('goalsModalOverlay').classList.remove('open');
 }
 
-async function saveGoals() {
-  const platforms = appData.platforms.map(p => ({
+function saveGoals() {
+  appData.platforms = appData.platforms.map(p => ({
     ...p,
     goal: Number(document.getElementById('goal_' + p.id).value) || p.goal
   }));
+  persistData();
+  closeGoalsModal();
+  renderAll();
+  showToast('Goals updated', 'success');
+}
 
-  try {
-    const res = await fetch('/api/platforms', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ platforms })
-    });
-    if (!res.ok) throw new Error();
-    closeGoalsModal();
-    await loadData();
-    renderAll();
-    showToast('Goals updated', 'success');
-  } catch {
-    showToast('Error saving goals', 'error');
-  }
+// ─── EXPORT / IMPORT ─────────────────────────────────────────────────────────
+
+function exportData() {
+  const blob = new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = Object.assign(document.createElement('a'), {
+    href: url,
+    download: `audience-tracker-${new Date().toISOString().slice(0, 10)}.json`
+  });
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if (!parsed.platforms || !parsed.snapshots) throw new Error('Invalid format');
+      appData = parsed;
+      persistData();
+      renderAll();
+      showToast('Data imported', 'success');
+    } catch {
+      showToast('Invalid JSON file', 'error');
+    }
+  };
+  reader.readAsText(file);
 }
 
 // ─── CHART FILTER ─────────────────────────────────────────────────────────────
@@ -645,6 +674,9 @@ function bindEvents() {
   document.getElementById('modalClose').addEventListener('click', closeModal);
   document.getElementById('cancelBtn').addEventListener('click', closeModal);
   document.getElementById('saveBtn').addEventListener('click', saveSnapshot);
+
+  document.getElementById('exportBtn').addEventListener('click', exportData);
+  document.getElementById('importInput').addEventListener('change', e => importData(e.target.files[0]));
 
   document.getElementById('editGoalsBtn').addEventListener('click', openGoalsModal);
   document.getElementById('goalsModalClose').addEventListener('click', closeGoalsModal);
@@ -714,5 +746,12 @@ function dateDiffDays(a, b) {
 }
 
 // ─── BOOT ─────────────────────────────────────────────────────────────────────
+
+function init() {
+  loadData();
+  renderAll();
+  bindEvents();
+  setTodayDate();
+}
 
 init();
