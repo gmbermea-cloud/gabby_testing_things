@@ -22,7 +22,14 @@
       </div>
       <div class="header-meta">
         <span class="header-date" id="headerDate"></span>
-        <button class="btn-primary" id="openEntryBtn">+ SAVE SNAPSHOT</button>
+        <div class="header-actions">
+          <button class="btn-ghost" id="exportBtn">EXPORT</button>
+          <label class="btn-ghost btn-import" title="Import JSON backup">
+            IMPORT
+            <input type="file" id="importInput" accept=".json" style="display:none" />
+          </label>
+          <button class="btn-primary" id="openEntryBtn">+ SAVE SNAPSHOT</button>
+        </div>
       </div>
     </div>
   </header>
