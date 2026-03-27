@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Content Analytics — @gabbybermea</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0A0A0A;--card:#111111;--elevated:#181818;--border:#222222;--terracotta:#C4603A;--gold:#D4A843;--cream:#E8D5BC;--text:#F0EAE0;--dim:#7A7268;--font-d:'Bebas Neue',sans-serif;--font-m:'DM Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-m);font-size:13px}
+a{color:inherit;text-decoration:none}
+
+/* header */
+header{border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:baseline;gap:16px;position:sticky;top:0;background:rgba(10,10,10,.95);backdrop-filter:blur(12px);z-index:10}
+header h1{font-family:var(--font-d);font-size:28px;letter-spacing:1px}
+header span{color:var(--dim);font-size:11px}
+header a{margin-left:auto;font-size:11px;color:var(--terracotta);border:1px solid var(--terracotta);padding:4px 10px}
+
+/* layout */
+main{max-width:1100px;margin:0 auto;padding:24px 20px}
+section{margin-bottom:40px}
+h2{font-family:var(--font-d);font-size:20px;letter-spacing:1px;color:var(--cream);margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:8px}
+
+/* stat cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--border);padding:16px}
+.card .label{font-size:10px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.card .value{font-family:var(--font-d);font-size:30px;letter-spacing:1px}
+.card .sub{font-size:10px;color:var(--dim);margin-top:4px}
+.card.ig .value{color:#C4603A}
+.card.tt .value{color:#E8C37A}
+.card.yt .value{color:#D46B3A}
+.card.li .value{color:#D4A843}
+
+/* tabs */
+.tabs{display:flex;gap:4px;margin-bottom:16px}
+.tab{padding:6px 14px;font-family:var(--font-m);font-size:11px;background:none;border:1px solid var(--border);color:var(--dim);cursor:pointer;letter-spacing:.5px}
+.tab.active{border-color:var(--terracotta);color:var(--terracotta)}
+
+/* table */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{text-align:left;padding:8px 10px;color:var(--dim);font-weight:400;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.4}
+tr:hover td{background:var(--elevated)}
+.hook{max-width:320px;color:var(--cream)}
+.pill{display:inline-block;padding:1px 6px;font-size:10px;border:1px solid var(--border);color:var(--dim);white-space:nowrap}
+.pill.Licensure{border-color:#C4603A;color:#C4603A}
+.pill.Equity{border-color:#D4A843;color:#D4A843}
+.pill.Career{border-color:#A0785A;color:#A0785A}
+.pill.Day{border-color:#7A7268;color:#7A7268}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* chart */
+.chart-wrap{background:var(--card);border:1px solid var(--border);padding:20px;position:relative;height:260px}
+</style>
+</head>
+<body>
+<header>
+  <h1>CONTENT ANALYTICS</h1>
+  <span id="updated"></span>
+  <a href="index.html">← TRACKER</a>
+</header>
+<main>
+
+  <section id="s-stats">
+    <h2>PLATFORM OVERVIEW</h2>
+    <div class="cards" id="statCards"></div>
+  </section>
+
+  <section id="s-growth">
+    <h2>FOLLOWER GROWTH</h2>
+    <div class="chart-wrap"><canvas id="growthChart"></canvas></div>
+  </section>
+
+  <section id="s-posts">
+    <h2>TOP POSTS</h2>
+    <div class="tabs" id="postTabs"></div>
+    <div class="tbl-wrap"><table id="postTable">
+      <thead><tr>
+        <th>#</th><th>HOOK</th><th>PILLAR</th>
+        <th class="num">VIEWS</th><th class="num">LIKES</th>
+        <th class="num">SAVES</th><th class="num">ER%</th>
+        <th>DAY / TIME</th>
+      </tr></thead>
+      <tbody id="postBody"></tbody>
+    </table></div>
+  </section>
+
+</main>
+<script>
+const FILES = ['instagram','tiktok','youtube','linkedin'];
+const COLOR = {instagram:'#C4603A',tiktok:'#E8C37A',youtube:'#D46B3A',linkedin:'#D4A843'};
+const CLS   = {instagram:'ig',tiktok:'tt',youtube:'yt',linkedin:'li'};
+const data  = {};
+
+async function load(){
+  await Promise.all(FILES.map(async p=>{
+    try{
+      const r = await fetch(`../data/analytics/${p}.json`);
+      data[p] = await r.json();
+    }catch(e){console.warn('Could not load',p,e)}
+  }));
+  render();
+}
+
+function fmt(n){
+  if(n==null) return '—';
+  if(n>=1000000) return (n/1000000).toFixed(1)+'M';
+  if(n>=1000) return (n/1000).toFixed(1)+'K';
+  return n.toLocaleString();
+}
+
+function renderStats(){
+  const el = document.getElementById('statCards');
+  el.innerHTML = '';
+  const defs = [
+    {p:'instagram', label:'Instagram', f: d=>d.profile.followers, sub: d=>`~${fmt(d.profile.avg_reel_views)} avg reel views`},
+    {p:'tiktok',    label:'TikTok',    f: d=>d.profile.followers, sub: d=>`${d.profile.avg_engagement_rate}% avg ER`},
+    {p:'youtube',   label:'YouTube',   f: d=>d.profile.subscribers, sub: d=>`${fmt(d.profile.total_views)} total views`},
+    {p:'linkedin',  label:'LinkedIn',  f: d=>d.profile.followers, sub: d=>`${fmt(d.profile.avg_impressions)} avg impressions`},
+  ];
+  defs.forEach(({p,label,f,sub})=>{
+    if(!data[p]) return;
+    el.innerHTML += `<div class="card ${CLS[p]}">
+      <div class="label">${label}</div>
+      <div class="value">${fmt(f(data[p]))}</div>
+      <div class="sub">${sub(data[p])}</div>
+    </div>`;
+  });
+}
+
+function renderGrowth(){
+  const labels = new Set();
+  FILES.forEach(p=>{ if(data[p]) data[p].follower_history?.forEach(h=>labels.add(h.date)) });
+  const sorted = [...labels].sort();
+  const datasets = FILES.filter(p=>data[p]?.follower_history?.length).map(p=>({
+    label: p.charAt(0).toUpperCase()+p.slice(1),
+    data: sorted.map(d=> data[p].follower_history.find(h=>h.date===d)?.count ?? null),
+    borderColor: COLOR[p], backgroundColor:'transparent',
+    tension:.3, spanGaps:true, pointRadius:3
+  }));
+  new Chart(document.getElementById('growthChart'),{
+    type:'line',
+    data:{labels:sorted, datasets},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#7A7268',font:{family:'DM Mono',size:11}}}},
+      scales:{
+        x:{ticks:{color:'#7A7268',maxTicksLimit:8}, grid:{color:'#1A1A1A'}},
+        y:{ticks:{color:'#7A7268',callback:v=>fmt(v)}, grid:{color:'#1A1A1A'}}
+      }
+    }
+  });
+}
+
+let activePlatform = 'instagram';
+function renderTabs(){
+  const el = document.getElementById('postTabs');
+  el.innerHTML = FILES.filter(p=>data[p]?.top_posts?.length).map(p=>`
+    <button class="tab${p===activePlatform?' active':''}" onclick="switchTab('${p}')">
+      ${p.toUpperCase()}
+    </button>`).join('');
+}
+function switchTab(p){ activePlatform=p; renderTabs(); renderPostTable(); }
+
+function renderPostTable(){
+  const posts = data[activePlatform]?.top_posts || [];
+  const usesImpressions = activePlatform==='linkedin';
+  document.querySelector('#postTable thead tr').innerHTML = `
+    <th>#</th><th>HOOK</th><th>PILLAR</th>
+    <th class="num">${usesImpressions?'IMPRESSIONS':'VIEWS'}</th>
+    <th class="num">LIKES</th>
+    <th class="num">${activePlatform==='youtube'?'COMMENTS':'SAVES'}</th>
+    <th class="num">ER%</th><th>DAY / TIME</th>`;
+  document.getElementById('postBody').innerHTML = posts.map((p,i)=>{
+    const pillarKey = (p.pillar||'').split(' ')[0];
+    const views = usesImpressions ? p.impressions : p.views;
+    const saves = activePlatform==='youtube' ? p.comments : p.saves;
+    const hr = p.hour!=null ? `${p.hour%12||12}${p.hour<12?'a':'p'}` : '—';
+    return `<tr>
+      <td style="color:var(--dim)">${i+1}</td>
+      <td class="hook">${p.hook||'—'}</td>
+      <td><span class="pill ${pillarKey}">${p.pillar||'—'}</span></td>
+      <td class="num">${fmt(views)}</td>
+      <td class="num">${fmt(p.likes)}</td>
+      <td class="num">${fmt(saves)}</td>
+      <td class="num">${p.er!=null?p.er+'%':'—'}</td>
+      <td style="color:var(--dim)">${p.day?.slice(0,3)||'—'} ${hr}</td>
+    </tr>`;
+  }).join('');
+}
+
+function render(){
+  const dates = Object.values(data).map(d=>d.scraped_at).filter(Boolean);
+  if(dates.length) document.getElementById('updated').textContent = 'UPDATED '+dates[0];
+  renderStats();
+  renderGrowth();
+  renderTabs();
+  renderPostTable();
+}
+
+
+// Inlined data (generated by build-dashboard.js)
+Object.assign(data, {"instagram":{"platform":"instagram","handle":"@gabbybermea","scraped_at":"2026-03-27","profile":{"followers":25369,"posts_count":287,"avg_engagement_rate":4.2,"total_reel_views":2847000,"avg_reel_views":19500},"follower_history":[{"date":"2025-09-01","count":18200},{"date":"2025-10-01","count":19800},{"date":"2025-11-01","count":21100},{"date":"2025-12-01","count":22400},{"date":"2026-01-01","count":23200},{"date":"2026-02-01","count":24100},{"date":"2026-03-01","count":24890},{"date":"2026-03-27","count":25369}],"top_posts":[{"id":"ig_001","type":"reel","hook":"The ARE division that almost made me quit architecture entirely","pillar":"Licensure","likes":3102,"comments":445,"saves":934,"views":47800,"er":8.9,"day":"Friday","hour":12,"duration":47},{"id":"ig_002","type":"carousel","hook":"POV: you just passed your last ARE division after 3 years","pillar":"Licensure","likes":2847,"comments":312,"saves":1204,"views":38200,"er":7.8,"day":"Wednesday","hour":19,"duration":null},{"id":"ig_003","type":"reel","hook":"Why more underrepresented practitioners need to get licensed","pillar":"Equity","likes":2456,"comments":534,"saves":456,"views":41300,"er":8.4,"day":"Saturday","hour":10,"duration":62},{"id":"ig_004","type":"carousel","hook":"My honest salary timeline from intern to licensed architect","pillar":"Career","likes":2234,"comments":389,"saves":1123,"views":31500,"er":7.3,"day":"Wednesday","hour":17,"duration":null},{"id":"ig_005","type":"reel","hook":"I almost quit architecture twice. Here's what kept me going.","pillar":"Career","likes":2891,"comments":478,"saves":789,"views":52100,"er":9.1,"day":"Saturday","hour":9,"duration":58},{"id":"ig_006","type":"carousel","hook":"NCARB AXP experience requirements broken down simply","pillar":"Licensure","likes":987,"comments":156,"saves":1890,"views":18400,"er":5.2,"day":"Wednesday","hour":18,"duration":null},{"id":"ig_007","type":"reel","hook":"What a Tuesday actually looks like as a licensed architect","pillar":"Day in the Life","likes":1456,"comments":198,"saves":623,"views":29800,"er":5.8,"day":"Tuesday","hour":20,"duration":74},{"id":"ig_008","type":"carousel","hook":"ARE exam order strategy: the sequence that actually worked","pillar":"Licensure","likes":1678,"comments":234,"saves":1567,"views":27300,"er":6.1,"day":"Thursday","hour":17,"duration":null},{"id":"ig_009","type":"reel","hook":"As one of the few Latinas at my firm, here's the conversation I wish someone had with me","pillar":"Equity","likes":3401,"comments":612,"saves":567,"views":61200,"er":11.2,"day":"Saturday","hour":11,"duration":68},{"id":"ig_010","type":"carousel","hook":"Architecture school vs. actual practice: the gaps nobody prepares you for","pillar":"Career","likes":1345,"comments":267,"saves":878,"views":24100,"er":5.6,"day":"Thursday","hour":19,"duration":null}]},"tiktok":{"platform":"tiktok","handle":"@gabbybermea3","scraped_at":"2026-03-27","profile":{"followers":1768,"likes_total":24600,"videos_count":47,"avg_views":18900,"avg_engagement_rate":9.4},"follower_history":[{"date":"2025-09-01","count":340},{"date":"2025-10-01","count":580},{"date":"2025-11-01","count":890},{"date":"2025-12-01","count":1100},{"date":"2026-01-01","count":1290},{"date":"2026-02-01","count":1490},{"date":"2026-03-01","count":1640},{"date":"2026-03-27","count":1768}],"top_posts":[{"id":"tt_001","type":"video","hook":"Things architecture school doesn't prepare you for","pillar":"Career","likes":12400,"comments":892,"saves":3400,"views":187000,"er":10.1,"day":"Wednesday","hour":19,"duration":38},{"id":"tt_002","type":"video","hook":"Answering your ARE questions honestly","pillar":"Licensure","likes":9800,"comments":1240,"saves":4200,"views":143000,"er":11.2,"day":"Thursday","hour":18,"duration":52},{"id":"tt_003","type":"video","hook":"Study with me: ARE PPD prep","pillar":"Licensure","likes":7200,"comments":456,"saves":2890,"views":94000,"er":8.7,"day":"Thursday","hour":20,"duration":180},{"id":"tt_004","type":"video","hook":"Hot take: architecture school is not preparing students for licensure","pillar":"Career","likes":11200,"comments":2100,"saves":1890,"views":167000,"er":10.9,"day":"Wednesday","hour":17,"duration":45},{"id":"tt_005","type":"video","hook":"What equity in AEC actually looks like day to day","pillar":"Equity","likes":8900,"comments":987,"saves":2340,"views":124000,"er":11.8,"day":"Friday","hour":12,"duration":60},{"id":"tt_006","type":"video","hook":"NCARB explained in 60 seconds","pillar":"Licensure","likes":6700,"comments":723,"saves":3120,"views":89000,"er":9.1,"day":"Wednesday","hour":18,"duration":63},{"id":"tt_007","type":"video","hook":"Firm culture red flags I ignored as a new grad","pillar":"Career","likes":9400,"comments":1345,"saves":2780,"views":138000,"er":11.2,"day":"Thursday","hour":18,"duration":41},{"id":"tt_008","type":"video","hook":"What I would tell my first-year architecture self","pillar":"Career","likes":7800,"comments":892,"saves":1890,"views":101000,"er":9.8,"day":"Thursday","hour":19,"duration":55},{"id":"tt_009","type":"video","hook":"Passed PA on my first try — here's exactly what I studied","pillar":"Licensure","likes":8100,"comments":1124,"saves":4560,"views":112000,"er":12.5,"day":"Thursday","hour":18,"duration":49},{"id":"tt_010","type":"video","hook":"The mentorship conversation that changed my career trajectory","pillar":"Equity","likes":6200,"comments":678,"saves":1340,"views":82000,"er":8.9,"day":"Saturday","hour":10,"duration":53}]},"youtube":{"platform":"youtube","handle":"@gabbybermea3","scraped_at":"2026-03-27","profile":{"subscribers":45,"total_views":3240,"videos_count":4,"avg_views":810,"avg_engagement_rate":11.4,"avg_watch_time_pct":62},"follower_history":[{"date":"2025-12-01","count":0},{"date":"2026-01-01","count":8},{"date":"2026-02-01","count":21},{"date":"2026-03-01","count":34},{"date":"2026-03-27","count":45}],"top_posts":[{"id":"yt_001","type":"video","hook":"How I passed all 6 ARE divisions while working full time","pillar":"Licensure","likes":98,"comments":34,"saves":0,"views":1840,"er":7.8,"watch_pct":68,"day":"Thursday","hour":12,"duration":1247},{"id":"yt_002","type":"video","hook":"The architecture profession's equity problem — and why it matters","pillar":"Equity","likes":67,"comments":28,"saves":0,"views":890,"er":12.8,"watch_pct":71,"day":"Tuesday","hour":14,"duration":892},{"id":"yt_003","type":"video","hook":"My AXP hour tracking system — exactly how I documented 3,740 hours","pillar":"Licensure","likes":45,"comments":18,"saves":0,"views":312,"er":9.3,"watch_pct":55,"day":"Friday","hour":12,"duration":745},{"id":"yt_004","type":"video","hook":"Day in the life: licensed architect, real talk on salary and career path","pillar":"Day in the Life","likes":52,"comments":22,"saves":0,"views":198,"er":14.1,"watch_pct":58,"day":"Wednesday","hour":12,"duration":1089}]},"linkedin":{"platform":"linkedin","handle":"Gabriella Bermea, AIA","scraped_at":"2026-03-27","profile":{"followers":6120,"connections":1840,"posts_count":143,"avg_impressions":4800,"avg_engagement_rate":3.4},"follower_history":[{"date":"2025-09-01","count":4200},{"date":"2025-10-01","count":4600},{"date":"2025-11-01","count":4980},{"date":"2025-12-01","count":5240},{"date":"2026-01-01","count":5540},{"date":"2026-02-01","count":5780},{"date":"2026-03-01","count":5960},{"date":"2026-03-27","count":6120}],"top_posts":[{"id":"li_001","type":"text","hook":"The architecture profession has a mentorship gap. Not a shortage — a gap.","pillar":"Equity","likes":892,"comments":134,"impressions":18400,"shares":67,"er":5.9,"day":"Monday","hour":8},{"id":"li_002","type":"text","hook":"I passed my last ARE division three years ago today. Here's what I know now.","pillar":"Licensure","likes":743,"comments":98,"impressions":15200,"shares":89,"er":6.1,"day":"Tuesday","hour":9},{"id":"li_003","type":"article","hook":"The AEC industry talks about diversity. The data on licensed architects tells a different story.","pillar":"Equity","likes":1240,"comments":187,"impressions":24600,"shares":134,"er":6.3,"day":"Tuesday","hour":10},{"id":"li_004","type":"text","hook":"Nobody told me negotiation was a skill I needed. I left $200K on the table.","pillar":"Career","likes":1089,"comments":213,"impressions":21800,"shares":112,"er":6.5,"day":"Wednesday","hour":8},{"id":"li_005","type":"text","hook":"Thinking about skipping the ARE? You're making a decision with incomplete information.","pillar":"Licensure","likes":567,"comments":89,"impressions":12400,"shares":45,"er":5.7,"day":"Wednesday","hour":9},{"id":"li_006","type":"text","hook":"Six things that show whether a firm actually supports diverse talent","pillar":"Equity","likes":934,"comments":156,"impressions":19800,"shares":98,"er":5.9,"day":"Tuesday","hour":8},{"id":"li_007","type":"text","hook":"A 5-year degree, years of practice, still not legally an architect. Why is the gap so wide?","pillar":"Licensure","likes":678,"comments":112,"impressions":14300,"shares":56,"er":5.9,"day":"Tuesday","hour":9},{"id":"li_008","type":"text","hook":"You failed an ARE exam. Here's what actually happened and what to do next.","pillar":"Licensure","likes":812,"comments":143,"impressions":16900,"shares":78,"er":6.1,"day":"Tuesday","hour":8},{"id":"li_009","type":"text","hook":"The real cost of architectural licensure — not just the exam fees, but all of it.","pillar":"Licensure","likes":934,"comments":189,"impressions":19200,"shares":89,"er":6.3,"day":"Monday","hour":8},{"id":"li_010","type":"text","hook":"Years of talking openly about licensure online taught me this about early-career architects.","pillar":"Career","likes":1102,"comments":167,"impressions":22100,"shares":123,"er":6.3,"day":"Sunday","hour":10}]}});
+render();
+
+</script>
+</body>
+</html>
