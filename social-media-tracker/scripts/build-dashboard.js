@@ -9,7 +9,8 @@ const path = require('path');
 
 const DATA_DIR  = path.join(__dirname,'..','data','analytics');
 const HTML_IN   = path.join(__dirname,'..','public','analytics.html');
-const HTML_OUT  = path.join(__dirname,'..','public','analytics.html');
+const HTML_OUT   = path.join(__dirname,'..','public','analytics.html');
+const HTML_ROOT  = path.join(__dirname,'..','..','public','analytics.html');
 
 const platforms = ['instagram','tiktok','youtube','linkedin'];
 const payload   = {};
@@ -37,4 +38,10 @@ html = html.replace(/\/\/ Inlined data[\s\S]*?render\(\);\n/, '');
 html = html.replace('load();', injection);
 
 fs.writeFileSync(HTML_OUT, html);
-console.log(`\n✓ Dashboard built → public/analytics.html\n  Open it in any browser — no server needed.\n`);
+// Also copy to root /public so Vercel/Vite picks it up
+const rootPublic = path.dirname(HTML_ROOT);
+if (fs.existsSync(rootPublic)) {
+  fs.writeFileSync(HTML_ROOT, html);
+  console.log(`✓ Copied → ../../public/analytics.html (Vercel)`);
+}
+console.log(`\n✓ Dashboard built → public/analytics.html\n  Open locally or visit /analytics.html on Vercel.\n`);
