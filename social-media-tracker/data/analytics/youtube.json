@@ -1,0 +1,26 @@
+{
+  "platform": "youtube",
+  "handle": "@gabbybermea3",
+  "scraped_at": "2026-03-27",
+  "profile": {
+    "subscribers": 45,
+    "total_views": 3240,
+    "videos_count": 4,
+    "avg_views": 810,
+    "avg_engagement_rate": 11.4,
+    "avg_watch_time_pct": 62
+  },
+  "follower_history": [
+    { "date": "2025-12-01", "count": 0 },
+    { "date": "2026-01-01", "count": 8 },
+    { "date": "2026-02-01", "count": 21 },
+    { "date": "2026-03-01", "count": 34 },
+    { "date": "2026-03-27", "count": 45 }
+  ],
+  "top_posts": [
+    { "id": "yt_001", "type": "video", "hook": "How I passed all 6 ARE divisions while working full time", "pillar": "Licensure", "likes": 98, "comments": 34, "saves": 0, "views": 1840, "er": 7.8, "watch_pct": 68, "day": "Thursday", "hour": 12, "duration": 1247 },
+    { "id": "yt_002", "type": "video", "hook": "The architecture profession's equity problem — and why it matters", "pillar": "Equity", "likes": 67, "comments": 28, "saves": 0, "views": 890, "er": 12.8, "watch_pct": 71, "day": "Tuesday", "hour": 14, "duration": 892 },
+    { "id": "yt_003", "type": "video", "hook": "My AXP hour tracking system — exactly how I documented 3,740 hours", "pillar": "Licensure", "likes": 45, "comments": 18, "saves": 0, "views": 312, "er": 9.3, "watch_pct": 55, "day": "Friday", "hour": 12, "duration": 745 },
+    { "id": "yt_004", "type": "video", "hook": "Day in the life: licensed architect, real talk on salary and career path", "pillar": "Day in the Life", "likes": 52, "comments": 22, "saves": 0, "views": 198, "er": 14.1, "watch_pct": 58, "day": "Wednesday", "hour": 12, "duration": 1089 }
+  ]
+}

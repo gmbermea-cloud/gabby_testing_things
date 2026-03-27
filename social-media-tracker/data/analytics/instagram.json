@@ -1,0 +1,34 @@
+{
+  "platform": "instagram",
+  "handle": "@gabbybermea",
+  "scraped_at": "2026-03-27",
+  "profile": {
+    "followers": 25369,
+    "posts_count": 287,
+    "avg_engagement_rate": 4.2,
+    "total_reel_views": 2847000,
+    "avg_reel_views": 19500
+  },
+  "follower_history": [
+    { "date": "2025-09-01", "count": 18200 },
+    { "date": "2025-10-01", "count": 19800 },
+    { "date": "2025-11-01", "count": 21100 },
+    { "date": "2025-12-01", "count": 22400 },
+    { "date": "2026-01-01", "count": 23200 },
+    { "date": "2026-02-01", "count": 24100 },
+    { "date": "2026-03-01", "count": 24890 },
+    { "date": "2026-03-27", "count": 25369 }
+  ],
+  "top_posts": [
+    { "id": "ig_001", "type": "reel", "hook": "The ARE division that almost made me quit architecture entirely", "pillar": "Licensure", "likes": 3102, "comments": 445, "saves": 934, "views": 47800, "er": 8.9, "day": "Friday", "hour": 12, "duration": 47 },
+    { "id": "ig_002", "type": "carousel", "hook": "POV: you just passed your last ARE division after 3 years", "pillar": "Licensure", "likes": 2847, "comments": 312, "saves": 1204, "views": 38200, "er": 7.8, "day": "Wednesday", "hour": 19, "duration": null },
+    { "id": "ig_003", "type": "reel", "hook": "Why more underrepresented practitioners need to get licensed", "pillar": "Equity", "likes": 2456, "comments": 534, "saves": 456, "views": 41300, "er": 8.4, "day": "Saturday", "hour": 10, "duration": 62 },
+    { "id": "ig_004", "type": "carousel", "hook": "My honest salary timeline from intern to licensed architect", "pillar": "Career", "likes": 2234, "comments": 389, "saves": 1123, "views": 31500, "er": 7.3, "day": "Wednesday", "hour": 17, "duration": null },
+    { "id": "ig_005", "type": "reel", "hook": "I almost quit architecture twice. Here's what kept me going.", "pillar": "Career", "likes": 2891, "comments": 478, "saves": 789, "views": 52100, "er": 9.1, "day": "Saturday", "hour": 9, "duration": 58 },
+    { "id": "ig_006", "type": "carousel", "hook": "NCARB AXP experience requirements broken down simply", "pillar": "Licensure", "likes": 987, "comments": 156, "saves": 1890, "views": 18400, "er": 5.2, "day": "Wednesday", "hour": 18, "duration": null },
+    { "id": "ig_007", "type": "reel", "hook": "What a Tuesday actually looks like as a licensed architect", "pillar": "Day in the Life", "likes": 1456, "comments": 198, "saves": 623, "views": 29800, "er": 5.8, "day": "Tuesday", "hour": 20, "duration": 74 },
+    { "id": "ig_008", "type": "carousel", "hook": "ARE exam order strategy: the sequence that actually worked", "pillar": "Licensure", "likes": 1678, "comments": 234, "saves": 1567, "views": 27300, "er": 6.1, "day": "Thursday", "hour": 17, "duration": null },
+    { "id": "ig_009", "type": "reel", "hook": "As one of the few Latinas at my firm, here's the conversation I wish someone had with me", "pillar": "Equity", "likes": 3401, "comments": 612, "saves": 567, "views": 61200, "er": 11.2, "day": "Saturday", "hour": 11, "duration": 68 },
+    { "id": "ig_010", "type": "carousel", "hook": "Architecture school vs. actual practice: the gaps nobody prepares you for", "pillar": "Career", "likes": 1345, "comments": 267, "saves": 878, "views": 24100, "er": 5.6, "day": "Thursday", "hour": 19, "duration": null }
+  ]
+}
