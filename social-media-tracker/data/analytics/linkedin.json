@@ -1,0 +1,34 @@
+{
+  "platform": "linkedin",
+  "handle": "Gabriella Bermea, AIA",
+  "scraped_at": "2026-03-27",
+  "profile": {
+    "followers": 6120,
+    "connections": 1840,
+    "posts_count": 143,
+    "avg_impressions": 4800,
+    "avg_engagement_rate": 3.4
+  },
+  "follower_history": [
+    { "date": "2025-09-01", "count": 4200 },
+    { "date": "2025-10-01", "count": 4600 },
+    { "date": "2025-11-01", "count": 4980 },
+    { "date": "2025-12-01", "count": 5240 },
+    { "date": "2026-01-01", "count": 5540 },
+    { "date": "2026-02-01", "count": 5780 },
+    { "date": "2026-03-01", "count": 5960 },
+    { "date": "2026-03-27", "count": 6120 }
+  ],
+  "top_posts": [
+    { "id": "li_001", "type": "text", "hook": "The architecture profession has a mentorship gap. Not a shortage — a gap.", "pillar": "Equity", "likes": 892, "comments": 134, "impressions": 18400, "shares": 67, "er": 5.9, "day": "Monday", "hour": 8 },
+    { "id": "li_002", "type": "text", "hook": "I passed my last ARE division three years ago today. Here's what I know now.", "pillar": "Licensure", "likes": 743, "comments": 98, "impressions": 15200, "shares": 89, "er": 6.1, "day": "Tuesday", "hour": 9 },
+    { "id": "li_003", "type": "article", "hook": "The AEC industry talks about diversity. The data on licensed architects tells a different story.", "pillar": "Equity", "likes": 1240, "comments": 187, "impressions": 24600, "shares": 134, "er": 6.3, "day": "Tuesday", "hour": 10 },
+    { "id": "li_004", "type": "text", "hook": "Nobody told me negotiation was a skill I needed. I left $200K on the table.", "pillar": "Career", "likes": 1089, "comments": 213, "impressions": 21800, "shares": 112, "er": 6.5, "day": "Wednesday", "hour": 8 },
+    { "id": "li_005", "type": "text", "hook": "Thinking about skipping the ARE? You're making a decision with incomplete information.", "pillar": "Licensure", "likes": 567, "comments": 89, "impressions": 12400, "shares": 45, "er": 5.7, "day": "Wednesday", "hour": 9 },
+    { "id": "li_006", "type": "text", "hook": "Six things that show whether a firm actually supports diverse talent", "pillar": "Equity", "likes": 934, "comments": 156, "impressions": 19800, "shares": 98, "er": 5.9, "day": "Tuesday", "hour": 8 },
+    { "id": "li_007", "type": "text", "hook": "A 5-year degree, years of practice, still not legally an architect. Why is the gap so wide?", "pillar": "Licensure", "likes": 678, "comments": 112, "impressions": 14300, "shares": 56, "er": 5.9, "day": "Tuesday", "hour": 9 },
+    { "id": "li_008", "type": "text", "hook": "You failed an ARE exam. Here's what actually happened and what to do next.", "pillar": "Licensure", "likes": 812, "comments": 143, "impressions": 16900, "shares": 78, "er": 6.1, "day": "Tuesday", "hour": 8 },
+    { "id": "li_009", "type": "text", "hook": "The real cost of architectural licensure — not just the exam fees, but all of it.", "pillar": "Licensure", "likes": 934, "comments": 189, "impressions": 19200, "shares": 89, "er": 6.3, "day": "Monday", "hour": 8 },
+    { "id": "li_010", "type": "text", "hook": "Years of talking openly about licensure online taught me this about early-career architects.", "pillar": "Career", "likes": 1102, "comments": 167, "impressions": 22100, "shares": 123, "er": 6.3, "day": "Sunday", "hour": 10 }
+  ]
+}

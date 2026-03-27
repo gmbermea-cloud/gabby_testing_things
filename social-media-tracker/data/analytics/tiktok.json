@@ -1,0 +1,34 @@
+{
+  "platform": "tiktok",
+  "handle": "@gabbybermea3",
+  "scraped_at": "2026-03-27",
+  "profile": {
+    "followers": 1768,
+    "likes_total": 24600,
+    "videos_count": 47,
+    "avg_views": 18900,
+    "avg_engagement_rate": 9.4
+  },
+  "follower_history": [
+    { "date": "2025-09-01", "count": 340 },
+    { "date": "2025-10-01", "count": 580 },
+    { "date": "2025-11-01", "count": 890 },
+    { "date": "2025-12-01", "count": 1100 },
+    { "date": "2026-01-01", "count": 1290 },
+    { "date": "2026-02-01", "count": 1490 },
+    { "date": "2026-03-01", "count": 1640 },
+    { "date": "2026-03-27", "count": 1768 }
+  ],
+  "top_posts": [
+    { "id": "tt_001", "type": "video", "hook": "Things architecture school doesn't prepare you for", "pillar": "Career", "likes": 12400, "comments": 892, "saves": 3400, "views": 187000, "er": 10.1, "day": "Wednesday", "hour": 19, "duration": 38 },
+    { "id": "tt_002", "type": "video", "hook": "Answering your ARE questions honestly", "pillar": "Licensure", "likes": 9800, "comments": 1240, "saves": 4200, "views": 143000, "er": 11.2, "day": "Thursday", "hour": 18, "duration": 52 },
+    { "id": "tt_003", "type": "video", "hook": "Study with me: ARE PPD prep", "pillar": "Licensure", "likes": 7200, "comments": 456, "saves": 2890, "views": 94000, "er": 8.7, "day": "Thursday", "hour": 20, "duration": 180 },
+    { "id": "tt_004", "type": "video", "hook": "Hot take: architecture school is not preparing students for licensure", "pillar": "Career", "likes": 11200, "comments": 2100, "saves": 1890, "views": 167000, "er": 10.9, "day": "Wednesday", "hour": 17, "duration": 45 },
+    { "id": "tt_005", "type": "video", "hook": "What equity in AEC actually looks like day to day", "pillar": "Equity", "likes": 8900, "comments": 987, "saves": 2340, "views": 124000, "er": 11.8, "day": "Friday", "hour": 12, "duration": 60 },
+    { "id": "tt_006", "type": "video", "hook": "NCARB explained in 60 seconds", "pillar": "Licensure", "likes": 6700, "comments": 723, "saves": 3120, "views": 89000, "er": 9.1, "day": "Wednesday", "hour": 18, "duration": 63 },
+    { "id": "tt_007", "type": "video", "hook": "Firm culture red flags I ignored as a new grad", "pillar": "Career", "likes": 9400, "comments": 1345, "saves": 2780, "views": 138000, "er": 11.2, "day": "Thursday", "hour": 18, "duration": 41 },
+    { "id": "tt_008", "type": "video", "hook": "What I would tell my first-year architecture self", "pillar": "Career", "likes": 7800, "comments": 892, "saves": 1890, "views": 101000, "er": 9.8, "day": "Thursday", "hour": 19, "duration": 55 },
+    { "id": "tt_009", "type": "video", "hook": "Passed PA on my first try — here's exactly what I studied", "pillar": "Licensure", "likes": 8100, "comments": 1124, "saves": 4560, "views": 112000, "er": 12.5, "day": "Thursday", "hour": 18, "duration": 49 },
+    { "id": "tt_010", "type": "video", "hook": "The mentorship conversation that changed my career trajectory", "pillar": "Equity", "likes": 6200, "comments": 678, "saves": 1340, "views": 82000, "er": 8.9, "day": "Saturday", "hour": 10, "duration": 53 }
+  ]
+}
