@@ -789,7 +789,7 @@ function initQuickEntry() {
     };
     appData.snapshots.push(snapshot);
     appData.snapshots.sort((a, b) => new Date(a.date) - new Date(b.date));
-    saveData();
+    persistData();
     renderAll();
     showToast('Snapshot saved!', 'success');
 
