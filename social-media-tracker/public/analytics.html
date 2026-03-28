@@ -23,16 +23,53 @@ main{max-width:1100px;margin:0 auto;padding:24px 20px}
 section{margin-bottom:40px}
 h2{font-family:var(--font-d);font-size:20px;letter-spacing:1px;color:var(--cream);margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:8px}
 
-/* stat cards */
+/* profile header */
+.profile-hdr{display:flex;justify-content:space-between;align-items:center;padding:18px 0 16px;border-bottom:1px solid var(--border);margin-bottom:32px}
+.ph-left{display:flex;align-items:center;gap:12px}
+.ph-avatar{width:38px;height:38px;border-radius:50%;background:var(--terracotta);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:15px;color:#fff}
+.ph-name{font-family:var(--font-d);font-size:20px;letter-spacing:.5px}
+.ph-bio{font-size:10px;color:var(--dim);margin-top:2px}
+.ph-date{font-size:11px;color:var(--dim);display:flex;align-items:center;gap:6px}
+.ph-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;display:inline-block}
+
+/* section label */
+.section-label{text-align:center;font-size:10px;letter-spacing:2px;color:var(--dim);margin-bottom:14px}
+
+/* channel cards */
+.channel-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.channel-grid{grid-template-columns:1fr}}
+.channel-card{background:var(--card);border:1px solid var(--border);padding:16px;overflow:hidden}
+.channel-bar{height:3px;margin:-16px -16px 14px;display:block}
+.channel-hdr{display:flex;align-items:baseline;gap:8px;margin-bottom:12px}
+.channel-hdr .ch-plat{font-family:var(--font-d);font-size:17px;letter-spacing:.5px}
+.channel-hdr .ch-handle{font-size:10px;color:var(--dim)}
+.channel-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.cm-val{font-family:var(--font-d);font-size:22px;letter-spacing:.5px}
+.cm-label{font-size:9px;color:var(--dim);letter-spacing:.5px;text-transform:uppercase;margin-top:2px}
+.cm-growth{display:inline-block;font-size:9px;color:#22C55E;background:rgba(34,197,94,.1);padding:2px 5px;margin-top:4px}
+
+/* combined */
+.combined-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:700px){.combined-grid{grid-template-columns:1fr 1fr}}
+.combined-card{background:var(--card);border:1px solid var(--border);padding:16px}
+.comb-icon{font-size:18px;margin-bottom:8px}
+.comb-val{font-family:var(--font-d);font-size:28px;letter-spacing:.5px}
+.comb-label{font-size:9px;color:var(--dim);letter-spacing:.5px;text-transform:uppercase;margin-top:4px}
+.comb-break{font-size:10px;color:var(--dim);margin-top:4px}
+
+/* manual input */
+.manual-wrap{background:var(--card);border:1px solid var(--border);padding:16px}
+.manual-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-bottom:12px}
+.manual-field label{font-size:9px;color:var(--dim);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:4px}
+.manual-field input{width:100%;background:var(--elevated);border:1px solid var(--border);color:var(--text);font-family:var(--font-m);font-size:13px;padding:6px 8px}
+.manual-save{background:var(--terracotta);border:none;color:#fff;font-family:var(--font-d);font-size:14px;letter-spacing:1px;padding:8px 20px;cursor:pointer}
+
+/* stat cards — keep for fallback */
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
 .card{background:var(--card);border:1px solid var(--border);padding:16px}
 .card .label{font-size:10px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
 .card .value{font-family:var(--font-d);font-size:30px;letter-spacing:1px}
 .card .sub{font-size:10px;color:var(--dim);margin-top:4px}
-.card.ig .value{color:#C4603A}
-.card.tt .value{color:#E8C37A}
-.card.yt .value{color:#D46B3A}
-.card.li .value{color:#D4A843}
 
 /* tabs */
 .tabs{display:flex;gap:4px;margin-bottom:16px}
@@ -120,14 +157,37 @@ tr:hover td{background:var(--elevated)}
 <body>
 <header>
   <h1>CONTENT ANALYTICS</h1>
-  <span id="updated"></span>
   <a href="index.html">← TRACKER</a>
 </header>
 <main>
 
-  <section id="s-stats">
-    <h2>PLATFORM OVERVIEW</h2>
-    <div class="cards" id="statCards"></div>
+  <div class="profile-hdr">
+    <div class="ph-left">
+      <div class="ph-avatar">GB</div>
+      <div>
+        <div class="ph-name">GABRIELLA BERMEA AIA</div>
+        <div class="ph-bio">Licensed Architect · ARE/NCARB · Equity in AEC · Austin, TX</div>
+      </div>
+    </div>
+    <div class="ph-date"><span class="ph-dot"></span><span id="updated"></span></div>
+  </div>
+
+  <section id="s-channels">
+    <div class="section-label">CHANNELS</div>
+    <div class="channel-grid" id="channelGrid"></div>
+  </section>
+
+  <section id="s-combined">
+    <div class="section-label">ALL-TIME COMBINED</div>
+    <div class="combined-grid" id="combinedGrid"></div>
+  </section>
+
+  <section id="s-manual">
+    <div class="section-label">UPDATE NUMBERS</div>
+    <div class="manual-wrap">
+      <div class="manual-grid" id="manualGrid"></div>
+      <button class="manual-save" onclick="saveManual()">SAVE SNAPSHOT →</button>
+    </div>
   </section>
 
   <section id="s-growth">
@@ -217,23 +277,135 @@ function fmt(n){
   return n.toLocaleString();
 }
 
-function renderStats(){
-  const el = document.getElementById('statCards');
-  el.innerHTML = '';
-  const defs = [
-    {p:'instagram', label:'Instagram', f: d=>d.profile.followers, sub: d=>`~${fmt(d.profile.avg_reel_views)} avg reel views`},
-    {p:'tiktok',    label:'TikTok',    f: d=>d.profile.followers, sub: d=>`${d.profile.avg_engagement_rate}% avg ER`},
-    {p:'youtube',   label:'YouTube',   f: d=>d.profile.subscribers, sub: d=>`${fmt(d.profile.total_views)} total views`},
-    {p:'linkedin',  label:'LinkedIn',  f: d=>d.profile.followers, sub: d=>`${fmt(d.profile.avg_impressions)} avg impressions`},
+const PLAT_BARS = {
+  instagram:'linear-gradient(90deg,#833AB4,#FD1D1D,#F77737)',
+  tiktok:   'linear-gradient(90deg,#010101,#69C9D0)',
+  youtube:  'linear-gradient(90deg,#FF0000,#FF6B6B)',
+  linkedin: 'linear-gradient(90deg,#0077B5,#00A0DC)',
+};
+const PLAT_HANDLES = {
+  instagram:'@gabbybermea', tiktok:'@gabbybermea3',
+  youtube:'@gabbybermea3',  linkedin:'/gabriella-bermea-aia/',
+};
+
+function calcGrowthPct(history){
+  if(!history||history.length<2) return null;
+  const sorted=[...history].sort((a,b)=>a.date.localeCompare(b.date));
+  const first=sorted[0].count, last=sorted[sorted.length-1].count;
+  return first>0?Math.round((last-first)/first*100):null;
+}
+
+function renderChannels(){
+  const DEFS=[
+    {p:'instagram',label:'Instagram', m1:d=>({v:d.profile.followers,           l:'Followers'}),
+                                       m2:d=>({v:d.profile.avg_reel_views,      l:'Avg Views'}),
+                                       m3:d=>({v:d.profile.avg_engagement_rate, l:'Avg ER%',pct:true})},
+    {p:'tiktok',   label:'TikTok',    m1:d=>({v:d.profile.followers,           l:'Followers'}),
+                                       m2:d=>({v:d.top_posts?.length||0,        l:'Videos'}),
+                                       m3:d=>({v:d.profile.avg_engagement_rate, l:'Avg ER%',pct:true})},
+    {p:'youtube',  label:'YouTube',   m1:d=>({v:d.profile.subscribers,         l:'Subscribers'}),
+                                       m2:d=>({v:d.profile.video_count||4,      l:'Videos'}),
+                                       m3:d=>({v:d.profile.total_views,         l:'Total Views'})},
+    {p:'linkedin', label:'LinkedIn',  m1:d=>({v:d.profile.followers,           l:'Followers'}),
+                                       m2:d=>({v:d.profile.avg_impressions,     l:'Avg Impressions'}),
+                                       m3:d=>({v:d.profile.avg_engagement_rate, l:'Avg ER%',pct:true})},
   ];
-  defs.forEach(({p,label,f,sub})=>{
-    if(!data[p]) return;
-    el.innerHTML += `<div class="card ${CLS[p]}">
-      <div class="label">${label}</div>
-      <div class="value">${fmt(f(data[p]))}</div>
-      <div class="sub">${sub(data[p])}</div>
+  document.getElementById('channelGrid').innerHTML = DEFS.filter(({p})=>data[p]).map(({p,label,m1,m2,m3})=>{
+    const d=data[p], gPct=calcGrowthPct(d.follower_history);
+    const [a,b,c]=[m1(d),m2(d),m3(d)];
+    const metric=(m,i)=>`<div>
+      <div class="cm-val" style="color:${i===0?COLOR[p]:'var(--text)'}">${m.pct&&m.v!=null?m.v+'%':fmt(m.v)}</div>
+      <div class="cm-label">${m.l}</div>
+      ${i===0&&gPct!=null?`<div class="cm-growth">+${gPct}%</div>`:''}
     </div>`;
+    return `<div class="channel-card">
+      <span class="channel-bar" style="background:${PLAT_BARS[p]}"></span>
+      <div class="channel-hdr">
+        <span class="ch-plat">${label}</span>
+        <span class="ch-handle">${PLAT_HANDLES[p]}</span>
+      </div>
+      <div class="channel-metrics">${metric(a,0)}${metric(b,1)}${metric(c,2)}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderCombined(){
+  const ig=data.instagram?.profile||{}, tt=data.tiktok?.profile||{};
+  const igViews=ig.avg_reel_views||0, ttViews=0; // TikTok total not directly available
+  const igFollowers=ig.followers||0, ttFollowers=tt.followers||0;
+  const ytFollowers=data.youtube?.profile?.subscribers||0, liFollowers=data.linkedin?.profile?.followers||0;
+  const totalFollowers=igFollowers+ttFollowers+ytFollowers+liFollowers;
+
+  const igPosts=data.instagram?.top_posts||[], ttPosts=data.tiktok?.top_posts||[];
+  const totalViews=igPosts.reduce((s,p)=>s+(p.views||0),0)+ttPosts.reduce((s,p)=>s+(p.views||0),0);
+  const totalLikes=igPosts.reduce((s,p)=>s+(p.likes||0),0)+ttPosts.reduce((s,p)=>s+(p.likes||0),0);
+  const totalComments=igPosts.reduce((s,p)=>s+(p.comments||0),0)+ttPosts.reduce((s,p)=>s+(p.comments||0),0);
+
+  document.getElementById('combinedGrid').innerHTML = [
+    {icon:'👁',val:totalViews,label:'Total Views',     break:`IG ${fmt(igPosts.reduce((s,p)=>s+(p.views||0),0))} + TT ${fmt(ttPosts.reduce((s,p)=>s+(p.views||0),0))}`},
+    {icon:'❤️',val:totalLikes,label:'Total Likes',     break:`IG ${fmt(igPosts.reduce((s,p)=>s+(p.likes||0),0))} + TT ${fmt(ttPosts.reduce((s,p)=>s+(p.likes||0),0))}`},
+    {icon:'💬',val:totalComments,label:'Total Comments',break:`IG ${fmt(igPosts.reduce((s,p)=>s+(p.comments||0),0))} + TT ${fmt(ttPosts.reduce((s,p)=>s+(p.comments||0),0))}`},
+    {icon:'🚀',val:totalFollowers,label:'Followers',   break:`IG ${fmt(igFollowers)} + TT ${fmt(ttFollowers)} + YT ${fmt(ytFollowers)} + LI ${fmt(liFollowers)}`},
+  ].map(c=>`<div class="combined-card">
+    <div class="comb-icon">${c.icon}</div>
+    <div class="comb-val">${fmt(c.val)}</div>
+    <div class="comb-label">${c.label}</div>
+    <div class="comb-break">${c.break}</div>
+  </div>`).join('');
+}
+
+// ── MANUAL INPUT ─────────────────────────────────────────────────────────────
+const MANUAL_FIELDS = [
+  {id:'ig_followers',  label:'IG Followers',      path:['instagram','profile','followers']},
+  {id:'tt_followers',  label:'TT Followers',      path:['tiktok','profile','followers']},
+  {id:'yt_subs',       label:'YT Subscribers',    path:['youtube','profile','subscribers']},
+  {id:'li_followers',  label:'LI Followers',      path:['linkedin','profile','followers']},
+  {id:'ig_views',      label:'IG Avg Reel Views', path:['instagram','profile','avg_reel_views']},
+  {id:'ig_er',         label:'IG Avg ER %',       path:['instagram','profile','avg_engagement_rate']},
+  {id:'tt_er',         label:'TT Avg ER %',       path:['tiktok','profile','avg_engagement_rate']},
+  {id:'li_imp',        label:'LI Avg Impressions',path:['linkedin','profile','avg_impressions']},
+];
+
+function initManual(){
+  document.getElementById('manualGrid').innerHTML = MANUAL_FIELDS.map(f=>`
+    <div class="manual-field">
+      <label>${f.label}</label>
+      <input type="number" id="mi_${f.id}" placeholder="${getPath(f.path)||''}"/>
+    </div>`).join('');
+}
+
+function getPath([p,obj,key]){ return data[p]?.[obj]?.[key]??''; }
+
+function saveManual(){
+  MANUAL_FIELDS.forEach(f=>{
+    const val=document.getElementById(`mi_${f.id}`)?.value;
+    if(val===''||val==null) return;
+    const [p,obj,key]=f.path;
+    if(data[p]&&data[p][obj]!=null) data[p][obj][key]=parseFloat(val);
   });
+  // Persist overrides to localStorage
+  localStorage.setItem('analytics_overrides', JSON.stringify(
+    MANUAL_FIELDS.reduce((acc,f)=>{
+      const val=document.getElementById(`mi_${f.id}`)?.value;
+      if(val!=='') acc[f.id]=parseFloat(val);
+      return acc;
+    },{})
+  ));
+  renderChannels(); renderCombined();
+  const btn=document.querySelector('.manual-save');
+  btn.textContent='SAVED ✓'; setTimeout(()=>btn.textContent='SAVE SNAPSHOT →',2000);
+}
+
+function loadOverrides(){
+  try{
+    const saved=JSON.parse(localStorage.getItem('analytics_overrides')||'{}');
+    MANUAL_FIELDS.forEach(f=>{
+      if(saved[f.id]!=null){
+        const [p,obj,key]=f.path;
+        if(data[p]&&data[p][obj]!=null) data[p][obj][key]=saved[f.id];
+      }
+    });
+  }catch(e){}
 }
 
 function renderGrowth(){
@@ -542,7 +714,10 @@ function renderProjection(){
 function render(){
   const dates = Object.values(data).map(d=>d.scraped_at).filter(Boolean);
   if(dates.length) document.getElementById('updated').textContent = 'UPDATED '+dates[0];
-  renderStats();
+  loadOverrides();
+  renderChannels();
+  renderCombined();
+  initManual();
   renderGrowth();
   renderHooks();
   renderSpecs();

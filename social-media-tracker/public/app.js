@@ -770,12 +770,21 @@ function initQuickEntry() {
     const label = document.getElementById('qeLabel').value.trim();
     if (!date) { showToast('Pick a date first', 'error'); return; }
 
+    const prevSnap = appData.snapshots.length > 0
+      ? appData.snapshots[appData.snapshots.length - 1]
+      : null;
     const followers = {};
     let hasAny = false;
     appData.platforms.forEach(p => {
-      const val = parseInt(document.getElementById(`qe_${p.id}`)?.value || '0', 10);
-      followers[p.id] = isNaN(val) ? 0 : val;
-      if (val > 0) hasAny = true;
+      const rawVal = document.getElementById(`qe_${p.id}`)?.value;
+      const val = rawVal !== '' ? parseInt(rawVal, 10) : NaN;
+      if (!isNaN(val) && val > 0) {
+        followers[p.id] = val;
+        hasAny = true;
+      } else {
+        // Carry forward the last known count so we don't drop to 0
+        followers[p.id] = prevSnap?.followers[p.id] ?? null;
+      }
     });
     if (!hasAny) { showToast('Enter at least one follower count', 'error'); return; }
 
