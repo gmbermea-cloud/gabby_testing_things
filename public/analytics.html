@@ -72,6 +72,33 @@ tr:hover td{background:var(--elevated)}
 .spec-row .sk{color:var(--dim)}
 .spec-row .sv{color:var(--cream)}
 
+/* calendar */
+.cal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:700px){.cal-grid{grid-template-columns:1fr 1fr}}
+.cal-week{background:var(--card);border:1px solid var(--border);padding:12px}
+.cal-week h3{font-family:var(--font-d);font-size:13px;color:var(--dim);letter-spacing:1px;margin-bottom:10px}
+.cal-post{padding:8px;border-left:2px solid var(--border);margin-bottom:8px}
+.cal-post.Licensure{border-color:#3B82F6}
+.cal-post.Equity{border-color:#D4A843}
+.cal-post.Career{border-color:#A0785A}
+.cal-post.Day{border-color:#64748B}
+.cal-post .cp-plat{font-size:9px;color:var(--dim);letter-spacing:.5px;text-transform:uppercase}
+.cal-post .cp-topic{font-size:11px;color:var(--cream);margin:2px 0;line-height:1.3}
+.cal-post .cp-range{font-size:10px;color:var(--dim)}
+
+/* projection */
+.proj-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.proj-wrap{grid-template-columns:1fr}}
+.proj-chart{background:var(--card);border:1px solid var(--border);padding:20px;height:240px}
+.proj-table{background:var(--card);border:1px solid var(--border);padding:16px;overflow-x:auto}
+.proj-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:11px}
+.proj-row:last-child{border:none}
+.proj-plat{color:var(--cream)}
+.proj-now{color:var(--dim)}
+.proj-arrow{color:var(--dim);margin:0 8px}
+.proj-future{font-family:var(--font-d);font-size:16px}
+.proj-rate{font-size:10px;color:var(--dim)}
+
 /* simulator */
 .sim-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:640px){.sim-wrap{grid-template-columns:1fr}}
@@ -136,6 +163,19 @@ tr:hover td{background:var(--elevated)}
       <div class="sim-out" id="simOut">
         <div style="color:var(--dim);font-size:12px">Enter a draft and hit predict to see projected performance based on your historical patterns.</div>
       </div>
+    </div>
+  </section>
+
+  <section id="s-calendar">
+    <h2>CONTENT CALENDAR — NEXT 4 WEEKS</h2>
+    <div class="cal-grid" id="calGrid"></div>
+  </section>
+
+  <section id="s-projection">
+    <h2>WEEKLY GROWTH PROJECTION — 12 WEEKS</h2>
+    <div class="proj-wrap">
+      <div class="proj-chart"><canvas id="projChart"></canvas></div>
+      <div class="proj-table" id="projTable"></div>
     </div>
   </section>
 
@@ -404,6 +444,101 @@ function runSim(){
     </div>`;
 }
 
+// ── CONTENT CALENDAR ─────────────────────────────────────────────────────────
+const CAL_POSTS = [
+  // Week 1
+  [{plat:'instagram',pillar:'Licensure',topic:'ARE division breakdown: what to study first',range:'18K–24K views'},{plat:'linkedin',pillar:'Equity',topic:'Why the profession loses underrepresented architects before licensure',range:'4K–6K impressions'},{plat:'tiktok',pillar:'Career',topic:'POV: you just passed your first ARE division',range:'2K–5K views'}],
+  // Week 2
+  [{plat:'instagram',pillar:'Career',topic:'Salary negotiation at your first architecture firm',range:'14K–20K views'},{plat:'youtube',pillar:'Licensure',topic:'AXP hours explained — full walkthrough',range:'200–400 views'},{plat:'linkedin',pillar:'Licensure',topic:'NCARB changes you need to know in 2026',range:'5K–8K impressions'}],
+  // Week 3
+  [{plat:'instagram',pillar:'Equity',topic:'What equity in AEC actually looks like on a job site',range:'16K–22K views'},{plat:'tiktok',pillar:'Licensure',topic:'5 things nobody told me about the ARE',range:'3K–6K views'},{plat:'linkedin',pillar:'Career',topic:'The hidden tax of being the "only one" in the room',range:'4K–7K impressions'}],
+  // Week 4
+  [{plat:'instagram',pillar:'Licensure',topic:'Carousel: PPD vs PDD — which to take first?',range:'20K–28K views'},{plat:'tiktok',pillar:'Career',topic:'I almost quit architecture — real talk',range:'4K–9K views'},{plat:'youtube',pillar:'Equity',topic:'Navigating architecture culture as a Latina',range:'300–600 views'}],
+];
+
+const BEST_DAY = {instagram:'Friday',tiktok:'Wednesday',youtube:'Thursday',linkedin:'Tuesday'};
+const BEST_TIME = {instagram:'12 PM CST',tiktok:'7 PM CST',youtube:'12 PM CST',linkedin:'9 AM CST'};
+
+function renderCalendar(){
+  const today = new Date();
+  document.getElementById('calGrid').innerHTML = CAL_POSTS.map((week,i)=>{
+    const wStart = new Date(today);
+    wStart.setDate(today.getDate() + i*7 + (1 - today.getDay() + 7)%7);
+    const label = `WEEK ${i+1} · ${wStart.toLocaleDateString('en-US',{month:'short',day:'numeric'})}`;
+    const posts = week.map(p=>{
+      const pillarKey = p.pillar.split(' ')[0];
+      return `<div class="cal-post ${pillarKey}">
+        <div class="cp-plat">${p.plat.toUpperCase()} · ${BEST_DAY[p.plat]} ${BEST_TIME[p.plat]}</div>
+        <div class="cp-topic">${p.topic}</div>
+        <div class="cp-range">${p.range}</div>
+      </div>`;
+    }).join('');
+    return `<div class="cal-week"><h3>${label}</h3>${posts}</div>`;
+  }).join('');
+}
+
+// ── GROWTH PROJECTION ────────────────────────────────────────────────────────
+function calcWeeklyRate(history){
+  if(!history||history.length<2) return 0;
+  const sorted = [...history].sort((a,b)=>a.date.localeCompare(b.date));
+  const oldest = sorted[0], newest = sorted[sorted.length-1];
+  const days = Math.max(1,(new Date(newest.date)-new Date(oldest.date))/(1000*60*60*24));
+  const weeklyGrowth = (newest.count-oldest.count)/days*7;
+  return weeklyGrowth;
+}
+
+function renderProjection(){
+  const platforms = [
+    {p:'instagram', label:'Instagram', color:'#C4603A', getCount:d=>d.profile.followers},
+    {p:'tiktok',    label:'TikTok',    color:'#E8C37A', getCount:d=>d.profile.followers},
+    {p:'youtube',   label:'YouTube',   color:'#D46B3A', getCount:d=>d.profile.subscribers},
+    {p:'linkedin',  label:'LinkedIn',  color:'#D4A843', getCount:d=>d.profile.followers},
+  ].filter(({p})=>data[p]);
+
+  const weeks = 12;
+  const labels = Array.from({length:weeks+1},(_,i)=>`Wk ${i}`);
+
+  const datasets = platforms.map(({p,label,color,getCount})=>{
+    const current = getCount(data[p]);
+    const rate = calcWeeklyRate(data[p].follower_history);
+    const pts = Array.from({length:weeks+1},(_,i)=>Math.round(current + rate*i));
+    return {label, data:pts, borderColor:color, backgroundColor:'transparent', tension:.3, pointRadius:2};
+  });
+
+  new Chart(document.getElementById('projChart'),{
+    type:'line',
+    data:{labels, datasets},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#7A7268',font:{family:'DM Mono',size:10}}}},
+      scales:{
+        x:{ticks:{color:'#7A7268',font:{size:10}}, grid:{color:'#1A1A1A'}},
+        y:{ticks:{color:'#7A7268',callback:v=>fmt(v),font:{size:10}}, grid:{color:'#1A1A1A'}}
+      }
+    }
+  });
+
+  document.getElementById('projTable').innerHTML = `
+    <div style="font-family:var(--font-d);font-size:13px;color:var(--dim);letter-spacing:1px;margin-bottom:12px">PLATFORM PROJECTIONS</div>
+    ${platforms.map(({p,label,color,getCount})=>{
+      const current = getCount(data[p]);
+      const rate = calcWeeklyRate(data[p].follower_history);
+      const proj4 = Math.round(current + rate*4);
+      const proj12 = Math.round(current + rate*12);
+      const pct = rate>0 ? '+'+((rate/current)*100).toFixed(2)+'%/wk' : 'flat';
+      return `<div class="proj-row">
+        <div>
+          <div class="proj-plat" style="color:${color}">${label}</div>
+          <div class="proj-rate">${pct}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:10px;color:var(--dim)">NOW → 4 WK → 12 WK</div>
+          <div style="font-size:12px;color:var(--cream)">${fmt(current)} → ${fmt(proj4)} → <span class="proj-future" style="color:${color}">${fmt(proj12)}</span></div>
+        </div>
+      </div>`;
+    }).join('')}`;
+}
+
 function render(){
   const dates = Object.values(data).map(d=>d.scraped_at).filter(Boolean);
   if(dates.length) document.getElementById('updated').textContent = 'UPDATED '+dates[0];
@@ -411,6 +546,8 @@ function render(){
   renderGrowth();
   renderHooks();
   renderSpecs();
+  renderCalendar();
+  renderProjection();
   renderTabs();
   renderPostTable();
 }
