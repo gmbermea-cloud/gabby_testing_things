@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Content Analytics — @gabbybermea</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0A0A0A;--card:#111111;--elevated:#181818;--border:#222222;--terracotta:#C4603A;--gold:#D4A843;--cream:#E8D5BC;--text:#F0EAE0;--dim:#7A7268;--font-d:'Bebas Neue',sans-serif;--font-m:'DM Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-m);font-size:13px}
+a{color:inherit;text-decoration:none}
+
+/* header */
+header{border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:baseline;gap:16px;position:sticky;top:0;background:rgba(10,10,10,.95);backdrop-filter:blur(12px);z-index:10}
+header h1{font-family:var(--font-d);font-size:28px;letter-spacing:1px}
+header span{color:var(--dim);font-size:11px}
+header a{margin-left:auto;font-size:11px;color:var(--terracotta);border:1px solid var(--terracotta);padding:4px 10px}
+
+/* layout */
+main{max-width:1100px;margin:0 auto;padding:24px 20px}
+section{margin-bottom:40px}
+h2{font-family:var(--font-d);font-size:20px;letter-spacing:1px;color:var(--cream);margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:8px}
+
+/* stat cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--border);padding:16px}
+.card .label{font-size:10px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.card .value{font-family:var(--font-d);font-size:30px;letter-spacing:1px}
+.card .sub{font-size:10px;color:var(--dim);margin-top:4px}
+.card.ig .value{color:#C4603A}
+.card.tt .value{color:#E8C37A}
+.card.yt .value{color:#D46B3A}
+.card.li .value{color:#D4A843}
+
+/* tabs */
+.tabs{display:flex;gap:4px;margin-bottom:16px}
+.tab{padding:6px 14px;font-family:var(--font-m);font-size:11px;background:none;border:1px solid var(--border);color:var(--dim);cursor:pointer;letter-spacing:.5px}
+.tab.active{border-color:var(--terracotta);color:var(--terracotta)}
+
+/* table */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{text-align:left;padding:8px 10px;color:var(--dim);font-weight:400;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.4}
+tr:hover td{background:var(--elevated)}
+.hook{max-width:320px;color:var(--cream)}
+.pill{display:inline-block;padding:1px 6px;font-size:10px;border:1px solid var(--border);color:var(--dim);white-space:nowrap}
+.pill.Licensure{border-color:#C4603A;color:#C4603A}
+.pill.Equity{border-color:#D4A843;color:#D4A843}
+.pill.Career{border-color:#A0785A;color:#A0785A}
+.pill.Day{border-color:#7A7268;color:#7A7268}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* chart */
+.chart-wrap{background:var(--card);border:1px solid var(--border);padding:20px;position:relative;height:260px}
+
+/* hooks */
+.hooks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px}
+.hook-card{background:var(--card);border:1px solid var(--border);padding:12px 14px;display:flex;gap:12px;align-items:flex-start}
+.hook-card .rank{font-family:var(--font-d);font-size:22px;color:var(--dim);min-width:28px}
+.hook-card .hook-text{color:var(--cream);font-size:12px;line-height:1.5;flex:1}
+.hook-card .hook-meta{font-size:10px;color:var(--dim);margin-top:4px}
+
+/* specs */
+.specs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.spec-card{background:var(--card);border:1px solid var(--border);padding:16px}
+.spec-card h3{font-family:var(--font-d);font-size:16px;letter-spacing:1px;margin-bottom:12px}
+.spec-row{display:flex;justify-content:space-between;font-size:11px;padding:5px 0;border-bottom:1px solid var(--border)}
+.spec-row:last-child{border:none}
+.spec-row .sk{color:var(--dim)}
+.spec-row .sv{color:var(--cream)}
+
+/* simulator */
+.sim-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.sim-wrap{grid-template-columns:1fr}}
+.sim-input{display:flex;flex-direction:column;gap:10px}
+.sim-input label{font-size:10px;color:var(--dim);letter-spacing:.5px;text-transform:uppercase}
+.sim-input textarea{background:var(--elevated);border:1px solid var(--border);color:var(--text);font-family:var(--font-m);font-size:12px;padding:10px;resize:vertical;min-height:120px;width:100%}
+.sim-input select{background:var(--elevated);border:1px solid var(--border);color:var(--text);font-family:var(--font-m);font-size:12px;padding:8px}
+.sim-input button{background:var(--terracotta);border:none;color:#fff;font-family:var(--font-d);font-size:16px;letter-spacing:1px;padding:10px;cursor:pointer}
+.sim-out{background:var(--card);border:1px solid var(--border);padding:16px;display:flex;flex-direction:column;gap:12px}
+.sim-out .so-label{font-size:10px;color:var(--dim);letter-spacing:.5px;text-transform:uppercase}
+.sim-out .so-val{font-family:var(--font-d);font-size:26px;letter-spacing:1px;color:var(--cream)}
+.sim-out .so-sub{font-size:11px;color:var(--dim);margin-top:2px}
+.sim-row{border-bottom:1px solid var(--border);padding-bottom:10px}
+.sim-row:last-child{border:none;padding:0}
+.score-bar{height:4px;background:var(--border);margin-top:6px}
+.score-bar-fill{height:4px;background:var(--terracotta)}
+</style>
+</head>
+<body>
+<header>
+  <h1>CONTENT ANALYTICS</h1>
+  <span id="updated"></span>
+  <a href="index.html">← TRACKER</a>
+</header>
+<main>
+
+  <section id="s-stats">
+    <h2>PLATFORM OVERVIEW</h2>
+    <div class="cards" id="statCards"></div>
+  </section>
+
+  <section id="s-growth">
+    <h2>FOLLOWER GROWTH</h2>
+    <div class="chart-wrap"><canvas id="growthChart"></canvas></div>
+  </section>
+
+  <section id="s-hooks">
+    <h2>HOOK LIBRARY — TOP 20 OPENING LINES</h2>
+    <div class="hooks-grid" id="hooksGrid"></div>
+  </section>
+
+  <section id="s-specs">
+    <h2>OPTIMAL SPECS</h2>
+    <div class="specs-grid" id="specsGrid"></div>
+  </section>
+
+  <section id="s-sim">
+    <h2>CONTENT SIMULATOR</h2>
+    <div class="sim-wrap">
+      <div class="sim-input">
+        <label>Platform</label>
+        <select id="simPlatform">
+          <option value="instagram">Instagram</option>
+          <option value="tiktok">TikTok</option>
+          <option value="youtube">YouTube</option>
+          <option value="linkedin">LinkedIn</option>
+        </select>
+        <label>Script / Caption Draft</label>
+        <textarea id="simScript" placeholder="Paste your hook or full script draft here…"></textarea>
+        <button onclick="runSim()">PREDICT PERFORMANCE →</button>
+      </div>
+      <div class="sim-out" id="simOut">
+        <div style="color:var(--dim);font-size:12px">Enter a draft and hit predict to see projected performance based on your historical patterns.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="s-posts">
+    <h2>TOP POSTS</h2>
+    <div class="tabs" id="postTabs"></div>
+    <div class="tbl-wrap"><table id="postTable">
+      <thead><tr>
+        <th>#</th><th>HOOK</th><th>PILLAR</th>
+        <th class="num">VIEWS</th><th class="num">LIKES</th>
+        <th class="num">SAVES</th><th class="num">ER%</th>
+        <th>DAY / TIME</th>
+      </tr></thead>
+      <tbody id="postBody"></tbody>
+    </table></div>
+  </section>
+
+</main>
+<script>
+const FILES = ['instagram','tiktok','youtube','linkedin'];
+const COLOR = {instagram:'#C4603A',tiktok:'#E8C37A',youtube:'#D46B3A',linkedin:'#D4A843'};
+const CLS   = {instagram:'ig',tiktok:'tt',youtube:'yt',linkedin:'li'};
+const data  = {};
+
+async function load(){
+  await Promise.all(FILES.map(async p=>{
+    try{
+      const r = await fetch(`../data/analytics/${p}.json`);
+      data[p] = await r.json();
+    }catch(e){console.warn('Could not load',p,e)}
+  }));
+  render();
+}
+
+function fmt(n){
+  if(n==null) return '—';
+  if(n>=1000000) return (n/1000000).toFixed(1)+'M';
+  if(n>=1000) return (n/1000).toFixed(1)+'K';
+  return n.toLocaleString();
+}
+
+function renderStats(){
+  const el = document.getElementById('statCards');
+  el.innerHTML = '';
+  const defs = [
+    {p:'instagram', label:'Instagram', f: d=>d.profile.followers, sub: d=>`~${fmt(d.profile.avg_reel_views)} avg reel views`},
+    {p:'tiktok',    label:'TikTok',    f: d=>d.profile.followers, sub: d=>`${d.profile.avg_engagement_rate}% avg ER`},
+    {p:'youtube',   label:'YouTube',   f: d=>d.profile.subscribers, sub: d=>`${fmt(d.profile.total_views)} total views`},
+    {p:'linkedin',  label:'LinkedIn',  f: d=>d.profile.followers, sub: d=>`${fmt(d.profile.avg_impressions)} avg impressions`},
+  ];
+  defs.forEach(({p,label,f,sub})=>{
+    if(!data[p]) return;
+    el.innerHTML += `<div class="card ${CLS[p]}">
+      <div class="label">${label}</div>
+      <div class="value">${fmt(f(data[p]))}</div>
+      <div class="sub">${sub(data[p])}</div>
+    </div>`;
+  });
+}
+
+function renderGrowth(){
+  const labels = new Set();
+  FILES.forEach(p=>{ if(data[p]) data[p].follower_history?.forEach(h=>labels.add(h.date)) });
+  const sorted = [...labels].sort();
+  const datasets = FILES.filter(p=>data[p]?.follower_history?.length).map(p=>({
+    label: p.charAt(0).toUpperCase()+p.slice(1),
+    data: sorted.map(d=> data[p].follower_history.find(h=>h.date===d)?.count ?? null),
+    borderColor: COLOR[p], backgroundColor:'transparent',
+    tension:.3, spanGaps:true, pointRadius:3
+  }));
+  new Chart(document.getElementById('growthChart'),{
+    type:'line',
+    data:{labels:sorted, datasets},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#7A7268',font:{family:'DM Mono',size:11}}}},
+      scales:{
+        x:{ticks:{color:'#7A7268',maxTicksLimit:8}, grid:{color:'#1A1A1A'}},
+        y:{ticks:{color:'#7A7268',callback:v=>fmt(v)}, grid:{color:'#1A1A1A'}}
+      }
+    }
+  });
+}
+
+let activePlatform = 'instagram';
+function renderTabs(){
+  const el = document.getElementById('postTabs');
+  el.innerHTML = FILES.filter(p=>data[p]?.top_posts?.length).map(p=>`
+    <button class="tab${p===activePlatform?' active':''}" onclick="switchTab('${p}')">
+      ${p.toUpperCase()}
+    </button>`).join('');
+}
+function switchTab(p){ activePlatform=p; renderTabs(); renderPostTable(); }
+
+function renderPostTable(){
+  const posts = data[activePlatform]?.top_posts || [];
+  const usesImpressions = activePlatform==='linkedin';
+  document.querySelector('#postTable thead tr').innerHTML = `
+    <th>#</th><th>HOOK</th><th>PILLAR</th>
+    <th class="num">${usesImpressions?'IMPRESSIONS':'VIEWS'}</th>
+    <th class="num">LIKES</th>
+    <th class="num">${activePlatform==='youtube'?'COMMENTS':'SAVES'}</th>
+    <th class="num">ER%</th><th>DAY / TIME</th>`;
+  document.getElementById('postBody').innerHTML = posts.map((p,i)=>{
+    const pillarKey = (p.pillar||'').split(' ')[0];
+    const views = usesImpressions ? p.impressions : p.views;
+    const saves = activePlatform==='youtube' ? p.comments : p.saves;
+    const hr = p.hour!=null ? `${p.hour%12||12}${p.hour<12?'a':'p'}` : '—';
+    return `<tr>
+      <td style="color:var(--dim)">${i+1}</td>
+      <td class="hook">${p.hook||'—'}</td>
+      <td><span class="pill ${pillarKey}">${p.pillar||'—'}</span></td>
+      <td class="num">${fmt(views)}</td>
+      <td class="num">${fmt(p.likes)}</td>
+      <td class="num">${fmt(saves)}</td>
+      <td class="num">${p.er!=null?p.er+'%':'—'}</td>
+      <td style="color:var(--dim)">${p.day?.slice(0,3)||'—'} ${hr}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── HOOK LIBRARY ─────────────────────────────────────────────────────────────
+function renderHooks(){
+  const all = [];
+  ['instagram','tiktok','linkedin'].forEach(p=>{
+    (data[p]?.top_posts||[]).forEach(post=>{
+      const score = (post.er||0) + (post.saves||post.shares||0)/1000;
+      all.push({hook: post.hook, pillar: post.pillar, platform: p, score, er: post.er});
+    });
+  });
+  all.sort((a,b)=>b.score-a.score);
+  const top20 = all.slice(0,20);
+  document.getElementById('hooksGrid').innerHTML = top20.map((h,i)=>`
+    <div class="hook-card">
+      <div class="rank">${String(i+1).padStart(2,'0')}</div>
+      <div>
+        <div class="hook-text">"${h.hook}"</div>
+        <div class="hook-meta">
+          <span class="pill ${(h.pillar||'').split(' ')[0]}">${h.pillar||''}</span>
+          &nbsp;${h.platform} · ${h.er!=null?h.er+'% ER':''}
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ── OPTIMAL SPECS ─────────────────────────────────────────────────────────────
+const SPECS = {
+  instagram: {
+    color:'#C4603A',
+    rows:[
+      ['Format','Reels + Carousels'],
+      ['Reel duration','45–70 sec'],
+      ['Carousel slides','6–8 slides'],
+      ['Caption length','150–300 chars + CTA'],
+      ['Best day','Wed, Fri, Sat'],
+      ['Best time','12 PM CST (noon)'],
+      ['Top pillar','Licensure + Equity'],
+      ['Saves signal','Educational carousels'],
+    ]
+  },
+  tiktok: {
+    color:'#E8C37A',
+    rows:[
+      ['Format','Talking-head video'],
+      ['Duration','38–65 sec'],
+      ['Hook window','First 3 sec critical'],
+      ['Caption','Short + hashtags'],
+      ['Best day','Wed, Thu'],
+      ['Best time','6–8 PM CST'],
+      ['Top pillar','Career + Licensure'],
+      ['Saves signal','Study tips & lists'],
+    ]
+  },
+  youtube: {
+    color:'#D46B3A',
+    rows:[
+      ['Format','Long-form explainer'],
+      ['Duration','12–20 min'],
+      ['Chapters','Every 2–3 min'],
+      ['Thumbnail','Bold text + face'],
+      ['Best day','Thu, Fri'],
+      ['Best time','12 PM CST (noon)'],
+      ['Top pillar','Licensure journey'],
+      ['Retention target','>60% watch time'],
+    ]
+  },
+  linkedin: {
+    color:'#D4A843',
+    rows:[
+      ['Format','Text post + hook line'],
+      ['Length','150–300 words'],
+      ['Line breaks','Every 2–3 lines'],
+      ['CTA','Question at end'],
+      ['Best day','Tue, Wed'],
+      ['Best time','8–10 AM CST'],
+      ['Top pillar','Equity + Licensure'],
+      ['Shares signal','Data + hot takes'],
+    ]
+  }
+};
+
+function renderSpecs(){
+  document.getElementById('specsGrid').innerHTML = Object.entries(SPECS).map(([p,s])=>`
+    <div class="spec-card">
+      <h3 style="color:${s.color}">${p.toUpperCase()}</h3>
+      ${s.rows.map(([k,v])=>`
+        <div class="spec-row"><span class="sk">${k}</span><span class="sv">${v}</span></div>
+      `).join('')}
+    </div>`).join('');
+}
+
+// ── CONTENT SIMULATOR ────────────────────────────────────────────────────────
+const SIGNALS = {
+  licensure:  {re:/\b(are|ncarb|axp|exam|pass|fail|pdd|ppd|pcm|pjm|ce|pa|licensure|study|division|credential)\b/gi, boost:1.4},
+  equity:     {re:/\b(equity|diversity|latina|underrepresented|inclusion|belong|bipoc|marginalized)\b/gi, boost:1.35},
+  career:     {re:/\b(salary|negotiat|career|firm|job|culture|intern|promote|grad|school|practice)\b/gi, boost:1.2},
+  personal:   {re:/\b(almost quit|failed|honest|truth|real talk|i almost|i failed|nobody told)\b/gi, boost:1.3},
+  pov:        {re:/^pov:/i, boost:1.25},
+  question:   {re:/\?/, boost:1.1},
+  number:     {re:/\b(5|6|7|8|10|\d+) (things|ways|tips|reasons|steps)\b/gi, boost:1.15},
+};
+
+function runSim(){
+  const platform = document.getElementById('simPlatform').value;
+  const script   = document.getElementById('simScript').value.trim();
+  if(!script){ document.getElementById('simOut').innerHTML='<div style="color:var(--dim);font-size:12px">Enter a draft first.</div>'; return; }
+
+  const posts = data[platform]?.top_posts || [];
+  const avgViews = posts.reduce((s,p)=>s+(p.views||p.impressions||0),0)/Math.max(posts.length,1);
+  const avgER    = posts.reduce((s,p)=>s+(p.er||0),0)/Math.max(posts.length,1);
+  const avgLikes = posts.reduce((s,p)=>s+(p.likes||0),0)/Math.max(posts.length,1);
+
+  let mult = 1.0, signals = [];
+  Object.entries(SIGNALS).forEach(([name,{re,boost}])=>{
+    const hits = (script.match(re)||[]).length;
+    if(hits>0){ mult *= (1+(boost-1)*Math.min(hits,3)); signals.push(name); }
+  });
+  mult = Math.min(mult, 3.2);
+
+  const projViews = Math.round(avgViews * mult);
+  const projER    = Math.min(+(avgER * (mult>1?1+(mult-1)*0.4:1)).toFixed(1), 25);
+  const projLikes = Math.round(avgLikes * mult);
+  const score     = Math.min(Math.round((mult-1)/2.2*100), 100);
+  const label     = mult>2?'STRONG OUTPERFORM':mult>1.4?'ABOVE AVERAGE':mult>1?'AVERAGE':'BELOW AVERAGE';
+  const useImp    = platform==='linkedin';
+
+  document.getElementById('simOut').innerHTML = `
+    <div class="sim-row">
+      <div class="so-label">Predicted Score</div>
+      <div class="so-val">${score}/100 <span style="font-size:14px;color:var(--dim)">${label}</span></div>
+      <div class="score-bar"><div class="score-bar-fill" style="width:${score}%"></div></div>
+    </div>
+    <div class="sim-row">
+      <div class="so-label">Est. ${useImp?'Impressions':'Views'}</div>
+      <div class="so-val">${fmt(projViews)}</div>
+      <div class="so-sub">vs. your avg ${fmt(Math.round(avgViews))}</div>
+    </div>
+    <div class="sim-row">
+      <div class="so-label">Est. Engagement Rate</div>
+      <div class="so-val">${projER}%</div>
+      <div class="so-sub">vs. your avg ${avgER.toFixed(1)}%</div>
+    </div>
+    <div class="sim-row">
+      <div class="so-label">Signals Detected</div>
+      <div class="so-sub" style="color:var(--cream);margin-top:4px">${signals.length?signals.join(', '):'none — try adding a personal hook or licensure keyword'}</div>
+    </div>`;
+}
+
+function render(){
+  const dates = Object.values(data).map(d=>d.scraped_at).filter(Boolean);
+  if(dates.length) document.getElementById('updated').textContent = 'UPDATED '+dates[0];
+  renderStats();
+  renderGrowth();
+  renderHooks();
+  renderSpecs();
+  renderTabs();
+  renderPostTable();
+}
+
+
+
+</script>
+</body>
+</html>
