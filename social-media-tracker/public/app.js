@@ -747,11 +747,67 @@ function dateDiffDays(a, b) {
 
 // ─── BOOT ─────────────────────────────────────────────────────────────────────
 
+// ─── QUICK ENTRY PANEL ───────────────────────────────────────────────────────
+
+function initQuickEntry() {
+  const container = document.getElementById('qeFields');
+  if (!container) return;
+
+  // Build one input per platform
+  container.innerHTML = appData.platforms.map(p => `
+    <div class="qe-field">
+      <label>${p.name}</label>
+      <input type="number" id="qe_${p.id}" placeholder="0" min="0"/>
+    </div>`).join('');
+
+  // Set today's date
+  const today = new Date().toISOString().split('T')[0];
+  const dateEl = document.getElementById('qeDate');
+  if (dateEl) dateEl.value = today;
+
+  document.getElementById('qeSaveBtn').addEventListener('click', () => {
+    const date  = document.getElementById('qeDate').value;
+    const label = document.getElementById('qeLabel').value.trim();
+    if (!date) { showToast('Pick a date first', 'error'); return; }
+
+    const followers = {};
+    let hasAny = false;
+    appData.platforms.forEach(p => {
+      const val = parseInt(document.getElementById(`qe_${p.id}`)?.value || '0', 10);
+      followers[p.id] = isNaN(val) ? 0 : val;
+      if (val > 0) hasAny = true;
+    });
+    if (!hasAny) { showToast('Enter at least one follower count', 'error'); return; }
+
+    const snapshot = {
+      id: `snapshot_${Date.now()}`,
+      date, label,
+      followers,
+      engagement: {},
+      likes: {},
+      comments: {}
+    };
+    appData.snapshots.push(snapshot);
+    appData.snapshots.sort((a, b) => new Date(a.date) - new Date(b.date));
+    persistData();
+    renderAll();
+    showToast('Snapshot saved!', 'success');
+
+    // Clear inputs
+    appData.platforms.forEach(p => {
+      const el = document.getElementById(`qe_${p.id}`);
+      if (el) el.value = '';
+    });
+    document.getElementById('qeLabel').value = '';
+  });
+}
+
 function init() {
   loadData();
   renderAll();
   bindEvents();
   setTodayDate();
+  initQuickEntry();
 }
 
 init();
