@@ -59,7 +59,7 @@ function ChevronIcon() {
   )
 }
 
-export default function CurriculumScreen({ onBack }) {
+export default function CurriculumScreen({ onBack = null }) {
   const [completed, setCompleted] = useState(loadCompleted)
   const [expanded, setExpanded] = useState(new Set([0]))
 
@@ -90,24 +90,26 @@ export default function CurriculumScreen({ onBack }) {
     <div style={{ minHeight: '100dvh', background: '#FAF7F0' }}>
       {/* Header */}
       <div className="px-6 pt-8 pb-5">
-        <button
-          onClick={onBack}
-          style={{
-            background: 'none',
-            border: 'none',
-            padding: 0,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 5,
-            marginBottom: 22,
-          }}
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M10 4L6 8L10 12" stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          <span style={{ fontSize: 13, color: '#1A1A1A', opacity: 0.45, letterSpacing: '0.03em' }}>Back</span>
-        </button>
+        {onBack && (
+          <button
+            onClick={onBack}
+            style={{
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 5,
+              marginBottom: 22,
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M10 4L6 8L10 12" stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span style={{ fontSize: 13, color: '#1A1A1A', opacity: 0.45, letterSpacing: '0.03em' }}>Back</span>
+          </button>
+        )}
 
         <div
           className="serif"

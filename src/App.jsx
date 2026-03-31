@@ -2,15 +2,13 @@ import { useState, useEffect, useRef } from 'react'
 import LandingScreen     from './components/LandingScreen.jsx'
 import QuestionScreen    from './components/QuestionScreen.jsx'
 import ResultsScreen     from './components/ResultsScreen.jsx'
-import CurriculumScreen  from './components/CurriculumScreen.jsx'
 import { computeResults } from './utils/archpathScoring.js'
 import { questions } from './data/questions.js'
 
 const SCREENS = {
-  LANDING:    'landing',
-  QUESTIONS:  'questions',
-  RESULTS:    'results',
-  CURRICULUM: 'curriculum',
+  LANDING:   'landing',
+  QUESTIONS: 'questions',
+  RESULTS:   'results',
 }
 
 function ScreenTransition({ screenKey, children }) {
@@ -48,7 +46,6 @@ export default function App() {
   const [results, setResults] = useState(null)
 
   const handleStart = () => setScreen(SCREENS.QUESTIONS)
-  const handleCurriculum = () => setScreen(SCREENS.CURRICULUM)
 
   const handleComplete = (allAnswers) => {
     const scored = computeResults(allAnswers)
@@ -67,10 +64,7 @@ export default function App() {
     <div className="max-w-lg mx-auto bg-[#FAF7F0] relative" style={{ minHeight: '100dvh' }}>
       <ScreenTransition screenKey={screen}>
         {screen === SCREENS.LANDING && (
-          <LandingScreen onStart={handleStart} onCurriculum={handleCurriculum} />
-        )}
-        {screen === SCREENS.CURRICULUM && (
-          <CurriculumScreen onBack={() => setScreen(SCREENS.LANDING)} />
+          <LandingScreen onStart={handleStart} />
         )}
         {screen === SCREENS.QUESTIONS && (
           <QuestionScreen
