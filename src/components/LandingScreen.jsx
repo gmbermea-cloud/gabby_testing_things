@@ -7,7 +7,7 @@ const TRACKS = [
   { label: 'Business',   color: '#D4A574' },
 ]
 
-export default function LandingScreen({ onStart }) {
+export default function LandingScreen({ onStart, onCurriculum }) {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -182,6 +182,28 @@ export default function LandingScreen({ onStart }) {
         >
           No sign-up required · Questions reveal instinct, not knowledge
         </p>
+
+        <button
+          onClick={onCurriculum}
+          style={{
+            display: 'block',
+            width: '100%',
+            marginTop: 18,
+            background: 'none',
+            border: '1px solid #1A1A1A18',
+            borderRadius: 40,
+            padding: '13px 24px',
+            fontSize: 14,
+            fontWeight: 500,
+            color: '#1A1A1A',
+            opacity: 0.65,
+            cursor: 'pointer',
+            letterSpacing: '0.02em',
+            fontFamily: 'inherit',
+          }}
+        >
+          View 6-Week Speaking Curriculum →
+        </button>
       </div>
     </div>
   )
