@@ -11,6 +11,7 @@ export default defineConfig({
       input: {
         main:       resolve(__dirname, 'index.html'),
         curriculum: resolve(__dirname, 'curriculum.html'),
+        evaluator:  resolve(__dirname, 'evaluator.html'),
       },
     },
   },
