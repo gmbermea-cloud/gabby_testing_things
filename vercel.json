@@ -1,0 +1,8 @@
+{
+  "name": "gabbyworkoutsplit",
+  "rewrites": [
+    { "source": "/curriculum", "destination": "/curriculum.html" },
+    { "source": "/evaluator", "destination": "/evaluator.html" },
+    { "source": "/", "destination": "/index.html" }
+  ]
+}
